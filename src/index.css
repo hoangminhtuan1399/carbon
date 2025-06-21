@@ -1,0 +1,3 @@
+@import "tailwindcss";
+@import "../src/configs/themes/light-theme.css";
+@import "../src/configs/themes/dark-theme.css";

@@ -1,0 +1,13 @@
+{
+  "_locale": "Việt Nam",
+  "welcome": "Chào mừng đến với ứng dụng của tôi",
+  "theme": {
+    "light": "Sáng",
+    "dark": "Tối"
+  },
+  "language": "Ngôn ngữ",
+  "actions": {
+    "click_me": "Nhấn vào tôi"
+  },
+  "description": "Đây là ứng dụng đa ngôn ngữ với hỗ trợ nhiều giao diện"
+}

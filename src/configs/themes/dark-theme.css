@@ -1,0 +1,8 @@
+@layer base {
+  [data-theme="dark"] {
+    --color-primary: #6366f1;
+    --color-secondary: #f59e0b;
+    --color-background: #111827;
+    --color-text: #f9fafb;
+  }
+}
