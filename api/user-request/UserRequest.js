@@ -1,5 +1,5 @@
 import axios from 'axios';
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
 
 class UserRequest {
   static async getData() {
@@ -36,9 +36,17 @@ class UserRequest {
   }
 
   static async _getDeviceId() {
-    const fp = await FingerprintJS.load();
-    const deviceData = await fp.get();
-    return deviceData.visitorId
+    try {
+      const fp = await FingerprintJS.load({
+        apiKey: '0O2Ja63IU3kuA9bFfEE3',
+        region: 'ap'
+      });
+      const deviceData = await fp.get();
+      return deviceData.visitorId
+    } catch (e) {
+      console.error('Get device id error: ', e)
+      return null
+    }
   }
 
   static async _fetchWithRetry(options = {}, maxRetries = 10, retryDelay = 200) {

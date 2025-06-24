@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import ThemeSelector from './components/ThemeSelector';
 import LanguageSelector from './components/LanguageSelector';
+import UserRequest from "../api/user-request/UserRequest.js";
+import { useEffect } from "react";
 
 function App() {
   const { t } = useTranslation();
