@@ -1,3 +1,7 @@
 @import "tailwindcss";
 @import "../src/configs/themes/light-theme.css";
 @import "../src/configs/themes/dark-theme.css";
+
+body {
+  @apply min-h-screen bg-background;
+}

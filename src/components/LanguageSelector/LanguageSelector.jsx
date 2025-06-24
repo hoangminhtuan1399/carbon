@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { DEFINED_LANGUAGES } from "../constants/languages.js";
-import { useUserContext } from "../context/UserContext.jsx";
+import { useUserContext } from "../../context/UserContext.jsx";
+import { DEFINED_LANGUAGES } from "../../constants/languages.js";
 
 const LanguageSelector = () => {
   const { t, i18n } = useTranslation();
