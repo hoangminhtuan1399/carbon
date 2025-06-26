@@ -1,13 +1,36 @@
 {
   "_locale": "Việt Nam",
-  "welcome": "Chào mừng đến với ứng dụng của tôi",
+  "general": {
+    "language": "Ngôn ngữ",
+    "continue": "Tiếp tục",
+    "complete": "Hoàn tất",
+    "back": "Trở lại"
+  },
   "theme": {
     "light": "Sáng",
     "dark": "Tối"
   },
-  "language": "Ngôn ngữ",
   "actions": {
     "click_me": "Nhấn vào tôi"
   },
-  "description": "Đây là ứng dụng đa ngôn ngữ với hỗ trợ nhiều giao diện"
+  "form": {
+    "required": "Trường bắt buộc",
+    "invalid_national_id_pattern": "Số CCCD phải gồm đúng 12 chữ số",
+    "invalid_password_pattern": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ thường, chữ hoa, số và ký tự đặc biệt"
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "enter_national_id": "Nhập số CCCD",
+    "national_id_placeholder": "CCCD",
+    "enter_password": "Nhập mật khẩu",
+    "password_placeholder": "Mật khẩu"
+  },
+  "errors": {
+    "internal": "Lỗi hệ thống, vui lòng thử lại sau"
+  },
+  "auth": {
+    "errors": {
+      "device_not_registered": "Tài khoản không tồn tại"
+    }
+  }
 }
