@@ -1,10 +1,18 @@
 import { RouterProvider } from "react-router";
 import router from "./routes/router.jsx";
+import { ConfigProvider, App as AntdApp } from "antd";
+import { StyleProvider } from "@ant-design/cssinjs";
 
 function App() {
   return (
-    <RouterProvider router={router} />
-  )
+    <AntdApp>
+      <StyleProvider layer>
+        <ConfigProvider theme={{ hashed: false }}>
+          <RouterProvider router={router}/>
+        </ConfigProvider>
+      </StyleProvider>
+    </AntdApp>
+  );
 }
 
 export default App;

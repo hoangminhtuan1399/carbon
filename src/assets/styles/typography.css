@@ -1,0 +1,155 @@
+h1, h2, h3, h4, h5, h6, p {
+  @apply m-0;
+}
+
+@utility heading-1 {
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 95%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 120px;
+  }
+}
+
+@utility heading-2 {
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 95%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 82px;
+  }
+}
+
+@utility heading-3 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 95%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 46px;
+  }
+}
+
+@utility heading-4 {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 95%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 30px;
+  }
+}
+
+@utility p1 {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 18px;
+  }
+}
+
+@utility p1-bold {
+  @apply p1 font-medium;
+}
+
+@utility p2 {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 16px;
+  }
+}
+
+@utility p2-bold {
+  @apply p2 font-medium;
+}
+
+@utility p3 {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 14px;
+  }
+}
+
+@utility p3-bold {
+  @apply p3 font-medium;
+}
+
+@utility p4 {
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 12px;
+  }
+}
+
+@utility p4-bold {
+  @apply p4 font-medium;
+}
+
+.p1,
+.p2,
+.p3,
+.p4 {
+  strong,
+  &.is-bold {
+    @apply font-medium;
+  }
+}
+
+@utility btn-1 {
+  @apply bg-primary border border-primary relative cursor-pointer text-white rounded-lg;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 120%;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  transition:
+    background-color 200ms ease-in-out,
+    transform 200ms ease-in-out;
+
+  @media (min-width: theme('screens.md')) {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  &:hover {
+    @apply text-text bg-white;
+  }
+
+  &:disabled {
+    @apply opacity-50;
+  }
+}
+
+@utility btn-1-light {
+  @apply btn-1 text-text border-text bg-white;
+
+  &:hover {
+    @apply bg-text text-white;
+  }
+}
+
+@utility btn-trans {
+  @apply border-none bg-transparent shadow-none;
+}

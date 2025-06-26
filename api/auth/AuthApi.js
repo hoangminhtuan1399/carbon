@@ -1,40 +1,60 @@
 import BaseApi from "../base/BaseApi.js";
 
 class AuthApi extends BaseApi {
-  static init() {
-    super.init();
-    this.setupInterceptors();
+  static _initialized = false;
+
+  static init(userMetadata) {
+    if (!this._initialized) {
+      super.init();
+    }
+    this.setupInterceptors(userMetadata);
+    this._initialized = true;
   }
 
-  static setupInterceptors() {
+  static setupInterceptors(userMetadata) {
     this.instance.interceptors.request.use(
       (config) => {
-        config.headers = { //TODO Create function to get the user data
+        config.headers = {
           ...config.headers,
-          'the-timezone-iana': '',
-          'x-device-id': '',
-          'x-forwarded-for': '',
-          'x-app-version': '1.0',
-          'accept-language': '',
-          'x-location-info': ''
-        }
+          'the-timezone-iana': userMetadata.timezone,
+          'x-device-id': userMetadata.deviceId,
+          'x-forwarded-for': userMetadata.ipAddress,
+          'x-app-version': userMetadata.appVersion,
+          'accept-language': userMetadata.language,
+          'x-location-info': userMetadata.locationInfo
+        };
         return config;
       },
       (error) => Promise.reject(error)
     );
   }
 
-  static async checkNationalId(nationalId) {
+  static async checkNationalId({ national_id, device_id, language }) {
     try {
-      const response = await this.instance.post('/auth/cknid', { nationalId });
+      const response = await this.instance.post('/auth/cknid', {
+        national_id,
+        device_id,
+        language
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
   }
 
-  static async login() {
-
+  static async login({ national_id, device_id, language, access_code, password }) {
+    try {
+      const response = await this.instance.post('/auth/login', {
+        national_id,
+        device_id,
+        language,
+        access_code,
+        password
+      });
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
 
   static async forgotPassword() {
@@ -45,7 +65,5 @@ class AuthApi extends BaseApi {
 
   }
 }
-
-AuthApi.init();
 
 export default AuthApi;

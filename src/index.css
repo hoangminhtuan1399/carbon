@@ -1,7 +1,16 @@
-@import "tailwindcss";
+@import "./assets/styles/typography.css";
 @import "../src/configs/themes/light-theme.css";
 @import "../src/configs/themes/dark-theme.css";
 
+@layer antd, theme, base, components, utilities;
+@import "tailwindcss";
+
+
 body {
-  @apply min-h-screen bg-background;
+  @apply min-h-screen bg-background leading-[1.6] font-normal text-text;
+  font-family: open sans, Helvetica, Arial, sans-serif;
+}
+
+.page-width {
+  @apply w-full h-full max-w-[1440px] mx-auto px-4 md:px-6;
 }

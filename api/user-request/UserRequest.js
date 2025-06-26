@@ -1,5 +1,11 @@
 import axios from 'axios';
-import FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
+import FingerprintJS from '@fingerprintjs/fingerprintjs-pro';
+import md5 from 'crypto-js/md5';
+
+function hashToUUID(input) {
+  const hash = md5(input).toString();
+  return `${hash.slice(0, 8)}-${hash.slice(8, 12)}-${hash.slice(12, 16)}-${hash.slice(16, 20)}-${hash.slice(20, 32)}`;
+}
 
 class UserRequest {
   static async getData() {
@@ -9,7 +15,7 @@ class UserRequest {
       ipAddress: '',
       appVersion: import.meta.env.VITE_APP_VERSION,
       locationInfo: ''
-    }
+    };
 
     const [ipGeolocation, deviceId] = await Promise.all([this._getIpGeolocation(), this._getDeviceId()]);
     if (ipGeolocation) {
@@ -28,7 +34,7 @@ class UserRequest {
     const data = await this._fetchWithRetry({
       method: 'get',
       url: `http://ip-api.com/json`
-    })
+    });
 
     if (!data || data.status === 'fail') return null;
 
@@ -42,10 +48,10 @@ class UserRequest {
         region: 'ap'
       });
       const deviceData = await fp.get();
-      return deviceData.visitorId
+      return hashToUUID(deviceData.visitorId);
     } catch (e) {
-      console.error('Get device id error: ', e)
-      return null
+      console.error('Get device id error: ', e);
+      return null;
     }
   }
 

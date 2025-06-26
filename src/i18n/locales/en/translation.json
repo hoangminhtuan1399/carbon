@@ -1,0 +1,36 @@
+{
+  "_locale": "English",
+  "general": {
+    "language": "Language",
+    "continue": "Continue",
+    "complete": "Complete",
+    "back": "Back"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "actions": {
+    "click_me": "Click me"
+  },
+  "form": {
+    "required": "Required field",
+    "invalid_national_id_pattern": "National ID must be exactly 12 digits",
+    "invalid_password_pattern": "Password must be at least 8 characters, including lowercase, uppercase, number, and special character"
+  },
+  "login": {
+    "title": "Login",
+    "enter_national_id": "Enter your National ID",
+    "enter_password": "Enter your password",
+    "national_id_placeholder": "National ID",
+    "password_placeholder": "Password"
+  },
+  "errors": {
+    "internal": "System error, please try again later"
+  },
+  "auth": {
+    "errors": {
+      "device_not_registered": "Account does not exist"
+    }
+  }
+}

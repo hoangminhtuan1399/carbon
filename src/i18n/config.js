@@ -11,7 +11,7 @@ i18n
     backend: {
       loadPath: '/src/i18n/locales/{{lng}}/{{ns}}.json',
     },
-    fallbackLng: 'vi-VN',
+    fallbackLng: 'vi',
     interpolation: {
       escapeValue: false,
     },
