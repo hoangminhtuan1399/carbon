@@ -8,3 +8,7 @@ export const checkAccessToken = () => {
 export const saveAccessToken = (accessToken) => {
   return Cookies.set(KEYS.ACCESS_TOKEN, accessToken)
 }
+
+export const removeAccessToken = () => {
+  return Cookies.remove(KEYS.ACCESS_TOKEN)
+}

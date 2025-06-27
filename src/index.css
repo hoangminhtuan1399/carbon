@@ -1,4 +1,6 @@
 @import "./assets/styles/typography.css";
+@import "./assets/styles/routes.css";
+@import "./assets/styles/components.css";
 @import "../src/configs/themes/light-theme.css";
 @import "../src/configs/themes/dark-theme.css";
 

@@ -2,6 +2,10 @@ h1, h2, h3, h4, h5, h6, p {
   @apply m-0;
 }
 
+a {
+  @apply text-inherit hover:text-text;
+}
+
 @utility heading-1 {
   font-size: 50px;
   font-style: normal;

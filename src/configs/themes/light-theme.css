@@ -4,6 +4,7 @@
   --color-background: #F5F7FA;
   --color-text: #212121;
   --color-border-light: rgba(0, 0, 0, 0.06);
+  --color-active-bg: rgba(0, 0, 0, 0.06);
   --bg-login: url('/src/assets/images/login-bg.png');
 }
 

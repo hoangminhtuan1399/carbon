@@ -3,6 +3,10 @@ import { AuthPage } from "./AuthPage/AuthPage.jsx";
 import { DashboardLayout } from "./DashboardLayout/DashboardLayout.jsx";
 import { DashboardPage } from "./DashboardPage/DashboardPage.jsx";
 import { ProfilePage } from "./ProfilePage/ProfilePage.jsx";
+import { UsersPage } from "./UsersPage/UsersPage.jsx"
+import { ProjectsPage } from "./ProjectsPage/ProjectsPage.jsx"
+import { logoutLoader } from "./LogoutPage/logout-loader.js"
+import { usersLoader } from "./UsersPage/users-loader.js"
 
 const router = createBrowserRouter([
   {
@@ -17,7 +21,24 @@ const router = createBrowserRouter([
         element: <DashboardPage />
       },
       {
+        path: '/projects',
+        element: <ProjectsPage />
+      },
+      {
+        path: '/users',
+        element: <UsersPage />,
+        loader: usersLoader
+      },
+      {
         path: '/profile',
+        element: <ProfilePage />
+      },
+      {
+        path: '/logout',
+        loader: logoutLoader
+      },
+      {
+        path: '/*',
         element: <ProfilePage />
       }
     ]

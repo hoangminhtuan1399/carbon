@@ -4,14 +4,18 @@
     "language": "Language",
     "continue": "Continue",
     "complete": "Complete",
-    "back": "Back"
+    "logout_confirm": "Are you sure you want to logout?",
+    "logout_success": "Logged out successfully"
   },
   "theme": {
     "light": "Light",
     "dark": "Dark"
   },
   "actions": {
-    "click_me": "Click me"
+    "click_me": "Click me",
+    "logout": "Logout",
+    "back": "Back",
+    "cancel": "Cancel"
   },
   "form": {
     "required": "Required field",
@@ -30,7 +34,14 @@
   },
   "auth": {
     "errors": {
-      "device_not_registered": "Account does not exist"
+      "device_not_registered": "Account does not exist",
+      "token_expires": "Session expired. Please log in again"
     }
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "users": "Users",
+    "profile": "Profile"
   }
 }
