@@ -8,8 +8,8 @@ const LanguageSelector = () => {
   const { changeLanguage } = useUserContext();
 
   return (
-    <div className="flex items-center gap-2 p-4">
-      <span className="text-sm text-text font-medium">{t('language')}:</span>
+    <div className="fixed top-3 right-3 flex items-center gap-2 p-4">
+      <span className="text-sm text-text font-medium">{t('general.language')}:</span>
       <select
         value={i18n.language}
         onChange={(e) => changeLanguage(e.target.value)}

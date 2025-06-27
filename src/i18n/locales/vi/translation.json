@@ -43,5 +43,12 @@
     "projects": "Dự án",
     "users": "Người dùng",
     "profile": "Hồ sơ"
+  },
+  "users_page": {
+    "national_id": "Số CCCD",
+    "full_name": "Họ và tên",
+    "email": "Email",
+    "date_of_birth": "Ngày sinh",
+    "department": "Phòng ban"
   }
 }

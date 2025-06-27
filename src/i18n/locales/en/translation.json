@@ -43,5 +43,12 @@
     "projects": "Projects",
     "users": "Users",
     "profile": "Profile"
+  },
+  "users_page": {
+    "national_id": "National ID",
+    "full_name": "Full name",
+    "email": "Email",
+    "date_of_birth": "Date of birth",
+    "department": "Department"
   }
 }

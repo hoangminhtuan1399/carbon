@@ -75,7 +75,7 @@ export const AuthPage = () => {
         </Form>
       </>
     )
-  }, [isSubmitting, onNationalIdSubmit])
+  }, [t, isSubmitting, onNationalIdSubmit])
 
   const onPasswordSubmit = useCallback(async (data) => {
     const body = {
@@ -129,7 +129,7 @@ export const AuthPage = () => {
         </Form>
       </>
     )
-  }, [isSubmitting, onNationalIdSubmit])
+  }, [t, isSubmitting, onNationalIdSubmit])
 
   const handleGoBack = useCallback(() => {
     setStep(1)
