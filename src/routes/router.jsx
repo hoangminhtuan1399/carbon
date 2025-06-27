@@ -5,7 +5,8 @@ import { DashboardPage } from "./DashboardPage/DashboardPage.jsx";
 import { ProfilePage } from "./ProfilePage/ProfilePage.jsx";
 import { UsersPage } from "./UsersPage/UsersPage.jsx"
 import { ProjectsPage } from "./ProjectsPage/ProjectsPage.jsx"
-import { logoutLoader } from "./LogoutPage/logoutLoader.js"
+import { logoutLoader } from "./LogoutPage/logout-loader.js"
+import { usersLoader } from "./UsersPage/users-loader.js"
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/users',
-        element: <UsersPage />
+        element: <UsersPage />,
+        loader: usersLoader
       },
       {
         path: '/profile',

@@ -34,7 +34,8 @@
   },
   "auth": {
     "errors": {
-      "device_not_registered": "Account does not exist"
+      "device_not_registered": "Account does not exist",
+      "token_expires": "Session expired. Please log in again"
     }
   },
   "menu": {

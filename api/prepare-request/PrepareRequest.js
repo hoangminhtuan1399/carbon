@@ -7,7 +7,7 @@ function hashToUUID(input) {
   return `${hash.slice(0, 8)}-${hash.slice(8, 12)}-${hash.slice(12, 16)}-${hash.slice(16, 20)}-${hash.slice(20, 32)}`;
 }
 
-class UserRequest {
+class PrepareRequest {
   static async getData() {
     const result = {
       timezone: '',
@@ -24,7 +24,8 @@ class UserRequest {
       result.locationInfo = `lat=${ipGeolocation.lat};lon=${ipGeolocation.lon};country=${ipGeolocation.country};city=${ipGeolocation.city}`;
     }
     if (deviceId) {
-      result.deviceId = deviceId;
+      // result.deviceId = deviceId;
+      result.deviceId = import.meta.env.VITE_TEST_DEVICE_ID_SUPER_ADMIN;
     }
 
     return result;
@@ -83,4 +84,4 @@ class UserRequest {
   }
 }
 
-export default UserRequest;
+export default PrepareRequest;

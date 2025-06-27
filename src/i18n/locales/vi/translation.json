@@ -34,7 +34,8 @@
   },
   "auth": {
     "errors": {
-      "device_not_registered": "Tài khoản không tồn tại"
+      "device_not_registered": "Tài khoản không tồn tại",
+      "token_expires": "Phiên đã hết hạn. Vui lòng đăng nhập lại"
     }
   },
   "menu": {

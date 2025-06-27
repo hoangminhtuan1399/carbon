@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useLogout } from "../../hooks/useLogout.js"
 
 const { Sider, Content } = Layout
 
@@ -24,6 +25,7 @@ export const DashboardLayout = () => {
   const siteNameRef = useRef(null)
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKey, setSelectedKey] = useState('index')
+  const { logout } = useLogout()
 
   const menuItems = useMemo(() => {
     return [
@@ -68,7 +70,7 @@ export const DashboardLayout = () => {
       cancelText: t('actions.cancel'),
       onOk() {
         message.success(t('general.logout_success'))
-        navigate('/logout')
+        logout()
       }
     })
   }, [modal])
