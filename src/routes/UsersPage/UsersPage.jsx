@@ -3,7 +3,7 @@ import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 
-export const ProfilePage = () => {
+export const UsersPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   return (
@@ -20,7 +20,7 @@ export const ProfilePage = () => {
             }
           },
           {
-            title: <span>{t('menu.profile')}</span>
+            title: <span>{t('menu.users')}</span>
           }
         ]}
       />

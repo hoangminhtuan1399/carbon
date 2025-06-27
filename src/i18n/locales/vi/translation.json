@@ -4,14 +4,18 @@
     "language": "Ngôn ngữ",
     "continue": "Tiếp tục",
     "complete": "Hoàn tất",
-    "back": "Trở lại"
+    "logout_confirm": "Bạn chắc chắn muốn đăng xuất?",
+    "logout_success": "Đăng xuất thành công"
   },
   "theme": {
     "light": "Sáng",
     "dark": "Tối"
   },
   "actions": {
-    "click_me": "Nhấn vào tôi"
+    "click_me": "Nhấn vào tôi",
+    "logout": "Đăng xuất",
+    "back": "Trở lại",
+    "cancel": "Huỷ bỏ"
   },
   "form": {
     "required": "Trường bắt buộc",
@@ -32,5 +36,11 @@
     "errors": {
       "device_not_registered": "Tài khoản không tồn tại"
     }
+  },
+  "menu": {
+    "dashboard": "Bảng điều khiển",
+    "projects": "Dự án",
+    "users": "Người dùng",
+    "profile": "Hồ sơ"
   }
 }

@@ -1,11 +1,10 @@
 import { checkAccessToken, saveAccessToken } from "../../utils/access-token.js";
 import { Navigate } from "react-router";
-import { Button, Card, Form, Input, Tooltip, Typography } from "antd";
+import { App, Button, Card, Form, Input, Tooltip, Typography } from "antd"
 import { useTranslation } from "react-i18next";
 import { useUserContext } from "../../context/UserContext.jsx";
 import AuthApi from "../../../api/auth/AuthApi.js";
 import { useCallback, useMemo, useState } from "react";
-import { useToast } from "../../hooks/useToast.js";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph, Text } = Typography;
@@ -14,7 +13,7 @@ export const AuthPage = () => {
   const token = checkAccessToken();
   const { t } = useTranslation();
   const { userMetadata, isFetchingUserMetadata } = useUserContext();
-  const { displayMessage } = useToast();
+  const { message } = App.useApp();
   const [nationalIdForm] = Form.useForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +36,7 @@ export const AuthPage = () => {
       setStep(2);
     } catch (e) {
       console.error('National ID validation: ', e);
-      displayMessage(t('errors.internal'), 'error');
+      message.error(t('errors.internal'));
     } finally {
       setIsSubmitting(false);
     }
@@ -93,12 +92,11 @@ export const AuthPage = () => {
       setIsSubmitting(true);
       AuthApi.init(userMetadata);
       const response = await AuthApi.login(body);
-      displayMessage(t(response.meta.message), 'success');
+      message.success(t(response.meta.message));
       saveAccessToken(response.data.access_token);
-      console.log(response);
     } catch (e) {
       console.error('Login error: ', e);
-      displayMessage(t(e.meta.message), 'error');
+      message.error(t(e.meta.message));
     } finally {
       setIsSubmitting(false);
     }
@@ -143,7 +141,7 @@ export const AuthPage = () => {
 
   const goBackButton = useMemo(() => {
     return (
-      <Tooltip title={t('general.back')}>
+      <Tooltip title={t('actions.back')}>
         <Button className={'absolute top-8 left-6 btn-trans'} variant={'text'} icon={<ArrowLeftOutlined />} onClick={handleGoBack} />
       </Tooltip>
     );

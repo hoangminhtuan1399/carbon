@@ -20,7 +20,6 @@ class AuthApi extends BaseApi {
           'x-device-id': userMetadata.deviceId,
           'x-forwarded-for': userMetadata.ipAddress,
           'x-app-version': userMetadata.appVersion,
-          'accept-language': userMetadata.language,
           'x-location-info': userMetadata.locationInfo
         };
         return config;
