@@ -3,6 +3,9 @@
   --color-secondary: #0288D1;
   --color-background: #F5F7FA;
   --color-text: #212121;
+  --color-blue: #1890ff;
+  --color-green: #52c41a;
+  --color-orange: #fa8c16;
   --color-border-light: rgba(0, 0, 0, 0.06);
   --color-active-bg: rgba(0, 0, 0, 0.06);
   --bg-login: url('/src/assets/images/login-bg.png');
@@ -14,5 +17,8 @@
     --color-secondary: #0288D1;
     --color-background: #F5F7FA;
     --color-text: #212121;
+    --color-blue: #1890ff;
+    --color-green: #52c41a;
+    --color-orange: #fa8c16;
   }
 }

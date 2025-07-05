@@ -1,0 +1,4 @@
+.ant-progress .ant-progress-success-bg,
+.ant-progress .ant-progress-bg {
+  @apply bg-primary;
+}

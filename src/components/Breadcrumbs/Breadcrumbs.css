@@ -1,3 +1,7 @@
+.ant-breadcrumb {
+  @apply mb-5;
+}
+
 .ant-breadcrumb-link {
   @apply flex gap-1.5;
 }

@@ -6,6 +6,8 @@ import { useUserContext } from "../../context/UserContext.jsx"
 import AuthApi from "../../../api/auth/AuthApi.js"
 import { useCallback, useMemo, useState } from "react"
 import { ArrowLeftOutlined } from "@ant-design/icons"
+import LanguageSelector from "../../components/LanguageSelector/LanguageSelector.jsx"
+import { mockAccounts } from "../../../mock-data/mock-accounts.js"
 
 const { Title, Paragraph, Text } = Typography
 
@@ -44,7 +46,6 @@ export const AuthPage = () => {
   const step1Form = useMemo(() => {
     return (
       <>
-        <Paragraph type={'secondary'} className={'text-center'}>{t('login.enter_national_id')}</Paragraph>
         <Form
           form={nationalIdForm}
           disabled={isSubmitting}
@@ -53,6 +54,7 @@ export const AuthPage = () => {
         >
           <Form.Item
             name={'national_id'}
+            label={t('login.enter_national_id')}
             rules={[
               {
                 required: true,
@@ -63,8 +65,12 @@ export const AuthPage = () => {
                 message: t('form.invalid_national_id_pattern')
               }
             ]}
+            initialValue={mockAccounts.admin.id}
           >
             <Input placeholder={t('login.national_id_placeholder')}/>
+          </Form.Item>
+          <Form.Item label={t('general.language')}>
+            <LanguageSelector />
           </Form.Item>
           <Form.Item name={'access_code'} hidden>
             <Input/>
@@ -75,7 +81,7 @@ export const AuthPage = () => {
         </Form>
       </>
     )
-  }, [isSubmitting, onNationalIdSubmit])
+  }, [t, isSubmitting, onNationalIdSubmit])
 
   const onPasswordSubmit = useCallback(async (data) => {
     const body = {
@@ -120,6 +126,7 @@ export const AuthPage = () => {
                 message: t('form.invalid_password_pattern')
               }
             ]}
+            initialValue={mockAccounts.admin.password}
           >
             <Input.Password placeholder={t('login.password_placeholder')}/>
           </Form.Item>
@@ -129,7 +136,7 @@ export const AuthPage = () => {
         </Form>
       </>
     )
-  }, [isSubmitting, onNationalIdSubmit])
+  }, [t, isSubmitting, onNationalIdSubmit])
 
   const handleGoBack = useCallback(() => {
     setStep(1)
@@ -155,7 +162,7 @@ export const AuthPage = () => {
     <main className={'h-screen w-full bg-(image:--bg-login) bg-cover bg-no-repeat overflow-hidden'}>
       <div className={'page-width flex justify-center items-center'}>
         <Card className={'relative w-100 max-w-full bg-background'}>
-          <Title className={'text-center'} level={1}>{t('login.title')}</Title>
+          <Title className={'text-center mb-3'} level={1}>{t('login.title')}</Title>
           {step === 1 ? step1Form : step2Form}
           {step === 2 ? goBackButton : null}
         </Card>

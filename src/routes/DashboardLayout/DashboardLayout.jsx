@@ -1,7 +1,9 @@
 import { checkAccessToken } from "../../utils/access-token.js"
 import { Navigate, Outlet, useNavigate } from "react-router"
-import { App, Button, Layout, Menu, Typography } from "antd"
+import { App, Avatar, Button, Layout, Menu, Space, Typography } from "antd"
 import {
+  BarChartOutlined,
+  FileTextOutlined,
   HomeOutlined,
   IdcardOutlined,
   LeftOutlined,
@@ -11,53 +13,48 @@ import {
   UserOutlined
 } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useLogout } from "../../hooks/useLogout.js"
+import { useUserContext } from "../../context/UserContext.jsx"
 
-const { Sider, Content } = Layout
+const { Header, Sider, Content } = Layout
 
-const { Title, Paragraph, Text } = Typography
+const { Title } = Typography
 
 export const DashboardLayout = () => {
   const navigate = useNavigate()
   const { modal, message } = App.useApp()
   const { t } = useTranslation()
-  const siteNameRef = useRef(null)
   const [collapsed, setCollapsed] = useState(false)
-  const [selectedKey, setSelectedKey] = useState('index')
+  const [selectedKey, setSelectedKey] = useState('dashboard')
   const { logout } = useLogout()
+  const { userProfile } = useUserContext()
 
   const menuItems = useMemo(() => {
     return [
-      { key: 'index', label: t('menu.dashboard'), url: '/', icon: <HomeOutlined/> },
+      { key: 'dashboard', label: t('menu.dashboard'), url: '/', icon: <HomeOutlined/> },
       { key: 'projects', label: t('menu.projects'), url: '/projects', icon: <ProjectOutlined/> },
-      { key: 'users', label: t('menu.users'), url: '/users', icon: <UserOutlined/> },
+      { key: 'posts', label: t('menu.posts'), url: '/posts', icon: <FileTextOutlined/> },
+      { key: 'evaluation', label: t('menu.evaluation'), url: '/evaluation', icon: <UserOutlined/> },
+      { key: 'reports', label: t('menu.reports'), url: '/reports', icon: <BarChartOutlined/> },
       { key: 'profile', label: t('menu.profile'), url: '/profile', icon: <IdcardOutlined/> },
       { key: 'logout', label: t('actions.logout'), url: '/logout', icon: <LogoutOutlined/> }
     ]
-  }, [])
+  }, [t])
 
   const updateSelectedKey = useCallback(() => {
     const path = window.location.pathname
-    if (path === '/') return setSelectedKey('index')
+    if (path === '/') return setSelectedKey('dashboard')
 
     const activeItem = menuItems.find(item => path.includes(item.key))
-    if (!activeItem) return setSelectedKey('index')
+    if (!activeItem) return setSelectedKey('dashboard')
 
     return setSelectedKey(activeItem.key)
   }, [menuItems])
 
   const toggleCollapsed = useCallback(() => {
     setCollapsed(!collapsed)
-    if (!siteNameRef.current) return
-    if (!collapsed) {
-      siteNameRef.current.classList.add('h-0', 'opacity-0')
-      return
-    }
-    setTimeout(() => {
-      siteNameRef.current.classList.remove('h-0', 'opacity-0')
-    }, 200)
-  }, [collapsed, siteNameRef])
+  }, [collapsed])
 
   const openLogoutModal = useCallback(() => {
     modal.confirm({
@@ -73,7 +70,7 @@ export const DashboardLayout = () => {
         logout()
       }
     })
-  }, [modal])
+  }, [modal, t, logout])
 
   useEffect(() => {
     updateSelectedKey()
@@ -83,40 +80,55 @@ export const DashboardLayout = () => {
   if (!token) return <Navigate to={'/auth'} replace/>
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        className={'h-screen sticky top-0 p-2 overflow-visible border-r-1 border-r-border-light bg-white'}
-        width={256}
-        collapsible={true}
-        trigger={null}
-        collapsed={collapsed}
-      >
-        <Button className={'absolute top-12 -right-3 opacity-50 hover:opacity-100 transition-all'}
-                onClick={toggleCollapsed} size={'small'} shape={'circle'}
-                icon={collapsed ? <RightOutlined/> : <LeftOutlined/>}/>
-        <div className={'flex items-center gap-4 h-13 px-5 py-2 border-b-border-light border-b-1 mb-3'}>
-          <img className={'w-8 h-auto shrink-0 object-cover transition-all'} src={'/src/assets/images/isats-logo.png'}
-               alt={'logo'}/>
-          <Title ref={siteNameRef} className={`overflow-hidden transition-all`} level={3}>ISATS</Title>
+    <Layout>
+      <Header className={'flex px-3 py-2 bg-primary'}>
+        <div className={'flex items-center gap-4 h-full px-5'}>
+          <img
+            className={'w-8 h-auto shrink-0 object-cover transition-all'}
+            src={'/src/assets/images/isats-logo.png'}
+            alt={'logo'}
+          />
+          <Title className={'mb-0'} level={3}>ISATS</Title>
         </div>
-        <Menu
-          className={'bg-transparent border-none'}
-          mode={'inline'}
-          selectedKeys={[selectedKey]}
-          items={menuItems}
-          onClick={({ key }) => {
-            if (key === 'logout') {
-              openLogoutModal()
-              return
-            }
-            const item = menuItems.find((item) => item.key === key)
-            if (item?.url) navigate(item.url)
-          }}
-        />
-      </Sider>
-      <Content className={'p-5 bg-transparent'}>
-        <Outlet/>
-      </Content>
+        <Space size={12} align={'center'} className={'ml-auto px-3 py-2'}>
+          <Avatar icon={<UserOutlined/>}/>
+          <p className={'mb-0'}>{userProfile?.full_name}</p>
+        </Space>
+      </Header>
+      <Layout className={'h-[calc(100vh-64px)]'}>
+        <Sider
+          className={'sticky top-16 p-2 overflow-visible border-r-1 border-r-border-light bg-white'}
+          width={256}
+          collapsible={true}
+          trigger={null}
+          collapsed={collapsed}
+        >
+          <Button
+            className={'absolute top-12 -right-3 opacity-50 hover:opacity-100 transition-all'}
+            onClick={toggleCollapsed}
+            size={'small'}
+            shape={'circle'}
+            icon={collapsed ? <RightOutlined/> : <LeftOutlined/>}
+          />
+          <Menu
+            className={'bg-transparent border-none'}
+            mode={'inline'}
+            selectedKeys={[selectedKey]}
+            items={menuItems}
+            onClick={({ key }) => {
+              if (key === 'logout') {
+                openLogoutModal()
+                return
+              }
+              const item = menuItems.find((item) => item.key === key)
+              if (item?.url) navigate(item.url)
+            }}
+          />
+        </Sider>
+        <Content className={'h-full p-5 bg-transparent overflow-y-auto'}>
+          <Outlet/>
+        </Content>
+      </Layout>
     </Layout>
   )
 }

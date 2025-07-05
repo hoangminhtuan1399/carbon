@@ -1,4 +1,5 @@
 export const ACTIONS = Object.freeze({
   LOGOUT: 'logout',
-  TOAST: 'toast'
+  TOAST: 'toast',
+  DIALOG: 'dialog'
 })
