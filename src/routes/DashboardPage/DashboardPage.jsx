@@ -1,5 +1,19 @@
-import { Breadcrumb, Card, Col, DatePicker, Progress, Row, Table, Typography, Tabs, List, Button, Select } from "antd"
-import { HomeOutlined, FileTextOutlined, LikeOutlined, CommentOutlined } from "@ant-design/icons"
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Empty,
+  List,
+  Progress,
+  Row,
+  Select,
+  Table,
+  Tabs,
+  Typography
+} from "antd"
+import { CommentOutlined, FileTextOutlined, HomeOutlined, LikeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
 import { mockProjects } from "/mock-data/mock-projects.js"
@@ -71,29 +85,38 @@ export const DashboardPage = () => {
   const sortedNotifications = mockNotifications.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
   // Trạng thái filter
-  const [selectedTypes, setSelectedTypes] = useState(['post', 'like', 'comment'])
+  const [selectedTypes, setSelectedTypes] = useState([])
   const [dateRange, setDateRange] = useState(null)
 
   // Lọc notifications dựa trên type và date range
   const filteredNotifications = sortedNotifications.filter(notification => {
-    if (!selectedTypes.length) return true
-    const matchesType = selectedTypes.includes(notification.type)
-    if (!matchesType) return false
-    if (!dateRange) return true
-    const notificationDate = new Date(notification.created_at)
-    const [start, end] = dateRange
-    return (!start || notificationDate >= start) && (!end || notificationDate <= end)
+    let matchesType, matchesDate = false
+    if (!selectedTypes.length) {
+      matchesType = true
+    } else {
+      matchesType = selectedTypes.includes(notification.type)
+    }
+
+    if (!dateRange) {
+      matchesDate = true
+    } else {
+      const notificationDate = new Date(notification.created_at)
+      const [start, end] = dateRange
+      matchesDate = (!start || notificationDate >= start) && (!end || notificationDate <= end)
+    }
+
+    return matchesType && matchesDate
   })
 
   // Hàm chọn icon theo loại thông báo
   const getNotificationIcon = (type) => {
     switch (type) {
       case 'post':
-        return <FileTextOutlined className={'text-blue'} />
+        return <FileTextOutlined className={'text-blue'}/>
       case 'like':
-        return <LikeOutlined className={'text-green'} />
+        return <LikeOutlined className={'text-green'}/>
       case 'comment':
-        return <CommentOutlined className={'text-orange'} />
+        return <CommentOutlined className={'text-orange'}/>
       default:
         return null
     }
@@ -168,23 +191,30 @@ export const DashboardPage = () => {
                 />
               </Col>
             </Row>
-            <List
-              dataSource={filteredNotifications.slice(0, 5)} // Hiển thị 5 thông báo mới nhất
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={getNotificationIcon(item.type)}
-                    title={<Link to={`/posts/${item.post_id}`}>{item.title}</Link>}
-                    description={`${item.content} - ${new Date(item.created_at).toLocaleString()}`}
-                  />
-                </List.Item>
-              )}
-            />
-            <div style={{ textAlign: 'center', marginTop: '16px' }}>
-              <Link to="/notifications">
-                <Button className={'btn'} type="primary">{t('actions.load_more')}</Button>
-              </Link>
-            </div>
+            {filteredNotifications.length === 0 ? (
+              <Empty description={t('dashboard_page.no_notification_found')} className="my-8"/>
+            ) : (
+              <>
+                <List
+                  dataSource={filteredNotifications.slice(0, 5)} // Hiển thị 5 thông báo mới nhất
+                  renderItem={item => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={getNotificationIcon(item.type)}
+                        title={<Link to={`/posts/${item.post_id}`}>{item.title}</Link>}
+                        description={`${item.content} - ${new Date(item.created_at).toLocaleString()}`}
+                      />
+                    </List.Item>
+                  )}
+                />
+                <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                  <Link to="/notifications">
+                    <Button className={'btn'} type="primary">{t('actions.load_more')}</Button>
+                  </Link>
+                </div>
+              </>
+            )}
+
           </Card>
         </Col>
         <Col span={24}>
@@ -228,7 +258,7 @@ export const DashboardPage = () => {
                     <Card className={'h-full'}>
                       <Title level={3}>{completionRate}%</Title>
                       <Paragraph>{t('dashboard_page.completion_rate')}</Paragraph>
-                      <Progress percent={parseFloat(completionRate)} />
+                      <Progress percent={parseFloat(completionRate)}/>
                     </Card>
                   </Col>
                 </Row>
@@ -236,7 +266,7 @@ export const DashboardPage = () => {
               <Col span={24}>
                 <Card>
                   <Title level={3}>{t('dashboard_page.unverified_posts')}</Title>
-                  <Tabs defaultActiveKey="project" items={tabItems} />
+                  <Tabs defaultActiveKey="project" items={tabItems}/>
                 </Card>
               </Col>
             </Row>
