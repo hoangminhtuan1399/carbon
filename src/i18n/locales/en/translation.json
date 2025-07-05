@@ -1,10 +1,10 @@
 {
   "_locale": "English",
   "general": {
-    "language": "Language",
+    "language": "EN / VI",
     "continue": "Continue",
     "complete": "Complete",
-    "logout_confirm": "Are you sure you want to logout?",
+    "logout_confirm": "Are you sure you want to log out?",
     "logout_success": "Logged out successfully"
   },
   "theme": {
@@ -13,9 +13,11 @@
   },
   "actions": {
     "click_me": "Click me",
-    "logout": "Logout",
+    "logout": "Log out",
     "back": "Back",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "view": "View",
+    "load_more": "Load more"
   },
   "form": {
     "required": "Required field",
@@ -24,9 +26,9 @@
   },
   "login": {
     "title": "Login",
-    "enter_national_id": "Enter your National ID",
-    "enter_password": "Enter your password",
+    "enter_national_id": "National ID",
     "national_id_placeholder": "National ID",
+    "enter_password": "Enter password",
     "password_placeholder": "Password"
   },
   "errors": {
@@ -41,8 +43,12 @@
   "menu": {
     "dashboard": "Dashboard",
     "projects": "Projects",
+    "posts": "Posts",
+    "evaluation": "Evaluation",
+    "reports": "Reports",
+    "profile": "Profile",
     "users": "Users",
-    "profile": "Profile"
+    "logout": "Log out"
   },
   "users_page": {
     "national_id": "National ID",
@@ -50,5 +56,16 @@
     "email": "Email",
     "date_of_birth": "Date of birth",
     "department": "Department"
+  },
+  "dashboard_page": {
+    "notification": "Notifications",
+    "analysis": "Analytics",
+    "category": "Category",
+    "post_count": "Posts",
+    "start_date": "Start date",
+    "end_date": "End date",
+    "total_projects": "Total projects",
+    "ongoing_projects": "Ongoing projects",
+    "completed_projects": "Completed projects"
   }
 }

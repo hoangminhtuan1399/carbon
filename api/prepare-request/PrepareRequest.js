@@ -1,6 +1,7 @@
 import axios from 'axios';
 import FingerprintJS from '@fingerprintjs/fingerprintjs-pro';
 import md5 from 'crypto-js/md5';
+import { mockAccounts } from "../../mock-data/mock-accounts.js"
 
 function hashToUUID(input) {
   const hash = md5(input).toString();
@@ -25,7 +26,7 @@ class PrepareRequest {
     }
     if (deviceId) {
       // result.deviceId = deviceId;
-      result.deviceId = import.meta.env.VITE_TEST_DEVICE_ID_SUPER_ADMIN;
+      result.deviceId = mockAccounts.admin.deviceId
     }
 
     return result;

@@ -1,7 +1,7 @@
 {
   "_locale": "Việt Nam",
   "general": {
-    "language": "Ngôn ngữ",
+    "language": "EN / VI",
     "continue": "Tiếp tục",
     "complete": "Hoàn tất",
     "logout_confirm": "Bạn chắc chắn muốn đăng xuất?",
@@ -15,7 +15,9 @@
     "click_me": "Nhấn vào tôi",
     "logout": "Đăng xuất",
     "back": "Trở lại",
-    "cancel": "Huỷ bỏ"
+    "cancel": "Huỷ bỏ",
+    "view": "Kiểm tra",
+    "load_more": "Xem thêm"
   },
   "form": {
     "required": "Trường bắt buộc",
@@ -24,7 +26,7 @@
   },
   "login": {
     "title": "Đăng nhập",
-    "enter_national_id": "Nhập số CCCD",
+    "enter_national_id": "CCCD",
     "national_id_placeholder": "CCCD",
     "enter_password": "Nhập mật khẩu",
     "password_placeholder": "Mật khẩu"
@@ -39,10 +41,14 @@
     }
   },
   "menu": {
-    "dashboard": "Bảng điều khiển",
+    "dashboard": "Tổng quan",
     "projects": "Dự án",
+    "posts": "Bài đăng",
+    "evaluation": "Đánh giá",
+    "reports": "Báo cáo",
+    "profile": "Hồ sơ",
     "users": "Người dùng",
-    "profile": "Hồ sơ"
+    "logout": "Đăng xuất"
   },
   "users_page": {
     "national_id": "Số CCCD",
@@ -50,5 +56,29 @@
     "email": "Email",
     "date_of_birth": "Ngày sinh",
     "department": "Phòng ban"
+  },
+  "dashboard_page": {
+    "notification": "Thông báo",
+    "analysis": "Thống kê",
+    "category": "Danh mục",
+    "post_count": "Bài đăng",
+    "total_posts": "Tổng số bài đăng",
+    "start_date": "Bắt đầu",
+    "end_date": "Kết thúc",
+    "total_projects": "Tổng số dự án",
+    "ongoing_projects": "Dự án đang tiến hành",
+    "completed_projects": "Dự án đã hoàn thành",
+    "evaluation_progress": "Tiến độ đánh giá",
+    "completion_rate": "Tỷ lệ hoàn thành đánh giá",
+    "unverified_posts": "Bài đăng chưa đánh giá",
+    "project_name": "Tên dự án",
+    "facility_name": "Tên cơ sở",
+    "by_project": "Theo dự án",
+    "by_facility": "Theo cơ sở",
+    "recent_activities": "Hoạt động gần đây",
+    "filter_by_type": "Lọc theo loại thông báo",
+    "notification_post": "Bài đăng",
+    "notification_like": "Lượt thích",
+    "notification_comment": "Bình luận"
   }
 }
