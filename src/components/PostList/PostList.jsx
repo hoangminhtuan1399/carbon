@@ -1,4 +1,4 @@
-import { Table, Button, Empty, Row, Col, Select, DatePicker } from "antd"
+import { Button, Col, DatePicker, Empty, Row, Select, Table } from "antd"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
 import { useState } from "react"
@@ -6,12 +6,13 @@ import { useState } from "react"
 const { Option } = Select
 const { RangePicker } = DatePicker
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, projects = [] }) => {
   const { t } = useTranslation()
 
   // Trạng thái cho lọc
   const [statusFilter, setStatusFilter] = useState([])
   const [dateRange, setDateRange] = useState(null)
+  const [projectFilter, setProjectFilter] = useState([])
 
   // Lọc dữ liệu bài đăng
   const postData = posts
@@ -23,13 +24,15 @@ const PostList = ({ posts }) => {
       rawEmissionDate: post.emission_date,
       status: post.status === 3 && post.verified_at ? t('dashboard_page.verified') : t('dashboard_page.unverified'),
       rawStatus: post.status === 3 && post.verified_at ? 'verified' : 'unverified',
+      projectId: post.project_id,
     }))
     .filter(post =>
       (statusFilter.length === 0 || statusFilter.includes(post.rawStatus)) &&
       (!dateRange || (
         (!dateRange[0] || new Date(post.rawEmissionDate) >= dateRange[0]) &&
         (!dateRange[1] || new Date(post.rawEmissionDate) <= dateRange[1])
-      ))
+      )) &&
+      (projectFilter.length === 0 || projectFilter.includes(post.projectId))
     )
 
   // Cột cho bảng bài đăng
@@ -71,6 +74,7 @@ const PostList = ({ posts }) => {
             onChange={setStatusFilter}
             className="w-full"
             allowClear
+            suffixIcon={null}
           >
             <Option value="verified">{t('dashboard_page.verified')}</Option>
             <Option value="unverified">{t('dashboard_page.unverified')}</Option>
@@ -84,9 +88,27 @@ const PostList = ({ posts }) => {
             className="w-full"
           />
         </Col>
+        {projects.length > 0 ? (
+          <Col span={6}>
+            <Select
+              mode="multiple"
+              placeholder={t('projects_page.filter_by_project')}
+              value={projectFilter}
+              onChange={setProjectFilter}
+              className="w-full"
+              allowClear
+              suffixIcon={null}
+            >
+              {projects.map(project => (
+                <Option key={project.id} value={project.id}>{project.name}</Option>
+              ))}
+            </Select>
+          </Col>
+        ) : null}
+
       </Row>
       {postData.length === 0 ? (
-        <Empty description={t('projects_page.no_posts_found')} className="my-8" />
+        <Empty description={t('projects_page.no_posts_found')} className="my-8"/>
       ) : (
         <Table
           dataSource={postData}

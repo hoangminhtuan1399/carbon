@@ -7,6 +7,7 @@ import { UsersPage } from "./UsersPage/UsersPage.jsx";
 import { ProjectsPage } from "./ProjectsPage/ProjectsPage.jsx";
 import { ProjectDetailPage } from "./ProjectDetailPage/ProjectDetailPage.jsx";
 import { FacilityDetailPage } from "./FacilityDetailPage/FacilityDetailPage.jsx";
+import { PostsPage } from "./PostsPage/PostsPage.jsx";
 import { logoutLoader } from "./LogoutPage/logout-loader.js"
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/projects/:projectId/facilities/:facilityId',
         element: <FacilityDetailPage />
+      },
+      {
+        path: '/posts',
+        element: <PostsPage />
       },
       {
         path: '/users',

@@ -101,7 +101,7 @@ export const FacilityDetailPage = () => {
       </Card>
       <Card className="mt-4">
         <Title level={2} className="mb-4">{t('projects_page.post_list')}</Title>
-        <PostList posts={postData} projectId={projectId} />
+        <PostList posts={postData} />
       </Card>
       <Card className="mt-4">
         <Title level={2} className="mb-4">{t('projects_page.emission_category_list')}</Title>

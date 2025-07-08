@@ -113,6 +113,7 @@
     "no_facilities_found": "Không tìm thấy cơ sở",
     "no_posts_found": "Không tìm thấy bài đăng",
     "facility_detail": "Chi tiết cơ sở",
-    "no_emission_categories_found": "Không tìm thấy danh mục phát thải"
+    "no_emission_categories_found": "Không tìm thấy danh mục phát thải",
+    "filter_by_project": "Lọc theo dự án"
   }
 }
