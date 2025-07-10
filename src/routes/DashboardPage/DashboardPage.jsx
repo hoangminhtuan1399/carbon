@@ -1,272 +1,216 @@
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Empty,
-  List,
-  Progress,
-  Row,
-  Select,
-  Table,
-  Tabs,
-  Typography
-} from "antd"
-import { CommentOutlined, FileTextOutlined, HomeOutlined, LikeOutlined } from "@ant-design/icons"
+import { Breadcrumb, Card, Col, Progress, Row, Select, Typography } from "antd"
+import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router"
 import { mockProjects } from "/mock-data/mock-projects.js"
-import { mockFacilities } from "/mock-data/mock-facilities.js"
 import { mockPosts } from "/mock-data/mock-posts.js"
-import { mockNotifications } from "/mock-data/mock-notifications.js"
 import { useState } from "react"
+import PostList from "../../components/PostList/PostList.jsx"
+import { Column as AntdColumn } from '@ant-design/plots'
 
 const { Title, Paragraph } = Typography
-const { RangePicker } = DatePicker
 const { Option } = Select
 
 export const DashboardPage = () => {
   const { t } = useTranslation()
 
-  // Tính toán tổng quan dự án
-  const totalProjects = mockProjects.data.length
-  const ongoingProjects = mockProjects.data.filter(p => p.state === 1).length
-  const completedProjects = mockProjects.data.filter(p => p.state === 2).length
+  // Trạng thái cho biểu đồ
+  const [chartPeriod, setChartPeriod] = useState('month')
 
   // Tính toán tiến độ đánh giá
   const totalPosts = mockPosts.data.length
   const verifiedPosts = mockPosts.data.filter(p => p.status === 3 && p.verified_at !== "").length
+  const unverifiedPosts = mockPosts.data.filter(p => p.status !== 3 || p.verified_at === "")
   const completionRate = totalPosts > 0 ? ((verifiedPosts / totalPosts) * 100).toFixed(1) : 0
-  const unverifiedPostsByProject = mockProjects.data
-    .map(project => ({
-      projectId: project.id,
-      projectName: project.name,
-      unverifiedCount: mockPosts.data.filter(p => p.project_id === project.id && (p.status !== 3 || p.verified_at === "")).length
-    }))
-    .filter(project => project.unverifiedCount > 0)
-  const unverifiedPostsByFacility = mockFacilities.data
-    .map(facility => ({
-      facilityId: facility.id,
-      facilityName: facility.name,
-      unverifiedCount: mockPosts.data.filter(p => p.facility_id === facility.id && (p.status !== 3 || p.verified_at === "")).length
-    }))
-    .filter(facility => facility.unverifiedCount > 0)
 
-  // Cột cho bảng số bài đăng chưa đánh giá theo dự án
-  const projectColumns = [
-    {
-      title: t('dashboard_page.project_name'),
-      dataIndex: 'projectName',
-      key: 'projectName'
-    },
-    {
-      title: t('dashboard_page.unverified_posts'),
-      dataIndex: 'unverifiedCount',
-      key: 'unverifiedCount'
+  // Thống kê bài đăng theo thời gian
+  const today = new Date('2025-07-10T06:37:00+07:00') // Ngày hiện tại
+  const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
+  const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()))
+  const startOfLastWeek = new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000)
+  const endOfLastWeek = new Date(startOfWeek.getTime() - 1)
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+  const startOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
+  const endOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0)
+
+  const todayPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate.toDateString() === today.toDateString()
+  }).length
+
+  const thisWeekPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate >= startOfWeek
+  }).length
+
+  const thisMonthPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate >= startOfMonth
+  }).length
+
+  const yesterdayPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate.toDateString() === yesterday.toDateString()
+  }).length
+
+  const lastWeekPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate >= startOfLastWeek && postDate <= endOfLastWeek
+  }).length
+
+  const lastMonthPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return postDate >= startOfLastMonth && postDate <= endOfLastMonth
+  }).length
+
+  // Dữ liệu cho biểu đồ
+  const getChartData = () => {
+    const data = []
+    const periodMap = {
+      day: 'YYYY-MM-DD',
+      week: 'YYYY-WW',
+      month: 'YYYY-MM',
+      quarter: 'YYYY-Q',
+      year: 'YYYY'
     }
-  ]
+    const format = periodMap[chartPeriod]
 
-  // Cột cho bảng số bài đăng chưa đánh giá theo cơ sở
-  const facilityColumns = [
-    {
-      title: t('dashboard_page.facility_name'),
-      dataIndex: 'facilityName',
-      key: 'facilityName'
-    },
-    {
-      title: t('dashboard_page.unverified_posts'),
-      dataIndex: 'unverifiedCount',
-      key: 'unverifiedCount'
-    }
-  ]
+    const postCounts = mockPosts.data.reduce((acc, post) => {
+      const date = new Date(post.created_at)
+      let key
+      if (chartPeriod === 'week') {
+        const year = date.getFullYear()
+        const week = Math.floor((date.getDate() + (date.getDay() === 0 ? 6 : date.getDay() - 1)) / 7) + 1
+        key = `${year}-${week.toString().padStart(2, '0')}`
+      } else if (chartPeriod === 'quarter') {
+        const quarter = Math.floor((date.getMonth() + 3) / 3)
+        key = `${date.getFullYear()}-Q${quarter}`
+      } else {
+        key = date.toISOString().slice(0, format.length)
+      }
+      acc[key] = (acc[key] || 0) + 1
+      return acc
+    }, {})
 
-  // Sắp xếp notifications theo thời gian giảm dần
-  const sortedNotifications = mockNotifications.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    Object.keys(postCounts).forEach(key => {
+      data.push({ time: key, count: postCounts[key] })
+    })
 
-  // Trạng thái filter
-  const [selectedTypes, setSelectedTypes] = useState([])
-  const [dateRange, setDateRange] = useState(null)
-
-  // Lọc notifications dựa trên type và date range
-  const filteredNotifications = sortedNotifications.filter(notification => {
-    let matchesType, matchesDate = false
-    if (!selectedTypes.length) {
-      matchesType = true
-    } else {
-      matchesType = selectedTypes.includes(notification.type)
-    }
-
-    if (!dateRange) {
-      matchesDate = true
-    } else {
-      const notificationDate = new Date(notification.created_at)
-      const [start, end] = dateRange
-      matchesDate = (!start || notificationDate >= start) && (!end || notificationDate <= end)
-    }
-
-    return matchesType && matchesDate
-  })
-
-  // Hàm chọn icon theo loại thông báo
-  const getNotificationIcon = (type) => {
-    switch (type) {
-      case 'post':
-        return <FileTextOutlined className={'text-blue'}/>
-      case 'like':
-        return <LikeOutlined className={'text-green'}/>
-      case 'comment':
-        return <CommentOutlined className={'text-orange'}/>
-      default:
-        return null
-    }
+    return data.sort((a, b) => a.time.localeCompare(b.time))
   }
 
-  // Cấu hình items cho Tabs
-  const tabItems = [
-    {
-      key: 'project',
-      label: t('dashboard_page.by_project'),
-      children: (
-        <Table
-          dataSource={unverifiedPostsByProject}
-          columns={projectColumns}
-          pagination={false}
-          rowKey="projectId"
-        />
-      )
-    },
-    {
-      key: 'facility',
-      label: t('dashboard_page.by_facility'),
-      children: (
-        <Table
-          dataSource={unverifiedPostsByFacility}
-          columns={facilityColumns}
-          pagination={false}
-          rowKey="facilityId"
-        />
-      )
-    }
-  ]
+  // Cấu hình biểu đồ
+  const chartConfig = {
+    data: getChartData(),
+    xField: 'time',
+    yField: 'count',
+    xAxis: { label: { autoRotate: true } },
+    yAxis: { title: { text: t('dashboard_page.post_count') } },
+    title: { text: t('dashboard_page.posts_by_period') }
+  }
 
   return (
     <div>
       <Breadcrumb
         items={[
           {
-            title: <>
-              <HomeOutlined/>
-              <span>{t('menu.dashboard')}</span>
-            </>
+            title: (
+              <>
+                <HomeOutlined/>
+                <span>{t('menu.dashboard')}</span>
+              </>
+            )
           }
         ]}
       />
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Card>
-            <Title level={2}>{t('dashboard_page.recent_activities')}</Title>
-            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-              <Col span={12}>
+            <Title level={2} className="mb-4">{t('dashboard_page.post_statistics')}</Title>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{todayPosts}</Title>
+                  <Paragraph>{t('dashboard_page.today_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{thisWeekPosts}</Title>
+                  <Paragraph>{t('dashboard_page.this_week_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{thisMonthPosts}</Title>
+                  <Paragraph>{t('dashboard_page.this_month_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{yesterdayPosts}</Title>
+                  <Paragraph>{t('dashboard_page.yesterday_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{lastWeekPosts}</Title>
+                  <Paragraph>{t('dashboard_page.last_week_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card>
+                  <Title level={3}>{lastMonthPosts}</Title>
+                  <Paragraph>{t('dashboard_page.last_month_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={24}>
                 <Select
-                  className={'w-full'}
-                  mode={'multiple'}
-                  placeholder={t('dashboard_page.filter_by_type')}
-                  value={selectedTypes}
-                  onChange={setSelectedTypes}
-                  allowClear
-                  suffixIcon={null}
+                  value={chartPeriod}
+                  onChange={setChartPeriod}
+                  className="w-32 mb-4"
                 >
-                  <Option value="post">{t('dashboard_page.notification_post')}</Option>
-                  <Option value="like">{t('dashboard_page.notification_like')}</Option>
-                  <Option value="comment">{t('dashboard_page.notification_comment')}</Option>
+                  <Option value="day">{t('dashboard_page.day')}</Option>
+                  <Option value="week">{t('dashboard_page.week')}</Option>
+                  <Option value="month">{t('dashboard_page.month')}</Option>
+                  <Option value="quarter">{t('dashboard_page.quarter')}</Option>
+                  <Option value="year">{t('dashboard_page.year')}</Option>
                 </Select>
-              </Col>
-              <Col span={12}>
-                <RangePicker
-                  className={'w-full'}
-                  onChange={dates => setDateRange(dates)}
-                  value={dateRange}
-                  placeholder={[t('dashboard_page.start_date'), t('dashboard_page.end_date')]}
-                />
-              </Col>
-            </Row>
-            {filteredNotifications.length === 0 ? (
-              <Empty description={t('dashboard_page.no_notification_found')} className="my-8"/>
-            ) : (
-              <>
-                <List
-                  dataSource={filteredNotifications.slice(0, 5)} // Hiển thị 5 thông báo mới nhất
-                  renderItem={item => (
-                    <List.Item>
-                      <List.Item.Meta
-                        avatar={getNotificationIcon(item.type)}
-                        title={<Link to={`/posts/${item.post_id}`}>{item.title}</Link>}
-                        description={`${item.content} - ${new Date(item.created_at).toLocaleString()}`}
-                      />
-                    </List.Item>
-                  )}
-                />
-                <div style={{ textAlign: 'center', marginTop: '16px' }}>
-                  <Link to="/notifications">
-                    <Button className={'btn'} type="primary">{t('actions.load_more')}</Button>
-                  </Link>
-                </div>
-              </>
-            )}
-
-          </Card>
-        </Col>
-        <Col span={24}>
-          <Card>
-            <Title level={2}>{t('menu.projects')}</Title>
-            <Row gutter={[16, 16]}>
-              <Col span={8}>
-                <Card>
-                  <Title level={3}>{totalProjects}</Title>
-                  <Paragraph>{t('dashboard_page.total_projects')}</Paragraph>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card>
-                  <Title level={3}>{ongoingProjects}</Title>
-                  <Paragraph>{t('dashboard_page.ongoing_projects')}</Paragraph>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card>
-                  <Title level={3}>{completedProjects}</Title>
-                  <Paragraph>{t('dashboard_page.completed_projects')}</Paragraph>
-                </Card>
+                <AntdColumn {...chartConfig} />
               </Col>
             </Row>
           </Card>
         </Col>
         <Col span={24}>
           <Card>
-            <Title level={2}>{t('dashboard_page.evaluation_progress')}</Title>
+            <Title level={2} className="mb-4">{t('dashboard_page.evaluation_progress')}</Title>
             <Row gutter={[16, 16]}>
-              <Col span={24}>
-                <Row gutter={[16, 16]}>
-                  <Col span={12}>
-                    <Card className={'h-full'}>
-                      <Title level={3}>{totalPosts}</Title>
-                      <Paragraph>{t('dashboard_page.total_posts')}</Paragraph>
-                    </Card>
-                  </Col>
-                  <Col span={12}>
-                    <Card className={'h-full'}>
-                      <Title level={3}>{completionRate}%</Title>
-                      <Paragraph>{t('dashboard_page.completion_rate')}</Paragraph>
-                      <Progress percent={parseFloat(completionRate)}/>
-                    </Card>
-                  </Col>
-                </Row>
+              <Col span={8}>
+                <Card className="h-full">
+                  <Title level={3}>{totalPosts}</Title>
+                  <Paragraph>{t('dashboard_page.total_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card className="h-full">
+                  <Title level={3}>{unverifiedPosts.length}</Title>
+                  <Paragraph>{t('dashboard_page.total_unverified_posts')}</Paragraph>
+                </Card>
+              </Col>
+              <Col span={8}>
+                <Card className="h-full">
+                  <Title level={3}>{completionRate}%</Title>
+                  <Paragraph>{t('dashboard_page.completion_rate')}</Paragraph>
+                  <Progress percent={parseFloat(completionRate)}/>
+                </Card>
               </Col>
               <Col span={24}>
                 <Card>
-                  <Title level={3}>{t('dashboard_page.unverified_posts')}</Title>
-                  <Tabs defaultActiveKey="project" items={tabItems}/>
+                  <Title level={3} className="mb-4">{t('dashboard_page.unverified_posts')}</Title>
+                  <PostList
+                    posts={unverifiedPosts}
+                    projects={mockProjects.data}
+                    showStatusFilter={false}
+                  />
                 </Card>
               </Col>
             </Row>
