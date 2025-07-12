@@ -3,16 +3,23 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useEffect } from "react"
 import { mockStandardFactors } from "/mock-data/mock-standard-factors.js"
+import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
 
+const { TextArea } = Input
 const { Option } = Select
 const { Title } = Typography
 const { TabPane } = Tabs
 
-const FactorAssignmentModal = ({ visible, onOk, onCancel, selectedFactors, setSelectedFactors, facilityId, projectId }) => {
+const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId }) => {
   const { t } = useTranslation()
   const [levelSelections, setLevelSelections] = useState([null, null, null, null, null, null])
   const [searchText, setSearchText] = useState('')
-  const standardFactors = mockStandardFactors.data
+  const [confirmReason, setConfirmReason] = useState('')
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false)
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
+  const existingFactors = mockEmissionFactors.data.filter(ec => ec.facility_id === parseInt(facilityId))
+  const [selectedFactors, setSelectedFactors] = useState([])
+  const standardFactors = mockStandardFactors.data.filter(record => !(selectedFactors.some(f => f.code === record.code) || existingFactors.some(f => f.code === record.code)))
 
   // Tạo levelStructure động từ mockStandardFactors
   const generateLevelStructure = () => {
@@ -85,15 +92,14 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, selectedFactors, setSe
       key: 'action',
       render: (_, record) => (
         <Button
-          className={'btn'}
+          className="btn"
           type="primary"
+          icon={<PlusOutlined />}
           onClick={() => {
             if (!selectedFactors.some(f => f.code === record.code)) {
               setSelectedFactors([...selectedFactors, { ...record, facility_id: facilityId, project_id: projectId }])
             }
           }}
-          disabled={selectedFactors.some(f => f.code === record.code)}
-          icon={<PlusOutlined />}
         />
       ),
     },
@@ -113,13 +119,12 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, selectedFactors, setSe
       key: 'code',
     },
     {
-      title: t('actions.remove'),
+      title: '',
       key: 'action',
       render: (_, record) => (
         <Button
-          color={'danger'}
-          variant={'solid'}
           type="primary"
+          danger
           icon={<DeleteOutlined />}
           onClick={() => setSelectedFactors(selectedFactors.filter(f => f.code !== record.code))}
         />
@@ -127,78 +132,119 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, selectedFactors, setSe
     },
   ]
 
+  // Xử lý confirm
+  const handleConfirmOk = () => {
+    if (confirmReason.trim()) {
+      onOk(selectedFactors)
+      setIsConfirmModalVisible(false)
+      setConfirmReason('')
+    }
+  }
+
+  // Xử lý cancel
+  const handleCancel = () => {
+    setIsCancelModalVisible(true)
+  }
+
   return (
-    <Modal
-      title={<Title level={3}>{t('projects_page.assign_factors')}</Title>}
-      open={visible}
-      onOk={onOk}
-      onCancel={onCancel}
-      width={800}
-    >
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Tabs defaultActiveKey="level">
-            <TabPane tab={t('projects_page.select_by_level')} key="level">
-              <Row gutter={[8, 8]} className="mb-4">
-                {Array.from({ length: 6 }).map((_, index) => {
-                  const prevLevel = index === 0 ? '1' : levelSelections.slice(0, index).join('.')
-                  const options = prevLevel ? levelStructure[prevLevel] || [] : []
-                  return (
-                    <Col span={4} key={index}>
-                      <Select
-                        value={levelSelections[index]}
-                        onChange={value => handleLevelChange(value, index)}
-                        className="w-full"
-                        placeholder={t('projects_page.level', { level: index + 1 })}
-                        disabled={!prevLevel || !options.length}
-                        allowClear
-                      >
-                        {options.map(option => (
-                          <Option key={option} value={option}>{option}</Option>
-                        ))}
-                      </Select>
-                    </Col>
-                  )
-                })}
-              </Row>
-            </TabPane>
-            <TabPane tab={t('projects_page.search_factors')} key="search">
-              <Input
-                placeholder={t('projects_page.search_by_code_or_name')}
-                value={searchText}
-                onChange={e => setSearchText(e.target.value)}
-                className="w-full mb-4"
+    <>
+      <Modal
+        title={<Title level={3}>{t('projects_page.assign_factors')}</Title>}
+        open={visible}
+        onOk={() => setIsConfirmModalVisible(true)}
+        onCancel={handleCancel}
+        width={800}
+      >
+        <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Tabs defaultActiveKey="level">
+              <TabPane tab={t('projects_page.select_by_level')} key="level">
+                <Row gutter={[8, 8]} className="mb-4">
+                  {Array.from({ length: 6 }).map((_, index) => {
+                    const prevLevel = index === 0 ? '1' : levelSelections.slice(0, index).join('.')
+                    const options = prevLevel ? levelStructure[prevLevel] || [] : []
+                    return (
+                      <Col span={4} key={index}>
+                        <Select
+                          value={levelSelections[index]}
+                          onChange={value => handleLevelChange(value, index)}
+                          className="w-full"
+                          placeholder={t('projects_page.level', { level: index + 1 })}
+                          disabled={!prevLevel || !options.length}
+                          allowClear
+                        >
+                          {options.map(option => (
+                            <Option key={option} value={option}>{option}</Option>
+                          ))}
+                        </Select>
+                      </Col>
+                    )
+                  })}
+                </Row>
+              </TabPane>
+              <TabPane tab={t('projects_page.search_factors')} key="search">
+                <Input
+                  placeholder={t('projects_page.search_by_code_or_name')}
+                  value={searchText}
+                  onChange={e => setSearchText(e.target.value)}
+                  className="w-full mb-4"
+                />
+              </TabPane>
+            </Tabs>
+          </Col>
+          <Col span={24}>
+            {filteredFactors.length === 0 && (searchText.length >= 2 || levelSelections[0] !== null) ? (
+              <Empty description={t('projects_page.no_factors_found')} className="my-8" />
+            ) : (
+              <Table
+                dataSource={filteredFactors}
+                columns={factorColumns}
+                pagination={{ pageSize: 5 }}
+                rowKey="code"
               />
-            </TabPane>
-          </Tabs>
-        </Col>
-        <Col span={24}>
-          {filteredFactors.length === 0 && (searchText.length >= 2 || levelSelections[0] !== null) ? (
-            <Empty description={t('projects_page.no_factors_found')} className="my-8" />
-          ) : (
-            <Table
-              dataSource={filteredFactors}
-              columns={factorColumns}
-              pagination={{ pageSize: 5 }}
-              rowKey="code"
-            />
-          )}
-        </Col>
-        <Col span={24}>
-          <Title level={4} className="mb-4">{t('projects_page.selected_factors')}</Title>
-          {selectedFactors.length === 0 ? (
-            <Empty description={t('projects_page.no_selected_factors')} className="my-8" />
-          ) : (
-            <Table
-              dataSource={selectedFactors}
-              columns={selectedColumns}
-              pagination={{ pageSize: 5 }}
-              rowKey="code"
-            />
-          )}
-        </Col>
-      </Row>
-    </Modal>
+            )}
+          </Col>
+          <Col span={24}>
+            <Title level={4} className="mb-4">{t('projects_page.selected_factors')}</Title>
+            {selectedFactors.length === 0 ? (
+              <Empty description={t('projects_page.no_selected_factors')} className="my-8" />
+            ) : (
+              <Table
+                dataSource={selectedFactors}
+                columns={selectedColumns}
+                pagination={{ pageSize: 5 }}
+                rowKey="code"
+              />
+            )}
+          </Col>
+        </Row>
+      </Modal>
+      <Modal
+        title={t('projects_page.confirm_assign_factors')}
+        open={isConfirmModalVisible}
+        onOk={handleConfirmOk}
+        onCancel={() => setIsConfirmModalVisible(false)}
+        okButtonProps={{ disabled: !confirmReason.trim() }}
+      >
+        <TextArea
+          placeholder={t('projects_page.enter_reason')}
+          value={confirmReason}
+          onChange={e => setConfirmReason(e.target.value)}
+          rows={4}
+        />
+      </Modal>
+      <Modal
+        title={t('projects_page.confirm_cancel')}
+        open={isCancelModalVisible}
+        onOk={() => {
+          setIsCancelModalVisible(false)
+          onCancel()
+        }}
+        onCancel={() => setIsCancelModalVisible(false)}
+      >
+        <p>{t('projects_page.confirm_cancel_message')}</p>
+      </Modal>
+    </>
   )
 }
 

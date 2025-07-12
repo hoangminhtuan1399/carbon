@@ -19,7 +19,8 @@
     "view": "Kiểm tra",
     "load_more": "Xem thêm",
     "remove": "Xoá",
-    "add": "Thêm"
+    "add": "Thêm",
+    "edit": "Chỉnh sửa"
   },
   "form": {
     "required": "Trường bắt buộc",
@@ -124,7 +125,7 @@
     "staff_size": "Số nhân viên",
     "description": "Mô tả",
     "emission_category_list": "Danh sách danh mục phát thải",
-    "emission_category_name": "Tên danh mục phát thải",
+    "emission_category_name": "Tên danh mục",
     "scope": "Phạm vi",
     "search_facility": "Tìm kiếm cơ sở",
     "filter_by_status": "Lọc theo trạng thái",
@@ -136,7 +137,7 @@
     "emission_factor_count": "Số danh mục phát thải",
     "post_count": "Số bài đăng",
     "no_facility_found": "Cơ sở không tồn tại",
-    "assign_factors": "Gán danh mục phát thải",
+    "assign_factors": "Thêm danh mục",
     "select_by_level": "Chọn theo cấp độ",
     "level": "Cấp độ {{level}}",
     "search_factors": "Tìm kiếm danh mục",
@@ -144,6 +145,15 @@
     "no_factors_found": "Không tìm thấy danh mục",
     "selected_factors": "Danh mục đã chọn",
     "no_selected_factors": "Chưa chọn danh mục nào",
-    "emission_factor_code": "Mã danh mục phát thải"
+    "emission_factor_code": "Mã danh mục",
+    "confirm_assign_factors": "Xác nhận thêm danh mục",
+    "enter_reason": "Nhập lý do",
+    "confirm_cancel": "Xác nhận hủy",
+    "confirm_cancel_message": "Bạn có chắc muốn hủy bỏ không?",
+    "edit_emission_factor": "Chỉnh sửa yếu tố phát thải",
+    "co2": "CO2",
+    "ch4": "CH4",
+    "n2o": "N2O",
+    "confirm_remove_factor": "Xác nhận xoá danh mục"
   }
 }

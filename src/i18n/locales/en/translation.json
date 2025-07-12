@@ -19,7 +19,8 @@
     "view": "View",
     "load_more": "Load more",
     "remove": "Remove",
-    "add": "Add"
+    "add": "Add",
+    "edit": "Edit"
   },
   "form": {
     "required": "Required field",
@@ -143,6 +144,15 @@
     "no_factors_found": "No factors found",
     "selected_factors": "Selected factors",
     "no_selected_factors": "No factors selected",
-    "emission_factor_code": "Emission Factor Code"
+    "emission_factor_code": "Emission Factor Code",
+    "confirm_assign_factors": "Confirm Assign Factors",
+    "enter_reason": "Enter reason",
+    "confirm_cancel": "Confirm Cancel",
+    "confirm_cancel_message": "Are you sure you want to cancel?",
+    "edit_emission_factor": "Edit Emission Factor",
+    "co2": "CO2",
+    "ch4": "CH4",
+    "n2o": "N2O",
+    "confirm_remove_factor": "Confirm Remove Factor"
   }
 }

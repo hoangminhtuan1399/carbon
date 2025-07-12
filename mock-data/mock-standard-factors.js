@@ -24,9 +24,9 @@ const generateStandardFactors = () => {
                 uuid: uuidv4(),
                 code: code,
                 name: `Standard Factor ${code}`,
-                vi_name: `Yếu tố tiêu chuẩn ${code}`,
+                vi_name: `Danh mục tiêu chuẩn ${code}`,
                 description: `Emission factor for ${fuelType.toLowerCase()} in level ${code}`,
-                vi_description: `Yếu tố phát thải cho ${fuelType.toLowerCase()} ở cấp ${code}`,
+                vi_description: `Danh mục phát thải cho ${fuelType.toLowerCase()} ở cấp ${code}`,
                 scope: Math.floor(Math.random() * 2) + 1, // 1 or 2
                 fuel_type: fuelType,
                 combustion_type: combustionTypes[Math.floor(Math.random() * combustionTypes.length)],
