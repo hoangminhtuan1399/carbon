@@ -1,4 +1,4 @@
-import { Card, Row, Col, Select, DatePicker, Empty, Typography } from "antd"
+import { Card, Col, DatePicker, Empty, Row, Select, Typography } from "antd"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { Column as AntdColumn } from '@ant-design/plots'
@@ -20,13 +20,16 @@ const PostStatistics = ({ posts, projects }) => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
     return {
-      key: `${startOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
+      key: `${startOfWeek.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit'
+      })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
+      start: startOfWeek.getTime(),
     }
   }
 
   // Dữ liệu cho biểu đồ
   const getChartData = () => {
-    const data = []
     const periodMap = {
       day: 'YYYY-MM-DD',
       week: 'week',
@@ -46,28 +49,30 @@ const PostStatistics = ({ posts, projects }) => {
       )
       .reduce((acc, post) => {
         const date = new Date(post.created_at)
-        let key
+        let key, timestamp
         if (chartPeriod === 'week') {
-          const { key: weekKey } = getWeekRange(date)
+          const { key: weekKey, start } = getWeekRange(date)
           key = weekKey
+          timestamp = start
         } else if (chartPeriod === 'quarter') {
           const quarter = Math.floor((date.getMonth() + 3) / 3)
           key = `${date.getFullYear()}-Q${quarter}`
+          timestamp = new Date(date.getFullYear(), (quarter - 1) * 3, 1).getTime()
         } else {
           key = date.toISOString().slice(0, format.length)
+          timestamp = date.getTime()
         }
-        acc[key] = (acc[key] || 0) + 1
+        acc[key] = { count: (acc[key]?.count || 0) + 1, timestamp }
         return acc
       }, {})
 
-    Object.keys(postCounts).forEach(key => {
-      data.push({ time: key, count: postCounts[key] })
-    })
-
-    return data.sort((a, b) => a.time.localeCompare(b.time))
+    return Object.entries(postCounts)
+      .map(([key, { count, timestamp }]) => ({ time: key, count, timestamp }))
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 50)
+      .sort((a, b) => a.time.localeCompare(b.time))
   }
 
-  // Cấu hình biểu đồ
   const chartConfig = {
     data: getChartData(),
     xField: 'time',
@@ -201,7 +206,7 @@ const PostStatistics = ({ posts, projects }) => {
             </Col>
           </Row>
           {chartConfig.data.length === 0 ? (
-            <Empty description={t('dashboard_page.no_posts_found')} className="my-8" />
+            <Empty description={t('dashboard_page.no_posts_found')} className="my-8"/>
           ) : (
             <AntdColumn {...chartConfig} />
           )}

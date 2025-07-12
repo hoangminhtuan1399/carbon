@@ -122,12 +122,12 @@ a {
     background-color 200ms ease-in-out,
     transform 200ms ease-in-out;
 
-  &:hover {
+  &:not(:disabled):hover {
     @apply text-text bg-white;
   }
 
   &:disabled {
-    @apply opacity-50;
+    @apply opacity-50 cursor-not-allowed;
   }
 }
 

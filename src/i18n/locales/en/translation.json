@@ -17,7 +17,9 @@
     "back": "Back",
     "cancel": "Cancel",
     "view": "View",
-    "load_more": "Load more"
+    "load_more": "Load more",
+    "remove": "Remove",
+    "add": "Add"
   },
   "form": {
     "required": "Required field",
@@ -132,6 +134,15 @@
     "filter_by_project": "Filter by Project",
     "emission_factor_count": "Number of Emission Factors",
     "post_count": "Post Count",
-    "no_facility_found": "Facility does not exist"
+    "no_facility_found": "Facility does not exist",
+    "assign_factors": "Assign Emission Factors",
+    "select_by_level": "Select by Level",
+    "level": "Level {{level}}",
+    "search_factors": "Search Factors",
+    "search_by_code_or_name": "Search by code or name",
+    "no_factors_found": "No factors found",
+    "selected_factors": "Selected factors",
+    "no_selected_factors": "No factors selected",
+    "emission_factor_code": "Emission Factor Code"
   }
 }

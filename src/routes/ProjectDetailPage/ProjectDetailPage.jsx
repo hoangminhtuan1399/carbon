@@ -5,7 +5,7 @@ import { mockProjects } from "/mock-data/mock-projects.js"
 import { mockFacilities } from "/mock-data/mock-facilities.js"
 import { mockPosts } from "/mock-data/mock-posts.js"
 import { mockSectors } from "/mock-data/mock-sectors.js"
-import { mockEmissionCategories } from "/mock-data/mock-emission-categories.js"
+import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
 import PostList from "../../components/PostList/PostList.jsx"
 import EmissionCategoryList from "../../components/EmissionCategoryList/EmissionCategoryList.jsx"
 import ProjectInfo from "../../components/ProjectInfo/ProjectInfo.jsx"
@@ -26,7 +26,7 @@ export const ProjectDetailPage = () => {
   // Lấy danh sách cơ sở, bài đăng, và emission-categories liên quan
   const facilityData = mockFacilities.data.filter(f => f.project_id === parseInt(projectId))
   const postData = mockPosts.data.filter(p => p.project_id === parseInt(projectId))
-  const emissionCategoryData = mockEmissionCategories.data.filter(ec => ec.project_id === parseInt(projectId))
+  const emissionCategoryData = mockEmissionFactors.data.filter(ec => ec.project_id === parseInt(projectId))
 
   const pageContent = project ? (
     <>

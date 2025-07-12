@@ -17,7 +17,9 @@
     "back": "Trở lại",
     "cancel": "Huỷ bỏ",
     "view": "Kiểm tra",
-    "load_more": "Xem thêm"
+    "load_more": "Xem thêm",
+    "remove": "Xoá",
+    "add": "Thêm"
   },
   "form": {
     "required": "Trường bắt buộc",
@@ -133,6 +135,15 @@
     "filter_by_project": "Lọc theo dự án",
     "emission_factor_count": "Số danh mục phát thải",
     "post_count": "Số bài đăng",
-    "no_facility_found": "Cơ sở không tồn tại"
+    "no_facility_found": "Cơ sở không tồn tại",
+    "assign_factors": "Gán danh mục phát thải",
+    "select_by_level": "Chọn theo cấp độ",
+    "level": "Cấp độ {{level}}",
+    "search_factors": "Tìm kiếm danh mục",
+    "search_by_code_or_name": "Tìm theo mã hoặc tên",
+    "no_factors_found": "Không tìm thấy danh mục",
+    "selected_factors": "Danh mục đã chọn",
+    "no_selected_factors": "Chưa chọn danh mục nào",
+    "emission_factor_code": "Mã danh mục phát thải"
   }
 }

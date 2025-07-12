@@ -1,13 +1,15 @@
-import { Breadcrumb, Card, Typography, Space, Empty, Row, Col } from "antd"
+import { Breadcrumb, Card, Typography, Space, Empty, Row, Col, Button } from "antd"
 import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router"
 import { mockProjects } from "/mock-data/mock-projects.js"
 import { mockFacilities } from "/mock-data/mock-facilities.js"
 import { mockPosts } from "/mock-data/mock-posts.js"
-import { mockEmissionCategories } from "/mock-data/mock-emission-categories.js"
+import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
 import PostList from "../../components/PostList/PostList.jsx"
 import EmissionCategoryList from "../../components/EmissionCategoryList/EmissionCategoryList.jsx"
+import FactorAssignmentModal from "../../components/FactorAssignmentModal/FactorAssignmentModal.jsx"
+import { useState } from "react"
 
 const { Title, Text } = Typography
 
@@ -15,16 +17,18 @@ export const FacilityDetailPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { projectId, facilityId } = useParams()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedFactors, setSelectedFactors] = useState(mockEmissionFactors.data.filter(ec => ec.facility_id === parseInt(facilityId)))
 
   // Lấy thông tin cơ sở và dự án
-  const facility = mockFacilities.data.find(f => f.id === parseInt(facilityId) && f.project_id === parseInt(projectId))
+  const facility = mockFacilities.data.find(f => f.id === parseInt(facilityId))
   const project = mockProjects.data.find(p => p.id === parseInt(projectId))
 
   // Lấy danh sách bài đăng liên quan
   const postData = mockPosts.data.filter(p => p.facility_id === parseInt(facilityId))
 
-  // Lấy danh sách emission-categories liên quan
-  const emissionCategoryData = mockEmissionCategories.data.filter(ec => ec.facility_id === parseInt(facilityId))
+  // Lấy danh sách emission factors liên quan
+  const emissionFactorData = selectedFactors
 
   if (!facility || !project) {
     return (
@@ -104,9 +108,27 @@ export const FacilityDetailPage = () => {
         <PostList posts={postData} />
       </Card>
       <Card className="mt-4">
-        <Title level={2} className="mb-4">{t('projects_page.emission_category_list')}</Title>
-        <EmissionCategoryList emissionCategories={emissionCategoryData} />
+        <Row justify="space-between" align="middle" className="mb-4">
+          <Col>
+            <Title level={2} className="mb-0">{t('projects_page.emission_category_list')}</Title>
+          </Col>
+          <Col>
+            <Button className={'btn'} type="primary" onClick={() => setIsModalVisible(true)}>
+              {t('projects_page.assign_factors')}
+            </Button>
+          </Col>
+        </Row>
+        <EmissionCategoryList emissionCategories={emissionFactorData} />
       </Card>
+      <FactorAssignmentModal
+        visible={isModalVisible}
+        onOk={() => setIsModalVisible(false)}
+        onCancel={() => setIsModalVisible(false)}
+        selectedFactors={selectedFactors}
+        setSelectedFactors={setSelectedFactors}
+        facilityId={parseInt(facilityId)}
+        projectId={parseInt(projectId)}
+      />
     </div>
   )
 }
