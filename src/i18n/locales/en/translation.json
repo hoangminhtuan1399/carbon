@@ -129,6 +129,9 @@
     "no_posts_found": "No posts found",
     "facility_detail": "Facility Detail",
     "no_emission_categories_found": "No emission categories found",
-    "filter_by_project": "Filter by Project"
+    "filter_by_project": "Filter by Project",
+    "emission_factor_count": "Number of Emission Factors",
+    "post_count": "Post Count",
+    "no_facility_found": "Facility does not exist"
   }
 }

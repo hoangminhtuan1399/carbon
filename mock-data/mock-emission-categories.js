@@ -89,4 +89,4 @@ const generateRandomEmissionCategories = (count = 10) => {
   };
 };
 
-export const mockEmissionCategories = generateRandomEmissionCategories(100);
+export const mockEmissionCategories = generateRandomEmissionCategories(1000);

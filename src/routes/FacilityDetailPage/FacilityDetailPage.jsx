@@ -21,10 +21,10 @@ export const FacilityDetailPage = () => {
   const project = mockProjects.data.find(p => p.id === parseInt(projectId))
 
   // Lấy danh sách bài đăng liên quan
-  const postData = mockPosts.data.filter(p => p.facility_id === parseInt(facilityId) && p.project_id === parseInt(projectId))
+  const postData = mockPosts.data.filter(p => p.facility_id === parseInt(facilityId))
 
   // Lấy danh sách emission-categories liên quan
-  const emissionCategoryData = mockEmissionCategories.data.filter(ec => ec.facility_id === parseInt(facilityId) && ec.project_id === parseInt(projectId))
+  const emissionCategoryData = mockEmissionCategories.data.filter(ec => ec.facility_id === parseInt(facilityId))
 
   if (!facility || !project) {
     return (

@@ -82,4 +82,4 @@ const generateRandomPosts = (count = 10) => {
   };
 };
 
-export const mockPosts = generateRandomPosts(500);
+export const mockPosts = generateRandomPosts(5000);

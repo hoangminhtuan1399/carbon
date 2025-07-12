@@ -130,6 +130,9 @@
     "no_posts_found": "Không tìm thấy bài đăng",
     "facility_detail": "Chi tiết cơ sở",
     "no_emission_categories_found": "Không tìm thấy danh mục phát thải",
-    "filter_by_project": "Lọc theo dự án"
+    "filter_by_project": "Lọc theo dự án",
+    "emission_factor_count": "Số danh mục phát thải",
+    "post_count": "Số bài đăng",
+    "no_facility_found": "Cơ sở không tồn tại"
   }
 }

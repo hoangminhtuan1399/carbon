@@ -51,7 +51,11 @@ const EmissionCategoryList = ({ emissionCategories }) => {
     <Table
       dataSource={emissionCategoryData}
       columns={columns}
-      pagination={false}
+      pagination={{
+        pageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '20', '50'],
+      }}
       rowKey="key"
     />
   )
