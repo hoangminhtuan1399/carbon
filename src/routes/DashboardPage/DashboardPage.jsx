@@ -1,12 +1,12 @@
-import { Breadcrumb, Row, Col } from "antd"
+import { Breadcrumb, Col, Row } from "antd"
 import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { mockProjects } from "/mock-data/mock-projects.js"
 import { mockPosts } from "/mock-data/mock-posts.js"
 import { mockFacilities } from "/mock-data/mock-facilities.js"
-import ProjectOverview from "../../components/ProjectOverview/ProjectOverview.jsx"
 import EvaluationProgress from "../../components/EvaluationProgress/EvaluationProgress.jsx"
 import PostStatistics from "../../components/PostStatistics/PostStatistics.jsx"
+import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
 
 export const DashboardPage = () => {
   const { t } = useTranslation()
@@ -42,7 +42,7 @@ export const DashboardPage = () => {
           {
             title: (
               <>
-                <HomeOutlined />
+                <HomeOutlined/>
                 <span>{t('menu.dashboard')}</span>
               </>
             ),
@@ -50,27 +50,27 @@ export const DashboardPage = () => {
         ]}
       />
       <Row gutter={[16, 16]}>
-        <Col span={24}>
+        <Col span={16}>
           <PostStatistics
             posts={mockPosts.data}
             projects={mockProjects.data}
           />
         </Col>
-        <Col span={24}>
-          <EvaluationProgress
-            totalPosts={totalPosts}
-            verifiedPosts={verifiedPosts}
-            unverifiedPosts={unverifiedPosts}
-            unverifiedPostsByProject={unverifiedPostsByProject}
-            unverifiedPostsByFacility={unverifiedPostsByFacility}
-          />
-        </Col>
-        <Col span={24}>
-          <ProjectOverview
-            totalProjects={totalProjects}
-            ongoingProjects={ongoingProjects}
-            completedProjects={completedProjects}
-          />
+        <Col span={8}>
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <EvaluationProgress
+                totalPosts={totalPosts}
+                verifiedPosts={verifiedPosts}
+                unverifiedPosts={unverifiedPosts}
+                unverifiedPostsByProject={unverifiedPostsByProject}
+                unverifiedPostsByFacility={unverifiedPostsByFacility}
+              />
+            </Col>
+            <Col span={24}>
+              <RecentPosts />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </div>

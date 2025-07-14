@@ -8,7 +8,7 @@ function App() {
     <AntdApp>
       <StyleProvider layer>
         <ConfigProvider theme={{ hashed: false }}>
-          <RouterProvider router={router}/>
+          <RouterProvider router={router} />
         </ConfigProvider>
       </StyleProvider>
     </AntdApp>

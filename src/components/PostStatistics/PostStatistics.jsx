@@ -1,4 +1,5 @@
-import { Card, Col, DatePicker, Empty, Row, Select, Typography } from "antd"
+import { Card, Row, Col, Select, DatePicker, Empty, Typography } from "antd"
+import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { Column as AntdColumn } from '@ant-design/plots'
@@ -20,10 +21,7 @@ const PostStatistics = ({ posts, projects }) => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
     return {
-      key: `${startOfWeek.toLocaleDateString('en-US', {
-        month: '2-digit',
-        day: '2-digit'
-      })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
+      key: `${startOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
       start: startOfWeek.getTime(),
     }
   }
@@ -88,7 +86,7 @@ const PostStatistics = ({ posts, projects }) => {
   }
 
   // Thống kê bài đăng theo thời gian
-  const today = new Date('2025-07-10T06:37:00+07:00')
+  const today = new Date('2025-07-14T07:57:00+07:00')
   const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
   const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()))
   const startOfLastWeek = new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -127,25 +125,45 @@ const PostStatistics = ({ posts, projects }) => {
     return postDate >= startOfLastMonth && postDate <= endOfLastMonth
   }).length
 
+  // So sánh để xác định màu và biểu tượng
+  const getTrend = (current, previous) => {
+    if (current > previous) {
+      return { color: 'text-green-500', icon: <ArrowUpOutlined /> }
+    } else if (current < previous) {
+      return { color: 'text-red-500', icon: <ArrowDownOutlined /> }
+    }
+    return { color: '', icon: null }
+  }
+
+  const todayTrend = getTrend(todayPosts, yesterdayPosts)
+  const weekTrend = getTrend(thisWeekPosts, lastWeekPosts)
+  const monthTrend = getTrend(thisMonthPosts, lastMonthPosts)
+
   return (
     <Card>
       <Title level={2} className="mb-4">{t('dashboard_page.post_statistics')}</Title>
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <Card>
-            <Title level={3}>{todayPosts}</Title>
+            <Title level={3} className={todayTrend.color}>
+              {todayPosts} {todayTrend.icon}
+            </Title>
             <Paragraph>{t('dashboard_page.today_posts')}</Paragraph>
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <Title level={3}>{thisWeekPosts}</Title>
+            <Title level={3} className={weekTrend.color}>
+              {thisWeekPosts} {weekTrend.icon}
+            </Title>
             <Paragraph>{t('dashboard_page.this_week_posts')}</Paragraph>
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <Title level={3}>{thisMonthPosts}</Title>
+            <Title level={3} className={monthTrend.color}>
+              {thisMonthPosts} {monthTrend.icon}
+            </Title>
             <Paragraph>{t('dashboard_page.this_month_posts')}</Paragraph>
           </Card>
         </Col>
@@ -206,7 +224,7 @@ const PostStatistics = ({ posts, projects }) => {
             </Col>
           </Row>
           {chartConfig.data.length === 0 ? (
-            <Empty description={t('dashboard_page.no_posts_found')} className="my-8"/>
+            <Empty description={t('dashboard_page.no_posts_found')} className="my-8" />
           ) : (
             <AntdColumn {...chartConfig} />
           )}

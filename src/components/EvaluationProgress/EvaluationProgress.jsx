@@ -1,71 +1,55 @@
-import { Card, Col, Row, Progress, Typography, Table } from "antd"
+import { Card, Col, Row, Typography, Space } from "antd"
 import { useTranslation } from "react-i18next"
-import PostList from "../PostList/PostList.jsx"
+import { Link } from "react-router"
+import { mockPosts } from "/mock-data/mock-posts.js"
 
-const { Title, Paragraph } = Typography
+const { Title, Paragraph, Text } = Typography
 
-const EvaluationProgress = ({ totalPosts, verifiedPosts, unverifiedPosts, unverifiedPostsByProject, unverifiedPostsByFacility }) => {
+const EvaluationProgress = ({ totalPosts, unverifiedPosts }) => {
   const { t } = useTranslation()
-  const completionRate = totalPosts > 0 ? ((verifiedPosts / totalPosts) * 100).toFixed(1) : 0
 
-  // Cột cho bảng số bài đăng chưa đánh giá theo dự án
-  const projectColumns = [
-    {
-      title: t('dashboard_page.project_name'),
-      dataIndex: 'projectName',
-      key: 'projectName'
-    },
-    {
-      title: t('dashboard_page.unverified_posts'),
-      dataIndex: 'unverifiedCount',
-      key: 'unverifiedCount'
-    }
-  ]
+  const today = new Date()
+  const startOfWeek = new Date(today)
+  startOfWeek.setDate(today.getDate() - today.getDay())
 
-  // Cột cho bảng số bài đăng chưa đánh giá theo cơ sở
-  const facilityColumns = [
-    {
-      title: t('dashboard_page.facility_name'),
-      dataIndex: 'facilityName',
-      key: 'facilityName'
-    },
-    {
-      title: t('dashboard_page.unverified_posts'),
-      dataIndex: 'unverifiedCount',
-      key: 'unverifiedCount'
-    }
-  ]
+  const todayUnverifiedPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return (
+      postDate.toDateString() === today.toDateString() &&
+      (post.status !== 1 || post.verified_at === "")
+    )
+  }).length
+
+  const thisWeekUnverifiedPosts = mockPosts.data.filter(post => {
+    const postDate = new Date(post.created_at)
+    return (
+      postDate >= startOfWeek &&
+      (post.status !== 1 || post.verified_at === "")
+    )
+  }).length
 
   return (
     <Card>
       <Title level={2} className="mb-4">{t('dashboard_page.evaluation_progress')}</Title>
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={12}>
           <Card className="h-full">
-            <Title level={3}>{totalPosts}</Title>
+            <Title type={'success'} level={3}>{totalPosts}</Title>
             <Paragraph>{t('dashboard_page.total_posts')}</Paragraph>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Card className="h-full">
-            <Title level={3}>{unverifiedPosts.length}</Title>
+            <Title type={'warning'} level={3}>{unverifiedPosts.length}</Title>
             <Paragraph>{t('dashboard_page.total_unverified_posts')}</Paragraph>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card className="h-full">
-            <Title level={3}>{completionRate}%</Title>
-            <Paragraph>{t('dashboard_page.completion_rate')}</Paragraph>
-            <Progress percent={parseFloat(completionRate)} />
-          </Card>
-        </Col>
-        <Col span={24}>
-          <Card>
-            <Title level={3} className="mb-4">{t('dashboard_page.unverified_posts')}</Title>
-            <PostList
-              posts={unverifiedPosts}
-              showStatusFilter={false}
-            />
+            <Space direction="vertical">
+              <Link to="/posts">
+                <Text className={'underline'} type={'warning'}>{t('dashboard_page.today_unverified_posts')}: {todayUnverifiedPosts}</Text>
+              </Link>
+              <Link to="/posts">
+                <Text className={'underline'} type={'danger'}>{t('dashboard_page.this_week_unverified_posts')}: {thisWeekUnverifiedPosts}</Text>
+              </Link>
+            </Space>
           </Card>
         </Col>
       </Row>
