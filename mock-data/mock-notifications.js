@@ -3,7 +3,7 @@ import { mockPosts } from './mock-posts.js';
 
 const generateRandomNotifications = (count = 10) => {
   const notifications = [];
-  const baseDate = new Date('2025-07-04T16:18:32.913+07:00');
+  const baseDate = new Date();
   const types = ['post', 'like', 'comment'];
 
   for (let i = 1; i <= count; i++) {

@@ -1,4 +1,4 @@
-import { Table, Button, Empty, Row, Col, Select, DatePicker } from "antd"
+import { Table, Button, Empty, Row, Col, Select, DatePicker, Badge } from "antd"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
 import { useState } from "react"
@@ -25,12 +25,12 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
       emissionDate: new Date(post.emission_date).toLocaleDateString(),
       createdAt: new Date(post.created_at).toLocaleDateString(),
       rawCreatedAt: post.created_at,
-      status: post.status === 3 && post.verified_at ? t('dashboard_page.verified') : t('dashboard_page.unverified'),
-      rawStatus: post.status === 3 && post.verified_at ? 'verified' : 'unverified',
+      status: post.status === 3 && post.verified_at ? 'verified' : 'unverified',
+      statusText: post.status === 3 && post.verified_at ? t('dashboard_page.verified') : t('dashboard_page.unverified'),
       projectId: post.project_id,
     }))
     .filter(post =>
-      (!showStatusFilter || statusFilter.length === 0 || statusFilter.includes(post.rawStatus)) &&
+      (!showStatusFilter || statusFilter.length === 0 || statusFilter.includes(post.status)) &&
       (!dateRange || (
         (!dateRange[0] || new Date(post.rawCreatedAt) >= dateRange[0]) &&
         (!dateRange[1] || new Date(post.rawCreatedAt) <= dateRange[1])
@@ -54,6 +54,12 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
       title: t('projects_page.status'),
       dataIndex: 'status',
       key: 'status',
+      render: (status, record) => (
+        <Badge
+          color={status === 'verified' ? '#84C7AE' : ''}
+          count={record.statusText}
+        />
+      ),
     }] : []),
     {
       title: t('actions.view'),

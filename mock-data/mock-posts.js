@@ -3,7 +3,7 @@ import { mockProjects } from './mock-projects.js';
 
 const generateRandomPosts = (count = 10) => {
   const posts = [];
-  const baseDate = new Date('2025-07-12T16:18:32.913+07:00');
+  const baseDate = new Date();
   const adUnits = ['L', 'kWh', 'ton', 'kg'];
   const dataSources = [1, 2, 3];
   const reportingPeriods = [1, 3, 12];

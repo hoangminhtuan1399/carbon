@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const generateRandomFacilities = (count = 10) => {
   const facilities = [];
-  const baseDate = new Date('2025-07-04T16:18:32.905+07:00');
+  const baseDate = new Date();
 
   for (let i = 1; i <= count; i++) {
     const createdAt = new Date(baseDate.getTime() - i * 24 * 60 * 60 * 1000); // Giảm 1 ngày cho mỗi facility

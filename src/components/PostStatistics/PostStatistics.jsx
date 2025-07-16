@@ -85,8 +85,7 @@ const PostStatistics = ({ posts, projects }) => {
     title: { text: t('dashboard_page.posts_by_period') }
   }
 
-  // Thống kê bài đăng theo thời gian
-  const today = new Date('2025-07-14T07:57:00+07:00')
+  const today = new Date()
   const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
   const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()))
   const startOfLastWeek = new Date(startOfWeek.getTime() - 7 * 24 * 60 * 60 * 1000)

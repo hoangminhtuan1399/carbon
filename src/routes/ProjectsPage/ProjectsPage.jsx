@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Col, DatePicker, Empty, Input, Row, Select, Table, Typography } from "antd"
+import { Badge, Breadcrumb, Button, Card, Col, DatePicker, Empty, Input, Row, Select, Table, Typography } from "antd"
 import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router"
@@ -28,7 +28,8 @@ export const ProjectsPage = () => {
       projectId: project.id,
       projectName: project.name,
       sectorName: mockSectors.data.find(sector => sector.id === project.sector_id)?.name || 'Unknown',
-      state: project.state === 1 ? t('dashboard_page.ongoing_projects') : project.state === 0 ? t('projects_page.inactive') : t('projects_page.deleted'),
+      state: project.state,
+      stateText: project.state === 1 ? t('dashboard_page.ongoing_projects') : project.state === 0 ? t('projects_page.inactive') : t('projects_page.deleted'),
       startDate: new Date(project.start_date).toLocaleDateString(),
       endDate: new Date(project.end_date).toLocaleDateString(),
       postCount: mockPosts.data.filter(p => p.project_id === project.id).length,
@@ -62,6 +63,12 @@ export const ProjectsPage = () => {
       title: t('projects_page.state'),
       dataIndex: 'state',
       key: 'state',
+      render: (state, record) => (
+        <Badge
+          color={state === 1 ? '#84C7AE' : state === 0 ? '#faad14' : ''}
+          count={record.stateText}
+        />
+      ),
     },
     {
       title: t('projects_page.start_date'),
