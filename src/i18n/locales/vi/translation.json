@@ -187,5 +187,11 @@
     "reasonable_assurance": "Đảm bảo hợp lý",
     "materiality_threshold": "Ngưỡng trọng yếu",
     "contact_person": "Người liên hệ"
+  },
+  "posts_page": {
+    "no_image": "Không có hình ảnh",
+    "no_content": "Không có nội dung",
+    "no_tags": "Không có tag",
+    "likes": "lượt thích"
   }
 }

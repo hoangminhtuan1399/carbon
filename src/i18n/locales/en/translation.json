@@ -186,5 +186,11 @@
     "reasonable_assurance": "Reasonable Assurance",
     "materiality_threshold": "Materiality Threshold",
     "contact_person": "Contact Person"
+  },
+  "posts_page": {
+    "no_image": "No image",
+    "no_content": "No content",
+    "no_tags": "No tags",
+    "likes": "likes"
   }
 }

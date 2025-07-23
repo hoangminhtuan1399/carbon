@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, Empty, Typography, Tabs } from "antd"
+import { Breadcrumb, Card, Empty, Typography, Tabs, Row, Col } from "antd"
 import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router"
@@ -11,6 +11,9 @@ import ProjectInfo from "../../components/ProjectInfo/ProjectInfo.jsx"
 import FacilityList from "../../components/FacilityList/FacilityList.jsx"
 import PostList from "../../components/PostList/PostList.jsx"
 import EmissionCategoryList from "../../components/EmissionCategoryList/EmissionCategoryList.jsx"
+import PostStatistics from "../../components/PostStatistics/PostStatistics.jsx"
+import EvaluationProgress from "../../components/EvaluationProgress/EvaluationProgress.jsx"
+import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
 
 const { Title } = Typography
 const { TabPane } = Tabs
@@ -28,6 +31,23 @@ export const ProjectDetailPage = () => {
   const facilityData = mockFacilities.data.filter(f => f.project_id === parseInt(projectId))
   const postData = mockPosts.data.filter(p => p.project_id === parseInt(projectId))
   const emissionFactorData = mockEmissionFactors.data.filter(ec => ec.project_id === parseInt(projectId))
+
+  // Dữ liệu cho EvaluationProgress
+  const totalPosts = postData.length
+  const verifiedPosts = postData.filter(p => p.status === 3 && p.verified_at !== "").length
+  const unverifiedPosts = postData.filter(p => p.status !== 3 || p.verified_at === "")
+  const unverifiedPostsByProject = [{
+    projectId: project?.id,
+    projectName: project?.name,
+    unverifiedCount: unverifiedPosts.length
+  }].filter(p => p.unverifiedCount > 0)
+  const unverifiedPostsByFacility = facilityData
+    .map(facility => ({
+      facilityId: facility.id,
+      facilityName: facility.name,
+      unverifiedCount: postData.filter(p => p.facility_id === facility.id && (p.status !== 3 || p.verified_at === "")).length
+    }))
+    .filter(facility => facility.unverifiedCount > 0)
 
   return (
     <div>
@@ -55,7 +75,30 @@ export const ProjectDetailPage = () => {
       {project ? (
         <Tabs defaultActiveKey="info" className="mt-4">
           <TabPane tab={t('projects_page.project_detail')} key="info">
-            <ProjectInfo project={project} sector={sector} />
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <ProjectInfo project={project} sector={sector} />
+              </Col>
+              <Col span={16}>
+                <PostStatistics posts={postData} projects={[project]} />
+              </Col>
+              <Col span={8}>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <EvaluationProgress
+                      totalPosts={totalPosts}
+                      verifiedPosts={verifiedPosts}
+                      unverifiedPosts={unverifiedPosts}
+                      unverifiedPostsByProject={unverifiedPostsByProject}
+                      unverifiedPostsByFacility={unverifiedPostsByFacility}
+                    />
+                  </Col>
+                  <Col span={24}>
+                    <RecentPosts posts={postData} />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           </TabPane>
           <TabPane tab={t('projects_page.facility_list')} key="facilities">
             <Card>

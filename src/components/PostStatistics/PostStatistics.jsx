@@ -1,5 +1,5 @@
-import { Card, Row, Col, Select, DatePicker, Empty, Typography } from "antd"
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons"
+import { Card, Col, DatePicker, Empty, Row, Select, Typography } from "antd"
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { Column as AntdColumn } from '@ant-design/plots'
@@ -21,7 +21,10 @@ const PostStatistics = ({ posts, projects }) => {
     const endOfWeek = new Date(startOfWeek)
     endOfWeek.setDate(startOfWeek.getDate() + 6)
     return {
-      key: `${startOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
+      key: `${startOfWeek.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit'
+      })} - ${endOfWeek.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}`,
       start: startOfWeek.getTime(),
     }
   }
@@ -127,9 +130,9 @@ const PostStatistics = ({ posts, projects }) => {
   // So sánh để xác định màu và biểu tượng
   const getTrend = (current, previous) => {
     if (current > previous) {
-      return { color: 'text-green-500', icon: <ArrowUpOutlined /> }
+      return { color: 'text-green-500', icon: <ArrowUpOutlined/> }
     } else if (current < previous) {
-      return { color: 'text-red-500', icon: <ArrowDownOutlined /> }
+      return { color: 'text-red-500', icon: <ArrowDownOutlined/> }
     }
     return { color: '', icon: null }
   }
@@ -186,20 +189,22 @@ const PostStatistics = ({ posts, projects }) => {
         </Col>
         <Col span={24}>
           <Row gutter={[16, 16]} className="mb-4">
-            <Col span={6}>
-              <Select
-                mode="multiple"
-                placeholder={t('projects_page.filter_by_project')}
-                value={selectedProjects}
-                onChange={setSelectedProjects}
-                className="w-full"
-                allowClear
-              >
-                {projects.map(project => (
-                  <Option key={project.id} value={project.id}>{project.name}</Option>
-                ))}
-              </Select>
-            </Col>
+            {projects.length > 1 && (
+              <Col span={6}>
+                <Select
+                  mode="multiple"
+                  placeholder={t('projects_page.filter_by_project')}
+                  value={selectedProjects}
+                  onChange={setSelectedProjects}
+                  className="w-full"
+                  allowClear
+                >
+                  {projects.map(project => (
+                    <Option key={project.id} value={project.id}>{project.name}</Option>
+                  ))}
+                </Select>
+              </Col>
+            )}
             <Col span={6}>
               <RangePicker
                 placeholder={[t('dashboard_page.start_date'), t('dashboard_page.end_date')]}
@@ -223,7 +228,7 @@ const PostStatistics = ({ posts, projects }) => {
             </Col>
           </Row>
           {chartConfig.data.length === 0 ? (
-            <Empty description={t('dashboard_page.no_posts_found')} className="my-8" />
+            <Empty description={t('dashboard_page.no_posts_found')} className="my-8"/>
           ) : (
             <AntdColumn {...chartConfig} />
           )}

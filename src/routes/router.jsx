@@ -9,6 +9,7 @@ import { ProjectDetailPage } from "./ProjectDetailPage/ProjectDetailPage.jsx";
 import { FacilityDetailPage } from "./FacilityDetailPage/FacilityDetailPage.jsx";
 import { PostsPage } from "./PostsPage/PostsPage.jsx";
 import { logoutLoader } from "./LogoutPage/logout-loader.js"
+import PostDetailPage from "./PostDetailPage/PostDetailPage.jsx"
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/posts',
         element: <PostsPage />
+      },
+      {
+        path: '/posts/:postId',
+        element: <PostDetailPage />,
       },
       {
         path: '/users',

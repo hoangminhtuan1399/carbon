@@ -1,111 +1,49 @@
-import { Modal, Select, Input, Button, Table, Row, Col, Typography, Tabs, Empty } from "antd"
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons"
+import { Button, Cascader, Col, Empty, Input, Modal, Row, Table, Typography } from "antd"
+import { DeleteOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
-import { useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { mockStandardFactors } from "/mock-data/mock-standard-factors.js"
-import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
+import { EMISSION_FACTORS } from "../../constants/libraries.js"
 
-const { TextArea } = Input
-const { Option } = Select
 const { Title } = Typography
-const { TabPane } = Tabs
+const { TextArea } = Input
 
 const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId }) => {
   const { t } = useTranslation()
-  const [levelSelections, setLevelSelections] = useState([null, null, null, null, null, null])
-  const [searchText, setSearchText] = useState('')
   const [confirmReason, setConfirmReason] = useState('')
+  const [selectedFactors, setSelectedFactors] = useState([])
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false)
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
-  const existingFactors = mockEmissionFactors.data.filter(ec => ec.facility_id === parseInt(facilityId))
-  const [selectedFactors, setSelectedFactors] = useState([])
-  const standardFactors = mockStandardFactors.data.filter(record => !(selectedFactors.some(f => f.code === record.code) || existingFactors.some(f => f.code === record.code)))
+  const standardFactors = mockStandardFactors.data
+  const cascaderScrollRef = useRef(null)
 
-  // Tạo levelStructure động từ mockStandardFactors
-  const generateLevelStructure = () => {
-    const structure = { '1': [] }
-    standardFactors.forEach(factor => {
-      const levels = factor.code.split('.')
-      for (let i = 0; i < levels.length - 1; i++) {
-        const parent = i === 0 ? '1' : levels.slice(0, i).join('.')
-        const child = levels[i]
-        if (!structure[parent]) structure[parent] = []
-        if (!structure[parent].includes(child)) structure[parent].push(child)
-      }
-    })
-    return structure
-  }
-
-  const levelStructure = generateLevelStructure()
-
-  // Lọc factors theo level đã chọn
-  const getFilteredFactorsByLevel = () => {
-    const selectedLevel = levelSelections.findIndex(val => val === null)
-    const currentLevel = selectedLevel === -1 ? 6 : selectedLevel
-    if (currentLevel === 0) return standardFactors
-
-    const prefixParts = levelSelections.slice(0, currentLevel).filter(Boolean)
-    let prefix = ''
-    if (prefixParts.length > 0) {
-      const levelPrefixes = ['1']
-      for (let i = 1; i < prefixParts.length; i++) {
-        levelPrefixes.push(`${levelPrefixes[i - 1]}.${prefixParts[i - 1]}`)
-      }
-      prefix = `${levelPrefixes[prefixParts.length - 1]}.${prefixParts[prefixParts.length - 1]}`
+  // Xử lý chọn yếu tố từ Cascader
+  const handleCascaderChange = (value) => {
+    if (cascaderScrollRef.current) {
+      setTimeout(() => {
+        cascaderScrollRef.current.scrollTo({
+          left: cascaderScrollRef.current.scrollWidth,
+          behavior: 'smooth'
+        })
+      }, 0)
     }
-    return standardFactors.filter(factor => factor.code.startsWith(prefix))
+    if (!value) return
+    const code = value[value.length - 1]
+    const factor = standardFactors.find(f => f.code === code)
+    if (!factor) return
+    if (selectedFactors.some(f => f.code === code)) return
+    setSelectedFactors([...selectedFactors, { ...factor, facility_id: facilityId, project_id: projectId }])
   }
 
-  // Xử lý chọn level
-  const handleLevelChange = (value, levelIndex) => {
-    const newSelections = [...levelSelections]
-    newSelections[levelIndex] = value
-    for (let i = levelIndex + 1; i < 6; i++) {
-      newSelections[i] = null
-    }
-    setLevelSelections(newSelections)
-  }
-
-  // Lọc factors theo tìm kiếm
-  const filteredFactors = searchText.length >= 2
-    ? standardFactors.filter(f =>
-      f.code.toLowerCase().includes(searchText.toLowerCase()) ||
-      f.name.toLowerCase().includes(searchText.toLowerCase())
+  const popupRender = menus => {
+    return (
+      <div className={'overflow-x-auto'} ref={cascaderScrollRef}>
+        {menus}
+      </div>
     )
-    : getFilteredFactorsByLevel()
+  }
 
-  // Cột cho bảng factor
-  const factorColumns = [
-    {
-      title: t('projects_page.emission_category_name'),
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => t('general.language') === 'en' ? record.name : record.vi_name,
-    },
-    {
-      title: t('projects_page.emission_factor_code'),
-      dataIndex: 'code',
-      key: 'code',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (_, record) => (
-        <Button
-          className="btn"
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => {
-            if (!selectedFactors.some(f => f.code === record.code)) {
-              setSelectedFactors([...selectedFactors, { ...record, facility_id: facilityId, project_id: projectId }])
-            }
-          }}
-        />
-      ),
-    },
-  ]
-
-  // Cột cho bảng factor đã chọn
+  // Cột cho bảng yếu tố đã chọn
   const selectedColumns = [
     {
       title: t('projects_page.emission_category_name'),
@@ -125,7 +63,7 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
         <Button
           type="primary"
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined/>}
           onClick={() => setSelectedFactors(selectedFactors.filter(f => f.code !== record.code))}
         />
       ),
@@ -157,57 +95,29 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
       >
         <Row gutter={[16, 16]}>
           <Col span={24}>
-            <Tabs defaultActiveKey="level">
-              <TabPane tab={t('projects_page.select_by_level')} key="level">
-                <Row gutter={[8, 8]} className="mb-4">
-                  {Array.from({ length: 6 }).map((_, index) => {
-                    const prevLevel = index === 0 ? '1' : levelSelections.slice(0, index).join('.')
-                    const options = prevLevel ? levelStructure[prevLevel] || [] : []
-                    return (
-                      <Col span={4} key={index}>
-                        <Select
-                          value={levelSelections[index]}
-                          onChange={value => handleLevelChange(value, index)}
-                          className="w-full"
-                          placeholder={t('projects_page.level', { level: index + 1 })}
-                          disabled={!prevLevel || !options.length}
-                          allowClear
-                        >
-                          {options.map(option => (
-                            <Option key={option} value={option}>{option}</Option>
-                          ))}
-                        </Select>
-                      </Col>
-                    )
-                  })}
-                </Row>
-              </TabPane>
-              <TabPane tab={t('projects_page.search_factors')} key="search">
-                <Input
-                  placeholder={t('projects_page.search_by_code_or_name')}
-                  value={searchText}
-                  onChange={e => setSearchText(e.target.value)}
-                  className="w-full mb-4"
-                />
-              </TabPane>
-            </Tabs>
-          </Col>
-          <Col span={24}>
-            {filteredFactors.length === 0 && (searchText.length >= 2 || levelSelections[0] !== null) ? (
-              <Empty description={t('projects_page.no_factors_found')} className="my-8" />
-            ) : (
-              <Table
-                dataSource={filteredFactors}
-                columns={factorColumns}
-                pagination={{ pageSize: 5 }}
-                rowKey="code"
+            <div className={'js-factor-picker relative'}>
+              <Cascader
+                options={EMISSION_FACTORS}
+                onChange={handleCascaderChange}
+                placeholder={t('projects_page.search_factors')}
+                changeOnSelect={true}
+                popupRender={popupRender}
+                showSearch={{
+                  filter: (inputValue, path) => {
+                    return path.some(option => option.label.toLowerCase().includes(inputValue.toLowerCase()) || option.value.toLowerCase().startsWith(inputValue.toLowerCase()))
+                  }
+                }}
+                className="w-full mb-4"
+                getPopupContainer={() => {
+                  return document.querySelector('.js-factor-picker')
+                }}
               />
-            )}
+            </div>
           </Col>
           <Col span={24}>
             <Title level={4} className="mb-4">{t('projects_page.selected_factors')}</Title>
             {selectedFactors.length === 0 ? (
-              <Empty description={t('projects_page.no_selected_factors')} className="my-8" />
+              <Empty description={t('projects_page.no_selected_factors')} className="my-8"/>
             ) : (
               <Table
                 dataSource={selectedFactors}

@@ -4,7 +4,7 @@ import { mockStandardFactors } from './mock-standard-factors.js'
 
 const generateEmissionFactors = (count = 1000) => {
   const emissionFactors = []
-  const baseDate = new Date('2025-07-16T04:13:04.131Z')
+  const baseDate = new Date('2025-07-23T23:10:00+07:00')
   const standardFactors = mockStandardFactors.data
 
   for (let i = 1; i <= count; i++) {

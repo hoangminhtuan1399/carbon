@@ -60,25 +60,6 @@ const ProjectInfo = ({ project, sector }) => {
           </Col>
         </Row>
         <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <Text strong>{t('projects_page.control_method')}: </Text>
-            {project.control_method === 0 ? t('projects_page.operational_control') : t('projects_page.financial_control')}
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.assurance_level')}: </Text>
-            {project.assurance_level === 1 ? t('projects_page.limited_assurance') : t('projects_page.reasonable_assurance')}
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <Text strong>{t('projects_page.materiality_threshold')}: </Text>{project.materiality_threshold}%
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.contact_person')}: </Text>
-            {Object.keys(project.contact_person).length > 0 ? JSON.stringify(project.contact_person) : ''}
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
           <Col span={24}>
             <Text strong>{t('projects_page.description')}: </Text>{project.description}
           </Col>

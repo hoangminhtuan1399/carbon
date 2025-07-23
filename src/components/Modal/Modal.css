@@ -1,9 +1,0 @@
-.ant-modal {
-  .ant-modal-body {
-    @apply max-h-[60vh] overflow-y-auto overflow-x-hidden -mr-4 pr-4
-  }
-
-  .ant-modal-footer .ant-btn-primary {
-    @apply btn;
-  }
-}

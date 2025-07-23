@@ -1,0 +1,46 @@
+.ant-breadcrumb {
+  @apply mb-5;
+}
+
+.ant-breadcrumb-link {
+  @apply flex gap-1.5 cursor-pointer hover:text-text;
+}
+
+.ant-progress .ant-progress-success-bg,
+.ant-progress .ant-progress-bg {
+  @apply bg-primary;
+}
+
+.ant-tabs {
+  .ant-tabs-tab {
+    &.ant-tabs-tab-active .ant-tabs-tab-btn {
+      @apply text-primary;
+    }
+
+    &:hover {
+      @apply text-primary;
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    @apply bg-primary;
+  }
+}
+
+.ant-modal {
+  .ant-modal-body {
+    @apply max-h-[60vh] overflow-y-auto overflow-x-hidden -mr-4 pr-4
+  }
+
+  .ant-modal-footer .ant-btn-primary {
+    @apply btn;
+  }
+}
+
+.ant-menu-item-selected {
+  @apply text-inherit bg-active-bg;
+}
+
+.ant-cascader-dropdown {
+  @apply max-w-full;
+}

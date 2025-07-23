@@ -142,6 +142,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
           <Col>
             <Tooltip title={t('actions.edit')}>
               <Button
+                className={'btn'}
                 type="primary"
                 icon={<EditOutlined/>}
                 onClick={() => {
@@ -243,7 +244,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
       >
         <Row gutter={[16, 16]}>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.co2')}</Typography.Text>
+            <Text strong>{t('projects_page.co2')}</Text>
             <InputNumber
               value={editValues.co2}
               onChange={value => setEditValues({ ...editValues, co2: value })}
@@ -251,11 +252,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.01}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.co2_lower} - {selectedCategory?.co2_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.co2_lower} - {selectedCategory?.co2_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.ch4')}</Typography.Text>
+            <Text strong>{t('projects_page.ch4')}</Text>
             <InputNumber
               value={editValues.ch4}
               onChange={value => setEditValues({ ...editValues, ch4: value })}
@@ -263,11 +263,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.0001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.ch4_lower} - {selectedCategory?.ch4_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ch4_lower} - {selectedCategory?.ch4_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.n2o')}</Typography.Text>
+            <Text strong>{t('projects_page.n2o')}</Text>
             <InputNumber
               value={editValues.n2o}
               onChange={value => setEditValues({ ...editValues, n2o: value })}
@@ -275,11 +274,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.00001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.n2o_lower} - {selectedCategory?.n2o_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.n2o_lower} - {selectedCategory?.n2o_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.hfc')}</Typography.Text>
+            <Text strong>{t('projects_page.hfc')}</Text>
             <InputNumber
               value={editValues.hfc}
               onChange={value => setEditValues({ ...editValues, hfc: value })}
@@ -287,11 +285,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.0001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.hfc_lower} - {selectedCategory?.hfc_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.hfc_lower} - {selectedCategory?.hfc_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.pfc')}</Typography.Text>
+            <Text strong>{t('projects_page.pfc')}</Text>
             <InputNumber
               value={editValues.pfc}
               onChange={value => setEditValues({ ...editValues, pfc: value })}
@@ -299,11 +296,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.0001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.pfc_lower} - {selectedCategory?.pfc_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.pfc_lower} - {selectedCategory?.pfc_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.sf6')}</Typography.Text>
+            <Text strong>{t('projects_page.sf6')}</Text>
             <InputNumber
               value={editValues.sf6}
               onChange={value => setEditValues({ ...editValues, sf6: value })}
@@ -311,11 +307,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.00001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.sf6_lower} - {selectedCategory?.sf6_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.sf6_lower} - {selectedCategory?.sf6_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.nf3')}</Typography.Text>
+            <Text strong>{t('projects_page.nf3')}</Text>
             <InputNumber
               value={editValues.nf3}
               onChange={value => setEditValues({ ...editValues, nf3: value })}
@@ -323,11 +318,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.00001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.nf3_lower} - {selectedCategory?.nf3_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nf3_lower} - {selectedCategory?.nf3_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.bo')}</Typography.Text>
+            <Text strong>{t('projects_page.bo')}</Text>
             <InputNumber
               value={editValues.bo}
               onChange={value => setEditValues({ ...editValues, bo: value })}
@@ -335,11 +329,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.01}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.bo_lower} - {selectedCategory?.bo_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.bo_lower} - {selectedCategory?.bo_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.nvc')}</Typography.Text>
+            <Text strong>{t('projects_page.nvc')}</Text>
             <InputNumber
               value={editValues.nvc}
               onChange={value => setEditValues({ ...editValues, nvc: value })}
@@ -347,11 +340,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.01}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.nvc_lower} - {selectedCategory?.nvc_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nvc_lower} - {selectedCategory?.nvc_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.mcf')}</Typography.Text>
+            <Text strong>{t('projects_page.mcf')}</Text>
             <InputNumber
               value={editValues.mcf}
               onChange={value => setEditValues({ ...editValues, mcf: value })}
@@ -359,11 +351,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.01}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.mcf_lower} - {selectedCategory?.mcf_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.mcf_lower} - {selectedCategory?.mcf_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.ef_effluent')}</Typography.Text>
+            <Text strong>{t('projects_page.ef_effluent')}</Text>
             <InputNumber
               value={editValues.ef_effluent}
               onChange={value => setEditValues({ ...editValues, ef_effluent: value })}
@@ -371,11 +362,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.0001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.ef_effluent_lower} - {selectedCategory?.ef_effluent_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ef_effluent_lower} - {selectedCategory?.ef_effluent_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.nrem')}</Typography.Text>
+            <Text strong>{t('projects_page.nrem')}</Text>
             <InputNumber
               value={editValues.nrem}
               onChange={value => setEditValues({ ...editValues, nrem: value })}
@@ -383,11 +373,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.01}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.nrem_lower} - {selectedCategory?.nrem_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nrem_lower} - {selectedCategory?.nrem_upper}</Text>
           </Col>
           <Col span={12}>
-            <Typography.Text>{t('projects_page.ef_n2o_plant')}</Typography.Text>
+            <Text strong>{t('projects_page.ef_n2o_plant')}</Text>
             <InputNumber
               value={editValues.ef_n2o_plant}
               onChange={value => setEditValues({ ...editValues, ef_n2o_plant: value })}
@@ -395,11 +384,10 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               min={0}
               step={0.00001}
             />
-            <Text
-              className="mt-2 block">{selectedCategory?.ef_n2o_plant_lower} - {selectedCategory?.ef_n2o_plant_upper}</Text>
+            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ef_n2o_plant_lower} - {selectedCategory?.ef_n2o_plant_upper}</Text>
           </Col>
           <Col span={24}>
-            <Typography.Text>{t('projects_page.enter_reason')}</Typography.Text>
+            <Text strong>{t('projects_page.enter_reason')}</Text>
             <TextArea
               value={editValues.reason_vi}
               onChange={e => setEditValues({ ...editValues, reason_vi: e.target.value })}
@@ -415,7 +403,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
         onCancel={() => setDeleteModalVisible(false)}
         okButtonProps={{ disabled: !deleteReason.trim() }}
       >
-        <Typography.Text>{t('projects_page.enter_reason')}</Typography.Text>
+        <Text strong>{t('projects_page.enter_reason')}</Text>
         <TextArea
           value={deleteReason}
           onChange={e => setDeleteReason(e.target.value)}

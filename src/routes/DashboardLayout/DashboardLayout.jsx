@@ -35,7 +35,6 @@ export const DashboardLayout = () => {
       { key: 'dashboard', label: t('menu.dashboard'), url: '/', icon: <HomeOutlined/> },
       { key: 'projects', label: t('menu.projects'), url: '/projects', icon: <ProjectOutlined/> },
       { key: 'posts', label: t('menu.posts'), url: '/posts', icon: <FileTextOutlined/> },
-      { key: 'evaluation', label: t('menu.evaluation'), url: '/evaluation', icon: <UserOutlined/> },
       { key: 'reports', label: t('menu.reports'), url: '/reports', icon: <BarChartOutlined/> },
       { key: 'profile', label: t('menu.profile'), url: '/profile', icon: <IdcardOutlined/> },
       { key: 'logout', label: t('actions.logout'), url: '/logout', icon: <LogoutOutlined/> }
