@@ -23,7 +23,6 @@ class BaseApi {
         config.headers = {
           ...config.headers,
           'the-timezone-iana': data.timezone,
-          'x-device-id': data.deviceId,
           'x-forwarded-for': data.ipAddress,
           'x-app-version': data.appVersion,
           'x-location-info': data.locationInfo

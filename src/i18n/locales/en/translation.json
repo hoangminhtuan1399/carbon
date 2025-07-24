@@ -185,7 +185,9 @@
     "limited_assurance": "Limited Assurance",
     "reasonable_assurance": "Reasonable Assurance",
     "materiality_threshold": "Materiality Threshold",
-    "contact_person": "Contact Person"
+    "contact_person": "Contact Person",
+    "facility_code": "Facility Code",
+    "no_more_posts": "No More Post"
   },
   "posts_page": {
     "no_image": "No image",

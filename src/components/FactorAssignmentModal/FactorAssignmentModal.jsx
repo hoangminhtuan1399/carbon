@@ -35,6 +35,16 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
     setSelectedFactors([...selectedFactors, { ...factor, facility_id: facilityId, project_id: projectId }])
   }
 
+  const handleCascaderOpen = (open) => {
+    if (!open || !cascaderScrollRef.current) return
+    setTimeout(() => {
+      cascaderScrollRef.current.scrollTo({
+        left: 0,
+        behavior: 'smooth'
+      })
+    }, 0)
+  }
+
   const popupRender = menus => {
     return (
       <div className={'overflow-x-auto'} ref={cascaderScrollRef}>
@@ -99,6 +109,7 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
               <Cascader
                 options={EMISSION_FACTORS}
                 onChange={handleCascaderChange}
+                onOpenChange={handleCascaderOpen}
                 placeholder={t('projects_page.search_factors')}
                 changeOnSelect={true}
                 popupRender={popupRender}

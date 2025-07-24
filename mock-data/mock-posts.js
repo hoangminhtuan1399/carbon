@@ -28,9 +28,9 @@ const generatePosts = () => {
     posts.push({
       id: i,
       gid: uuidv4(),
-      created_at: createdAt.toISOString(),
+      created_at: createdAt,
       created_by: createdBy,
-      updated_at: createdAt.toISOString(),
+      updated_at: createdAt,
       updated_by: createdBy,
       state: Math.floor(Math.random() * 3) - 1, // -1, 0, 1
       version: 0,

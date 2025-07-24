@@ -186,12 +186,14 @@
     "limited_assurance": "Đảm bảo hạn chế",
     "reasonable_assurance": "Đảm bảo hợp lý",
     "materiality_threshold": "Ngưỡng trọng yếu",
-    "contact_person": "Người liên hệ"
+    "contact_person": "Người liên hệ",
+    "facility_code": "Mã cơ sở"
   },
   "posts_page": {
     "no_image": "Không có hình ảnh",
     "no_content": "Không có nội dung",
     "no_tags": "Không có tag",
-    "likes": "lượt thích"
+    "likes": "lượt thích",
+    "no_more_posts": "Không còn bài đăng nào"
   }
 }

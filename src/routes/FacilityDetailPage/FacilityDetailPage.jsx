@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, Typography, Space, Empty, Row, Col, Button } from "antd"
+import { Breadcrumb, Card, Empty, Typography, Tabs, Space, Row, Col, Button } from "antd"
 import { HomeOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router"
@@ -9,9 +9,15 @@ import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
 import PostList from "../../components/PostList/PostList.jsx"
 import EmissionCategoryList from "../../components/EmissionCategoryList/EmissionCategoryList.jsx"
 import FactorAssignmentModal from "../../components/FactorAssignmentModal/FactorAssignmentModal.jsx"
+import PostStatistics from "../../components/PostStatistics/PostStatistics.jsx"
+import EvaluationProgress from "../../components/EvaluationProgress/EvaluationProgress.jsx"
+import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
 import { useState } from "react"
+import ProjectInfo from "../../components/ProjectInfo/ProjectInfo.jsx"
+import FacilityInfo from "../../components/FacilityInfo/FacilityInfo.jsx"
 
 const { Title, Text } = Typography
+const { TabPane } = Tabs
 
 export const FacilityDetailPage = () => {
   const { t } = useTranslation()
@@ -24,11 +30,24 @@ export const FacilityDetailPage = () => {
   const facility = mockFacilities.data.find(f => f.id === parseInt(facilityId))
   const project = mockProjects.data.find(p => p.id === parseInt(projectId))
 
-  // Lấy danh sách bài đăng liên quan
+  // Lấy danh sách bài đăng và emission factors liên quan
   const postData = mockPosts.data.filter(p => p.facility_id === parseInt(facilityId))
-
-  // Lấy danh sách emission factors liên quan
   const emissionFactorData = selectedFactors
+
+  // Dữ liệu cho EvaluationProgress
+  const totalPosts = postData.length
+  const verifiedPosts = postData.filter(p => p.status === 3 && p.verified_at !== "").length
+  const unverifiedPosts = postData.filter(p => p.status !== 3 || p.verified_at === "")
+  const unverifiedPostsByProject = [{
+    projectId: project?.id,
+    projectName: project?.name,
+    unverifiedCount: unverifiedPosts.length
+  }].filter(p => p.unverifiedCount > 0)
+  const unverifiedPostsByFacility = [{
+    facilityId: facility?.id,
+    facilityName: facility?.name,
+    unverifiedCount: unverifiedPosts.length
+  }].filter(f => f.unverifiedCount > 0)
 
   if (!facility || !project) {
     return (
@@ -82,44 +101,56 @@ export const FacilityDetailPage = () => {
           },
         ]}
       />
-      <Card className="mt-4">
-        <Title level={2} className="mb-4">{t('projects_page.facility_detail')}</Title>
-        <Space direction="vertical" size="middle" className="w-full">
-          <Row>
-            <Col span={12}>
-              <Text strong>{t('dashboard_page.facility_name')}:</Text> {facility.name}
+      <Tabs defaultActiveKey="info" className="mt-4">
+        <TabPane tab={t('projects_page.facility_detail')} key="info">
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <Card>
+                <FacilityInfo facility={facility} />
+              </Card>
             </Col>
-            <Col span={12}>
-              <Text strong>{t('dashboard_page.project_name')}:</Text> {project.name}
+            <Col span={16}>
+              <PostStatistics posts={postData} projects={[project]} />
+            </Col>
+            <Col span={8}>
+              <Row gutter={[16, 16]}>
+                <Col span={24}>
+                  <EvaluationProgress
+                    totalPosts={totalPosts}
+                    verifiedPosts={verifiedPosts}
+                    unverifiedPosts={unverifiedPosts}
+                    unverifiedPostsByProject={unverifiedPostsByProject}
+                    unverifiedPostsByFacility={unverifiedPostsByFacility}
+                  />
+                </Col>
+                <Col span={24}>
+                  <RecentPosts posts={postData} />
+                </Col>
+              </Row>
             </Col>
           </Row>
-          <Row>
-            <Col span={12}>
-              <Text strong>{t('projects_page.address')}:</Text> {facility.address}
-            </Col>
-            <Col span={12}>
-              <Text strong>{t('projects_page.staff_size')}:</Text> {facility.staff_size}
-            </Col>
-          </Row>
-        </Space>
-      </Card>
-      <Card className="mt-4">
-        <Title level={2} className="mb-4">{t('projects_page.post_list')}</Title>
-        <PostList posts={postData} />
-      </Card>
-      <Card className="mt-4">
-        <Row justify="space-between" align="middle" className="mb-4">
-          <Col>
-            <Title level={2} className="mb-0">{t('projects_page.emission_category_list')}</Title>
-          </Col>
-          <Col>
-            <Button className={'btn'} type="primary" onClick={() => setIsModalVisible(true)}>
-              {t('projects_page.assign_factors')}
-            </Button>
-          </Col>
-        </Row>
-        <EmissionCategoryList emissionCategories={emissionFactorData} />
-      </Card>
+        </TabPane>
+        <TabPane tab={t('projects_page.post_list')} key="posts">
+          <Card>
+            <PostList posts={postData} />
+          </Card>
+        </TabPane>
+        <TabPane tab={t('projects_page.emission_category_list')} key="emissionFactors">
+          <Card>
+            <Row justify="space-between" align="middle" className="mb-4">
+              <Col>
+                <Title level={2} className="mb-0">{t('projects_page.emission_category_list')}</Title>
+              </Col>
+              <Col>
+                <Button className="btn" type="primary" onClick={() => setIsModalVisible(true)}>
+                  {t('projects_page.assign_factors')}
+                </Button>
+              </Col>
+            </Row>
+            <EmissionCategoryList emissionCategories={emissionFactorData} />
+          </Card>
+        </TabPane>
+      </Tabs>
       <FactorAssignmentModal
         visible={isModalVisible}
         onOk={() => setIsModalVisible(false)}
