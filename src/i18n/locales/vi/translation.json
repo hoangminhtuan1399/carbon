@@ -12,6 +12,7 @@
     "dark": "Tối"
   },
   "actions": {
+    "title": "Hành động",
     "click_me": "Nhấn vào tôi",
     "logout": "Đăng xuất",
     "back": "Trở lại",
@@ -115,7 +116,7 @@
     "start_date": "Bắt đầu",
     "end_date": "Kết thúc",
     "sector_name": "Lĩnh vực",
-    "project_list": "Danh sách dự án",
+    "project_list": "Dự án",
     "search_project": "Tìm kiếm dự án",
     "filter_by_state": "Lọc theo trạng thái",
     "filter_by_sector": "Lọc theo lĩnh vực",
@@ -123,18 +124,19 @@
     "inactive": "Không hoạt động",
     "no_projects_found": "Không tìm thấy dự án",
     "project_detail": "Chi tiết dự án",
-    "facility_list": "Danh sách cơ sở",
-    "post_list": "Danh sách minh chứng",
+    "facility_list": "Cơ sở",
+    "post_list": "Minh chứng",
     "post_title": "Tiêu đề",
     "post_date": "Ngày đăng",
     "status": "Trạng thái",
     "address": "Địa chỉ",
     "staff_size": "Số nhân viên",
     "description": "Mô tả",
-    "emission_category_list": "Danh sách nguồn thải",
+    "emission_category_list": "Nguồn thải",
     "emission_factor_name": "Tên nguồn thải",
     "emission_category_name": "Tên danh mục",
     "scope": "Phạm vi",
+    "formula_type": "Công thức",
     "search_facility": "Tìm kiếm cơ sở",
     "filter_by_status": "Lọc theo trạng thái",
     "no_facilities_found": "Không tìm thấy cơ sở",
@@ -153,7 +155,7 @@
     "no_factors_found": "Không tìm thấy nguồn thải",
     "selected_factors": "Danh mục đã chọn",
     "no_selected_factors": "Chưa chọn danh mục nào",
-    "emission_factor_code": "Mã nguồn thải",
+    "emission_factor_code": "Mã",
     "confirm_assign_factors": "Xác nhận thêm nguồn thải",
     "enter_reason": "Nhập lý do",
     "confirm_cancel": "Xác nhận hủy",
@@ -187,13 +189,24 @@
     "reasonable_assurance": "Đảm bảo hợp lý",
     "materiality_threshold": "Ngưỡng trọng yếu",
     "contact_person": "Người liên hệ",
-    "facility_code": "Mã cơ sở"
+    "facility_code": "Mã cơ sở",
+    "filter_by_formula_type": "Lọc theo loại công thức"
   },
   "posts_page": {
     "no_image": "Không có hình ảnh",
     "no_content": "Không có nội dung",
     "no_tags": "Không có tag",
     "likes": "lượt thích",
-    "no_more_posts": "Không còn bài đăng nào"
+    "no_more_posts": "Không còn bài đăng nào",
+    "like": "Thích",
+    "comment": "Bình luận",
+    "enter_comment": "Nhập bình luận",
+    "submit": "Gửi"
+  },
+  "formula": {
+    "fuel_combustion": "Đốt nhiên liệu",
+    "exhaust_gas": "Khí phát thải",
+    "wastewater": "Nước thải",
+    "electricity_use": "Tiêu thụ điện"
   }
 }

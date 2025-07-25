@@ -3,7 +3,7 @@ a {
 }
 
 @utility btn {
-  @apply bg-primary border border-primary relative cursor-pointer text-white rounded-lg;
+  @apply bg-primary border border-primary relative cursor-pointer text-white;
   transition:
     background-color 200ms ease-in-out,
     transform 200ms ease-in-out;

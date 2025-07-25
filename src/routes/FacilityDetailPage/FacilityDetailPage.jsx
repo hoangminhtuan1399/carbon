@@ -1,5 +1,5 @@
-import { Breadcrumb, Card, Empty, Typography, Tabs, Space, Row, Col, Button } from "antd"
-import { HomeOutlined } from "@ant-design/icons"
+import { Breadcrumb, Button, Card, Col, Empty, Row, Tabs, Tooltip, Typography } from "antd"
+import { HomeOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useNavigate, useParams } from "react-router"
 import { mockProjects } from "/mock-data/mock-projects.js"
@@ -13,7 +13,6 @@ import PostStatistics from "../../components/PostStatistics/PostStatistics.jsx"
 import EvaluationProgress from "../../components/EvaluationProgress/EvaluationProgress.jsx"
 import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
 import { useState } from "react"
-import ProjectInfo from "../../components/ProjectInfo/ProjectInfo.jsx"
 import FacilityInfo from "../../components/FacilityInfo/FacilityInfo.jsx"
 
 const { Title, Text } = Typography
@@ -56,7 +55,7 @@ export const FacilityDetailPage = () => {
           items={[
             {
               href: null,
-              title: <HomeOutlined />,
+              title: <HomeOutlined/>,
               onClick: () => navigate('/'),
             },
             {
@@ -73,7 +72,7 @@ export const FacilityDetailPage = () => {
           ]}
         />
         <Card className="mt-4">
-          <Empty description={t('projects_page.no_facility_found')} className="my-8" />
+          <Empty description={t('projects_page.no_facility_found')} className="my-8"/>
         </Card>
       </div>
     )
@@ -85,7 +84,7 @@ export const FacilityDetailPage = () => {
         items={[
           {
             href: null,
-            title: <HomeOutlined />,
+            title: <HomeOutlined/>,
             onClick: () => navigate('/'),
           },
           {
@@ -106,11 +105,11 @@ export const FacilityDetailPage = () => {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Card>
-                <FacilityInfo facility={facility} />
+                <FacilityInfo facility={facility}/>
               </Card>
             </Col>
             <Col span={16}>
-              <PostStatistics posts={postData} projects={[project]} />
+              <PostStatistics posts={postData} projects={[project]}/>
             </Col>
             <Col span={8}>
               <Row gutter={[16, 16]}>
@@ -124,7 +123,7 @@ export const FacilityDetailPage = () => {
                   />
                 </Col>
                 <Col span={24}>
-                  <RecentPosts posts={postData} />
+                  <RecentPosts posts={postData}/>
                 </Col>
               </Row>
             </Col>
@@ -132,7 +131,7 @@ export const FacilityDetailPage = () => {
         </TabPane>
         <TabPane tab={t('projects_page.post_list')} key="posts">
           <Card>
-            <PostList posts={postData} />
+            <PostList posts={postData}/>
           </Card>
         </TabPane>
         <TabPane tab={t('projects_page.emission_category_list')} key="emissionFactors">
@@ -142,12 +141,13 @@ export const FacilityDetailPage = () => {
                 <Title level={2} className="mb-0">{t('projects_page.emission_category_list')}</Title>
               </Col>
               <Col>
-                <Button className="btn" type="primary" onClick={() => setIsModalVisible(true)}>
-                  {t('projects_page.assign_factors')}
-                </Button>
+                <Tooltip title={t('projects_page.assign_factors')}>
+                  <Button icon={<PlusOutlined />} className="btn" type="primary" onClick={() => setIsModalVisible(true)}>
+                  </Button>
+                </Tooltip>
               </Col>
             </Row>
-            <EmissionCategoryList emissionCategories={emissionFactorData} />
+            <EmissionCategoryList emissionCategories={emissionFactorData}/>
           </Card>
         </TabPane>
       </Tabs>

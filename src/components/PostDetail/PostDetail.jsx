@@ -1,19 +1,44 @@
-import { Card, Space, Avatar, Tag, Typography, Button, Badge } from "antd"
-import { HeartOutlined } from "@ant-design/icons"
+import { Avatar, Button, Card, Col, Input, Row, Space, Tag, Tooltip, Typography } from "antd"
+import { HeartFilled, HeartOutlined, MessageOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
+import { useState } from "react"
 
 const { Title, Text, Paragraph } = Typography
 
 const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) => {
   const { t } = useTranslation()
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(post.likes.length)
+  const [isCommentInputVisible, setIsCommentInputVisible] = useState(false)
+  const [comment, setComment] = useState('')
+
+  // Xử lý thích/bỏ thích
+  const handleLike = () => {
+    setIsLiked(!isLiked)
+    setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
+  }
+
+  // Xử lý mở/đóng input bình luận
+  const handleCommentToggle = () => {
+    setIsCommentInputVisible(!isCommentInputVisible)
+  }
+
+  // Xử lý gửi bình luận (giả lập)
+  const handleCommentSubmit = () => {
+    if (comment.trim()) {
+      console.log('Comment submitted:', comment)
+      setComment('')
+      setIsCommentInputVisible(false)
+    }
+  }
 
   return (
     <Card className="shadow-md">
       <Space direction="vertical" size="middle" className="w-full">
         {/* Header: Avatar và Username */}
         <div className="flex items-center">
-          <Avatar src={post.author.avatar} size={40} className="mr-2" />
+          <Avatar src={post.author.avatar} size={40} className="mr-2"/>
           <Space direction="vertical" size={0}>
             <Text strong>{post.author.username}</Text>
             <Text type="secondary">{new Date(post.createdAt).toLocaleDateString()}</Text>
@@ -21,9 +46,9 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
         </div>
         {/* Hình ảnh */}
         {post.images && post.images.length > 0 ? (
-          <div className={'p-3'}>
+          <div className="p-3">
             <img
-              src={'/src/assets/images/isats-logo.png'}
+              src="/src/assets/images/isats-logo.png"
               alt={post.title}
               className="w-full aspect-square object-contain rounded-md"
             />
@@ -51,8 +76,8 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
           </div>
           {/* Lượt thích */}
           <div className="flex items-center mb-2">
-            <HeartOutlined className="mr-1" />
-            <Text>{post.likes.length} {t('posts_page.likes')}</Text>
+            <HeartOutlined className="mr-1"/>
+            <Text>{likeCount} {t('posts_page.likes')}</Text>
           </div>
         </div>
         {/* Thông tin bổ sung */}
@@ -64,11 +89,50 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
           <Text strong>{t('dashboard_page.facility_name')}: </Text>
           <Text>{facilityName || 'Unknown'}</Text>
         </div>
-        {/* Nút View */}
-        {showViewButton && (
-          <Link to={`/posts/${post.postId}`}>
-            <Button className="btn" type="primary">{t('actions.view')}</Button>
-          </Link>
+        {/* Nút Thích và Bình luận */}
+        <Space className="mt-2">
+          <Tooltip title={t('posts_page.like')}>
+            <Button
+              icon={isLiked ? <HeartFilled style={{ color: '#ff4d4f' }}/> : <HeartOutlined/>}
+              onClick={handleLike}
+            >
+            </Button>
+          </Tooltip>
+          <Tooltip title={t('posts_page.comment')}>
+            <Button
+              icon={<MessageOutlined/>}
+              onClick={handleCommentToggle}
+            >
+            </Button>
+          </Tooltip>
+          {showViewButton && (
+            <Link to={`/posts/${post.postId}`}>
+              <Button className="btn" type="primary">{t('actions.view')}</Button>
+            </Link>
+          )}
+        </Space>
+        {/* Input bình luận */}
+        {isCommentInputVisible && (
+          <Row gutter={16}>
+            <Col flex={'auto'}>
+              <Input
+                value={comment}
+                onChange={e => setComment(e.target.value)}
+                placeholder={t('posts_page.enter_comment')}
+                className="w-full"
+              />
+            </Col>
+            <Col>
+              <Button
+                className={'btn'}
+                type="primary"
+                onClick={handleCommentSubmit}
+                disabled={!comment.trim()}
+              >
+                {t('posts_page.submit')}
+              </Button>
+            </Col>
+          </Row>
         )}
       </Space>
     </Card>

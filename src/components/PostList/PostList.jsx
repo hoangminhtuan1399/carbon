@@ -16,7 +16,7 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
   const [statusFilter, setStatusFilter] = useState([])
   const [dateRange, setDateRange] = useState(null)
   const [projectFilter, setProjectFilter] = useState([])
-  const [visiblePosts, setVisiblePosts] = useState(6)
+  const [visiblePosts, setVisiblePosts] = useState(12)
 
   // Lọc dữ liệu bài đăng
   const postData = posts
@@ -48,7 +48,7 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
     )
   // Tải thêm bài đăng
   const loadMorePosts = () => {
-    setVisiblePosts(prev => prev + 6)
+    setVisiblePosts(prev => prev + 12)
   }
 
   return (
@@ -115,7 +115,7 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
           <Row gutter={[16, 16]}>
             {postData.slice(0, visiblePosts).map(post => (
               <Col
-                span={12}
+                span={8}
                 key={post.postId}
               >
                 <PostDetail

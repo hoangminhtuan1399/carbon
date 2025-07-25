@@ -12,6 +12,7 @@
     "dark": "Dark"
   },
   "actions": {
+    "title": "Actions",
     "click_me": "Click me",
     "logout": "Log out",
     "back": "Back",
@@ -134,6 +135,7 @@
     "emission_factor_name": "Emission Factor Name",
     "emission_category_name": "Emission Category Name",
     "scope": "Scope",
+    "formula_type": "Formula",
     "search_facility": "Search Facility",
     "filter_by_status": "Filter by Status",
     "no_facilities_found": "No facilities found",
@@ -193,6 +195,17 @@
     "no_image": "No image",
     "no_content": "No content",
     "no_tags": "No tags",
-    "likes": "likes"
+    "likes": "Likes",
+    "like": "Like",
+    "comment": "Comment",
+    "enter_comment": "Enter comment",
+    "submit": "Send",
+    "filter_by_formula_type": "Filter by formula type"
+  },
+  "formula": {
+    "fuel_combustion": "Fuel combustion",
+    "exhaust_gas": "Exhaust gas",
+    "wastewater": "Wastewater",
+    "electricity_use": "Electricity use"
   }
 }

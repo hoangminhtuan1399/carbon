@@ -6,12 +6,17 @@ const generateEmissionFactors = (count = 1000) => {
   const emissionFactors = []
   const baseDate = new Date('2025-07-23T23:10:00+07:00')
   const standardFactors = mockStandardFactors.data
+  const indicators = [
+    'co2', 'ch4', 'n2o', 'hfc', 'pfc', 'sf6', 'nf3',
+    'bo', 'nvc', 'mcf', 'ef_effluent', 'nrem', 'ef_n2o_plant'
+  ]
 
   for (let i = 1; i <= count; i++) {
     const createdAt = new Date(baseDate.getTime() - i * 24 * 60 * 60 * 1000)
     const state = Math.floor(Math.random() * 3) - 1 // -1, 0, 1
     const projectId = Math.floor(Math.random() * 10) + 1 // 1-10
     const facilityId = Math.floor(Math.random() * 50) + 1 // 1-50
+    const formulaType = Math.floor(Math.random() * 4) + 1 // 1-4
     const createdBy = Math.floor(Math.random() * 10) // 0-9
     const updatedBy = createdBy
     const project = mockProjects.data.find(p => p.id === projectId)
@@ -22,7 +27,13 @@ const generateEmissionFactors = (count = 1000) => {
     // Chọn ngẫu nhiên một standard factor
     const standardFactor = standardFactors[Math.floor(Math.random() * standardFactors.length)]
 
-    emissionFactors.push({
+    // Chọn ngẫu nhiên ~50% chỉ số để đặt thành null
+    const nullIndicators = indicators
+      .sort(() => Math.random() - 0.5) // Xáo trộn ngẫu nhiên
+      .slice(0, Math.floor(indicators.length / 2)) // Lấy ~50% chỉ số
+
+    // Tạo factor với các chỉ số
+    const factor = {
       id: i,
       gid: uuidv4(),
       created_at: createdAt.toISOString(),
@@ -43,47 +54,47 @@ const generateEmissionFactors = (count = 1000) => {
       name: standardFactor.name,
       description: standardFactor.description,
       region: "VN",
-      formula_type: 0,
+      formula_type: formulaType,
       activity_unit: standardFactor.activity_unit,
-      co2: standardFactor.co2,
-      co2_upper: standardFactor.co2_upper,
-      co2_lower: standardFactor.co2_lower,
-      ch4: standardFactor.ch4,
-      ch4_upper: standardFactor.ch4_upper,
-      ch4_lower: standardFactor.ch4_lower,
-      n2o: standardFactor.n2o,
-      n2o_upper: standardFactor.n2o_upper,
-      n2o_lower: standardFactor.n2o_lower,
-      hfc: standardFactor.hfc,
-      hfc_upper: standardFactor.hfc_upper,
-      hfc_lower: standardFactor.hfc_lower,
-      pfc: standardFactor.pfc,
-      pfc_upper: standardFactor.pfc_upper,
-      pfc_lower: standardFactor.pfc_lower,
-      sf6: standardFactor.sf6,
-      sf6_upper: standardFactor.sf6_upper,
-      sf6_lower: standardFactor.sf6_lower,
-      nf3: standardFactor.nf3,
-      nf3_upper: standardFactor.nf3_upper,
-      nf3_lower: standardFactor.nf3_lower,
-      bo: standardFactor.bo,
-      bo_upper: standardFactor.bo_upper,
-      bo_lower: standardFactor.bo_lower,
-      nvc: standardFactor.nvc,
-      nvc_upper: standardFactor.nvc_upper,
-      nvc_lower: standardFactor.nvc_lower,
-      mcf: standardFactor.mcf,
-      mcf_upper: standardFactor.mcf_upper,
-      mcf_lower: standardFactor.mcf_lower,
-      ef_effluent: standardFactor.ef_effluent,
-      ef_effluent_upper: standardFactor.ef_effluent_upper,
-      ef_effluent_lower: standardFactor.ef_effluent_lower,
-      nrem: standardFactor.nrem,
-      nrem_upper: standardFactor.nrem_upper,
-      nrem_lower: standardFactor.nrem_lower,
-      ef_n2o_plant: standardFactor.ef_n2o_plant,
-      ef_n2o_plant_upper: standardFactor.ef_n2o_plant_upper,
-      ef_n2o_plant_lower: standardFactor.ef_n2o_plant_lower,
+      co2: nullIndicators.includes('co2') ? null : standardFactor.co2,
+      co2_upper: nullIndicators.includes('co2') ? null : standardFactor.co2_upper,
+      co2_lower: nullIndicators.includes('co2') ? null : standardFactor.co2_lower,
+      ch4: nullIndicators.includes('ch4') ? null : standardFactor.ch4,
+      ch4_upper: nullIndicators.includes('ch4') ? null : standardFactor.ch4_upper,
+      ch4_lower: nullIndicators.includes('ch4') ? null : standardFactor.ch4_lower,
+      n2o: nullIndicators.includes('n2o') ? null : standardFactor.n2o,
+      n2o_upper: nullIndicators.includes('n2o') ? null : standardFactor.n2o_upper,
+      n2o_lower: nullIndicators.includes('n2o') ? null : standardFactor.n2o_lower,
+      hfc: nullIndicators.includes('hfc') ? null : standardFactor.hfc,
+      hfc_upper: nullIndicators.includes('hfc') ? null : standardFactor.hfc_upper,
+      hfc_lower: nullIndicators.includes('hfc') ? null : standardFactor.hfc_lower,
+      pfc: nullIndicators.includes('pfc') ? null : standardFactor.pfc,
+      pfc_upper: nullIndicators.includes('pfc') ? null : standardFactor.pfc_upper,
+      pfc_lower: nullIndicators.includes('pfc') ? null : standardFactor.pfc_lower,
+      sf6: nullIndicators.includes('sf6') ? null : standardFactor.sf6,
+      sf6_upper: nullIndicators.includes('sf6') ? null : standardFactor.sf6_upper,
+      sf6_lower: nullIndicators.includes('sf6') ? null : standardFactor.sf6_lower,
+      nf3: nullIndicators.includes('nf3') ? null : standardFactor.nf3,
+      nf3_upper: nullIndicators.includes('nf3') ? null : standardFactor.nf3_upper,
+      nf3_lower: nullIndicators.includes('nf3') ? null : standardFactor.nf3_lower,
+      bo: nullIndicators.includes('bo') ? null : standardFactor.bo,
+      bo_upper: nullIndicators.includes('bo') ? null : standardFactor.bo_upper,
+      bo_lower: nullIndicators.includes('bo') ? null : standardFactor.bo_lower,
+      nvc: nullIndicators.includes('nvc') ? null : standardFactor.nvc,
+      nvc_upper: nullIndicators.includes('nvc') ? null : standardFactor.nvc_upper,
+      nvc_lower: nullIndicators.includes('nvc') ? null : standardFactor.nvc_lower,
+      mcf: nullIndicators.includes('mcf') ? null : standardFactor.mcf,
+      mcf_upper: nullIndicators.includes('mcf') ? null : standardFactor.mcf_upper,
+      mcf_lower: nullIndicators.includes('mcf') ? null : standardFactor.mcf_lower,
+      ef_effluent: nullIndicators.includes('ef_effluent') ? null : standardFactor.ef_effluent,
+      ef_effluent_upper: nullIndicators.includes('ef_effluent') ? null : standardFactor.ef_effluent_upper,
+      ef_effluent_lower: nullIndicators.includes('ef_effluent') ? null : standardFactor.ef_effluent_lower,
+      nrem: nullIndicators.includes('nrem') ? null : standardFactor.nrem,
+      nrem_upper: nullIndicators.includes('nrem') ? null : standardFactor.nrem_upper,
+      nrem_lower: nullIndicators.includes('nrem') ? null : standardFactor.nrem_lower,
+      ef_n2o_plant: nullIndicators.includes('ef_n2o_plant') ? null : standardFactor.ef_n2o_plant,
+      ef_n2o_plant_upper: nullIndicators.includes('ef_n2o_plant') ? null : standardFactor.ef_n2o_plant_upper,
+      ef_n2o_plant_lower: nullIndicators.includes('ef_n2o_plant') ? null : standardFactor.ef_n2o_plant_lower,
       min_threshold: standardFactor.min_threshold,
       max_threshold: standardFactor.max_threshold,
       effective_from: effectiveFrom,
@@ -94,7 +105,9 @@ const generateEmissionFactors = (count = 1000) => {
       approved_by: 0,
       approved_at: "",
       metadata: {}
-    })
+    }
+
+    emissionFactors.push(factor)
   }
 
   return {

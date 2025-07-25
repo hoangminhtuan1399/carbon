@@ -44,3 +44,11 @@
 .ant-cascader-dropdown {
   @apply max-w-full;
 }
+
+.ant-btn-variant-outlined.ant-btn-icon-only {
+  @apply hover:border-primary hover:text-primary;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  @apply border-primary;
+}

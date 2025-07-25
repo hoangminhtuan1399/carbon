@@ -1,14 +1,18 @@
-import { Button, Col, Empty, Input, InputNumber, Modal, Row, Table, Tooltip, Typography } from "antd"
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
+import { Table, Button, Empty, Row, Col, Tooltip, Input, Select, Modal, Space, Typography } from "antd"
+import { DeleteOutlined, EditOutlined, ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import { FORMULAS } from "../../constants/formulas.js"
+import EmissionCategoryEditModal from "../EmissionCategoryEditModal/EmissionCategoryEditModal.jsx"
 
 const { Text } = Typography
+const { Option } = Select
 const { TextArea } = Input
 
 const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
   const { t, i18n } = useTranslation()
   const [searchText, setSearchText] = useState('')
+  const [formulaTypeFilter, setFormulaTypeFilter] = useState([])
   const [editModalVisible, setEditModalVisible] = useState(false)
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -19,60 +23,86 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
   })
   const [deleteReason, setDeleteReason] = useState('')
 
-  // Lọc danh mục phát thải theo tìm kiếm
+  // Lọc danh mục phát thải theo tìm kiếm và formulaType
   const emissionCategoryData = emissionCategories
     .map(ec => ({
       key: ec.id,
       name: ec.name,
       viName: ec.vi_name,
-      scope: ec.scope,
+      formulaType: ec.formula_type,
       code: ec.code,
       co2: ec.co2,
       co2_upper: ec.co2_upper,
       co2_lower: ec.co2_lower,
+      co2_default: ec.co2_lower != null && ec.co2_upper != null ? (ec.co2_lower + ec.co2_upper) / 2 : null,
       ch4: ec.ch4,
       ch4_upper: ec.ch4_upper,
       ch4_lower: ec.ch4_lower,
+      ch4_default: ec.ch4_lower != null && ec.ch4_upper != null ? (ec.ch4_lower + ec.ch4_upper) / 2 : null,
       n2o: ec.n2o,
       n2o_upper: ec.n2o_upper,
       n2o_lower: ec.n2o_lower,
+      n2o_default: ec.n2o_lower != null && ec.n2o_upper != null ? (ec.n2o_lower + ec.n2o_upper) / 2 : null,
       hfc: ec.hfc,
       hfc_upper: ec.hfc_upper,
       hfc_lower: ec.hfc_lower,
+      hfc_default: ec.hfc_lower != null && ec.hfc_upper != null ? (ec.hfc_lower + ec.hfc_upper) / 2 : null,
       pfc: ec.pfc,
       pfc_upper: ec.pfc_upper,
       pfc_lower: ec.pfc_lower,
+      pfc_default: ec.pfc_lower != null && ec.pfc_upper != null ? (ec.pfc_lower + ec.pfc_upper) / 2 : null,
       sf6: ec.sf6,
       sf6_upper: ec.sf6_upper,
       sf6_lower: ec.sf6_lower,
+      sf6_default: ec.sf6_lower != null && ec.sf6_upper != null ? (ec.sf6_lower + ec.sf6_upper) / 2 : null,
       nf3: ec.nf3,
       nf3_upper: ec.nf3_upper,
       nf3_lower: ec.nf3_lower,
+      nf3_default: ec.nf3_lower != null && ec.nf3_upper != null ? (ec.nf3_lower + ec.nf3_upper) / 2 : null,
       bo: ec.bo,
       bo_upper: ec.bo_upper,
       bo_lower: ec.bo_lower,
+      bo_default: ec.bo_lower != null && ec.bo_upper != null ? (ec.bo_lower + ec.bo_upper) / 2 : null,
       nvc: ec.nvc,
       nvc_upper: ec.nvc_upper,
       nvc_lower: ec.nvc_lower,
+      nvc_default: ec.nvc_lower != null && ec.nvc_upper != null ? (ec.nvc_lower + ec.nvc_upper) / 2 : null,
       mcf: ec.mcf,
       mcf_upper: ec.mcf_upper,
       mcf_lower: ec.mcf_lower,
+      mcf_default: ec.mcf_lower != null && ec.mcf_upper != null ? (ec.mcf_lower + ec.mcf_upper) / 2 : null,
       ef_effluent: ec.ef_effluent,
       ef_effluent_upper: ec.ef_effluent_upper,
       ef_effluent_lower: ec.ef_effluent_lower,
+      ef_effluent_default: ec.ef_effluent_lower != null && ec.ef_effluent_upper != null ? (ec.ef_effluent_lower + ec.ef_effluent_upper) / 2 : null,
       nrem: ec.nrem,
       nrem_upper: ec.nrem_upper,
       nrem_lower: ec.nrem_lower,
+      nrem_default: ec.nrem_lower != null && ec.nrem_upper != null ? (ec.nrem_lower + ec.nrem_upper) / 2 : null,
       ef_n2o_plant: ec.ef_n2o_plant,
       ef_n2o_plant_upper: ec.ef_n2o_plant_upper,
       ef_n2o_plant_lower: ec.ef_n2o_plant_lower,
+      ef_n2o_plant_default: ec.ef_n2o_plant_lower != null && ec.ef_n2o_plant_upper != null ? (ec.ef_n2o_plant_lower + ec.ef_n2o_plant_upper) / 2 : null,
     }))
     .filter(ec =>
-      searchText.length === 0 ||
-      ec.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      ec.viName.toLowerCase().includes(searchText.toLowerCase()) ||
-      ec.code.toLowerCase().includes(searchText.toLowerCase())
+      (searchText.length === 0 ||
+        ec.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        ec.viName.toLowerCase().includes(searchText.toLowerCase()) ||
+        ec.code.toLowerCase().includes(searchText.toLowerCase())) &&
+      (formulaTypeFilter.length === 0 || formulaTypeFilter.includes(ec.formulaType))
     )
+
+  // Hàm render chỉ số với mũi tên
+  const renderIndicator = (value, defaultValue) => {
+    if (value == null) return '-'
+    if (defaultValue == null) return value
+    return (
+      <Space>
+        {value}
+        {value > defaultValue ? <ArrowUpOutlined style={{ color: 'green' }} /> : <ArrowDownOutlined style={{ color: 'red' }} />}
+      </Space>
+    )
+  }
 
   // Cột cho bảng danh mục phát thải
   const columns = [
@@ -88,63 +118,70 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
       key: 'code',
     },
     {
-      title: t('projects_page.scope'),
-      dataIndex: 'scope',
-      key: 'scope',
+      title: t('projects_page.formula_type'),
+      dataIndex: 'formulaType',
+      key: 'formulaType',
+      render: (value) => t(FORMULAS[value].title),
     },
     {
       title: t('projects_page.co2'),
       dataIndex: 'co2',
       key: 'co2',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.co2_default),
     },
     {
       title: t('projects_page.ch4'),
       dataIndex: 'ch4',
       key: 'ch4',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.ch4_default),
     },
     {
       title: t('projects_page.n2o'),
       dataIndex: 'n2o',
       key: 'n2o',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.n2o_default),
     },
     {
       title: t('projects_page.hfc'),
       dataIndex: 'hfc',
       key: 'hfc',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.hfc_default),
     },
     {
       title: t('projects_page.pfc'),
       dataIndex: 'pfc',
       key: 'pfc',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.pfc_default),
     },
     {
       title: t('projects_page.sf6'),
       dataIndex: 'sf6',
       key: 'sf6',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.sf6_default),
     },
     {
       title: t('projects_page.nf3'),
       dataIndex: 'nf3',
       key: 'nf3',
-      render: (value) => `${value}`,
+      render: (value, record) => renderIndicator(value, record.nf3_default),
     },
     {
-      title: '',
+      title: t('projects_page.nvc'),
+      dataIndex: 'nvc',
+      key: 'nvc',
+      render: (value, record) => renderIndicator(value, record.nvc_default),
+    },
+    {
+      title: t('actions.title'),
       key: 'action',
       render: (_, record) => (
-        <Row gutter={[8, 8]}>
+        <Row justify="end" gutter={[8, 8]}>
           <Col>
             <Tooltip title={t('actions.edit')}>
               <Button
-                className={'btn'}
+                className="btn"
                 type="primary"
-                icon={<EditOutlined/>}
+                icon={<EditOutlined />}
                 onClick={() => {
                   setSelectedCategory(record)
                   setEditValues({
@@ -174,7 +211,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
               <Button
                 type="primary"
                 danger
-                icon={<DeleteOutlined/>}
+                icon={<DeleteOutlined />}
                 onClick={() => {
                   setSelectedCategory(record)
                   setDeleteReason('')
@@ -191,7 +228,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
   // Xử lý chỉnh sửa
   const handleEditOk = () => {
     if (editValues.reason_en.trim() || editValues.reason_vi.trim()) {
-      // onUpdate({ ...selectedCategory, ...editValues })
+      onUpdate({ ...selectedCategory, ...editValues })
       setEditModalVisible(false)
       setSelectedCategory(null)
       setEditValues({
@@ -205,7 +242,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
   // Xử lý xóa
   const handleDeleteOk = () => {
     if (deleteReason.trim()) {
-      // onDelete({ ...selectedCategory, reason_en: deleteReason, reason_vi: deleteReason })
+      onDelete({ ...selectedCategory, reason_en: deleteReason, reason_vi: deleteReason })
       setDeleteModalVisible(false)
       setSelectedCategory(null)
       setDeleteReason('')
@@ -214,14 +251,34 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
 
   return (
     <>
-      <Input
-        placeholder={t('projects_page.search_by_code_or_name')}
-        value={searchText}
-        onChange={e => setSearchText(e.target.value)}
-        className="w-full mb-4"
-      />
+      <Row gutter={[16, 16]} className="mb-4">
+        <Col span={12}>
+          <Input
+            placeholder={t('projects_page.search_by_code_or_name')}
+            value={searchText}
+            onChange={e => setSearchText(e.target.value)}
+            className="w-full"
+          />
+        </Col>
+        <Col span={12}>
+          <Select
+            mode="multiple"
+            placeholder={t('projects_page.filter_by_formula_type')}
+            value={formulaTypeFilter}
+            onChange={setFormulaTypeFilter}
+            className="w-full"
+            allowClear
+          >
+            {Object.keys(FORMULAS).map(key => (
+              <Option key={key} value={parseInt(key)}>
+                {t(FORMULAS[key].title)}
+              </Option>
+            ))}
+          </Select>
+        </Col>
+      </Row>
       {emissionCategoryData.length === 0 ? (
-        <Empty description={t('projects_page.no_emission_categories_found')} className="my-8"/>
+        <Empty description={t('projects_page.no_emission_categories_found')} className="my-8" />
       ) : (
         <Table
           dataSource={emissionCategoryData}
@@ -234,168 +291,14 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
           rowKey="key"
         />
       )}
-      <Modal
-        title={t('projects_page.edit_emission_factor')}
-        open={editModalVisible}
+      <EmissionCategoryEditModal
+        visible={editModalVisible}
         onOk={handleEditOk}
         onCancel={() => setEditModalVisible(false)}
-        okButtonProps={{ disabled: !editValues.reason_en.trim() && !editValues.reason_vi.trim() }}
-        width={800}
-      >
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <Text strong>{t('projects_page.co2')}</Text>
-            <InputNumber
-              value={editValues.co2}
-              onChange={value => setEditValues({ ...editValues, co2: value })}
-              className="w-full"
-              min={0}
-              step={0.01}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.co2_lower} - {selectedCategory?.co2_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.ch4')}</Text>
-            <InputNumber
-              value={editValues.ch4}
-              onChange={value => setEditValues({ ...editValues, ch4: value })}
-              className="w-full"
-              min={0}
-              step={0.0001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ch4_lower} - {selectedCategory?.ch4_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.n2o')}</Text>
-            <InputNumber
-              value={editValues.n2o}
-              onChange={value => setEditValues({ ...editValues, n2o: value })}
-              className="w-full"
-              min={0}
-              step={0.00001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.n2o_lower} - {selectedCategory?.n2o_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.hfc')}</Text>
-            <InputNumber
-              value={editValues.hfc}
-              onChange={value => setEditValues({ ...editValues, hfc: value })}
-              className="w-full"
-              min={0}
-              step={0.0001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.hfc_lower} - {selectedCategory?.hfc_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.pfc')}</Text>
-            <InputNumber
-              value={editValues.pfc}
-              onChange={value => setEditValues({ ...editValues, pfc: value })}
-              className="w-full"
-              min={0}
-              step={0.0001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.pfc_lower} - {selectedCategory?.pfc_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.sf6')}</Text>
-            <InputNumber
-              value={editValues.sf6}
-              onChange={value => setEditValues({ ...editValues, sf6: value })}
-              className="w-full"
-              min={0}
-              step={0.00001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.sf6_lower} - {selectedCategory?.sf6_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.nf3')}</Text>
-            <InputNumber
-              value={editValues.nf3}
-              onChange={value => setEditValues({ ...editValues, nf3: value })}
-              className="w-full"
-              min={0}
-              step={0.00001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nf3_lower} - {selectedCategory?.nf3_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.bo')}</Text>
-            <InputNumber
-              value={editValues.bo}
-              onChange={value => setEditValues({ ...editValues, bo: value })}
-              className="w-full"
-              min={0}
-              step={0.01}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.bo_lower} - {selectedCategory?.bo_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.nvc')}</Text>
-            <InputNumber
-              value={editValues.nvc}
-              onChange={value => setEditValues({ ...editValues, nvc: value })}
-              className="w-full"
-              min={0}
-              step={0.01}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nvc_lower} - {selectedCategory?.nvc_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.mcf')}</Text>
-            <InputNumber
-              value={editValues.mcf}
-              onChange={value => setEditValues({ ...editValues, mcf: value })}
-              className="w-full"
-              min={0}
-              step={0.01}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.mcf_lower} - {selectedCategory?.mcf_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.ef_effluent')}</Text>
-            <InputNumber
-              value={editValues.ef_effluent}
-              onChange={value => setEditValues({ ...editValues, ef_effluent: value })}
-              className="w-full"
-              min={0}
-              step={0.0001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ef_effluent_lower} - {selectedCategory?.ef_effluent_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.nrem')}</Text>
-            <InputNumber
-              value={editValues.nrem}
-              onChange={value => setEditValues({ ...editValues, nrem: value })}
-              className="w-full"
-              min={0}
-              step={0.01}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.nrem_lower} - {selectedCategory?.nrem_upper}</Text>
-          </Col>
-          <Col span={12}>
-            <Text strong>{t('projects_page.ef_n2o_plant')}</Text>
-            <InputNumber
-              value={editValues.ef_n2o_plant}
-              onChange={value => setEditValues({ ...editValues, ef_n2o_plant: value })}
-              className="w-full"
-              min={0}
-              step={0.00001}
-            />
-            <Text type={'secondary'} className="mt-2 block">{selectedCategory?.ef_n2o_plant_lower} - {selectedCategory?.ef_n2o_plant_upper}</Text>
-          </Col>
-          <Col span={24}>
-            <Text strong>{t('projects_page.enter_reason')}</Text>
-            <TextArea
-              value={editValues.reason_vi}
-              onChange={e => setEditValues({ ...editValues, reason_vi: e.target.value })}
-              rows={4}
-            />
-          </Col>
-        </Row>
-      </Modal>
+        selectedCategory={selectedCategory}
+        editValues={editValues}
+        setEditValues={setEditValues}
+      />
       <Modal
         title={t('projects_page.confirm_remove_factor')}
         open={deleteModalVisible}
