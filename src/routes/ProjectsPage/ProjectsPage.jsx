@@ -15,13 +15,11 @@ export const ProjectsPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  // Trạng thái cho tìm kiếm và lọc
   const [searchText, setSearchText] = useState('')
   const [selectedStates, setSelectedStates] = useState([])
   const [selectedSectors, setSelectedSectors] = useState([])
   const [dateRange, setDateRange] = useState(null)
 
-  // Tính số bài đăng và lấy tên sector, lọc dữ liệu
   const projectData = mockProjects.data
     .map(project => ({
       key: project.id,
@@ -47,7 +45,6 @@ export const ProjectsPage = () => {
       ))
     )
 
-  // Cột cho bảng dự án
   const columns = [
     {
       title: t('dashboard_page.project_name'),

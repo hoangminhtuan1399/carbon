@@ -6,7 +6,6 @@ const generateStandardFactors = () => {
   const activityUnits = ['L', 'ton', 'kWh', 'kg']
   const baseDate = new Date('2025-07-16T04:13:04.131Z')
 
-  // Hàm duyệt cây để lấy các yếu tố có isLeaf: true
   const traverseTree = (node, index = 1) => {
     if (node.isLeaf) {
       const code = node.value
@@ -19,7 +18,7 @@ const generateStandardFactors = () => {
         created_by: Math.floor(Math.random() * 10),
         updated_at: baseDate.toISOString(),
         updated_by: Math.floor(Math.random() * 10),
-        state: Math.floor(Math.random() * 3) - 1, // -1, 0, 1
+        state: Math.floor(Math.random() * 3) - 1,
         version: 0,
         project_id: 0,
         facility_id: 0,
@@ -27,7 +26,7 @@ const generateStandardFactors = () => {
         std_id: Math.floor(Math.random() * 3) + 1,
         sector_id: Math.floor(Math.random() * 5) + 1,
         code: code,
-        scope: Math.floor(Math.random() * 2) + 1, // 1 or 2
+        scope: Math.floor(Math.random() * 2) + 1,
         vi_name: node.label,
         vi_description: `Yếu tố phát thải cho ${node.label} ở cấp ${code}`,
         name: node.label,

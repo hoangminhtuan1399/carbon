@@ -11,7 +11,6 @@ const RecentPosts = ({ posts = mockPosts.data }) => {
   const { t } = useTranslation()
   const currentTime = new Date()
 
-  // Sắp xếp bài đăng theo created_at giảm dần, lấy tối đa 5 bài
   const recentPosts = posts
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .slice(0, PAGE_SIZE)

@@ -7,6 +7,7 @@ import { mockFacilities } from "/mock-data/mock-facilities.js"
 import { mockPosts } from "/mock-data/mock-posts.js"
 import { mockSectors } from "/mock-data/mock-sectors.js"
 import { mockEmissionFactors } from "/mock-data/mock-emission-factors.js"
+import { mockProjectUsers } from "/mock-data/mock-project-users.js"
 import ProjectInfo from "../../components/ProjectInfo/ProjectInfo.jsx"
 import FacilityList from "../../components/FacilityList/FacilityList.jsx"
 import PostList from "../../components/PostList/PostList.jsx"
@@ -14,6 +15,7 @@ import EmissionCategoryList from "../../components/EmissionCategoryList/Emission
 import PostStatistics from "../../components/PostStatistics/PostStatistics.jsx"
 import EvaluationProgress from "../../components/EvaluationProgress/EvaluationProgress.jsx"
 import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
+import UserList from "../../components/UserList/UserList.jsx"
 
 const { Title } = Typography
 const { TabPane } = Tabs
@@ -23,16 +25,14 @@ export const ProjectDetailPage = () => {
   const navigate = useNavigate()
   const { projectId } = useParams()
 
-  // Lấy thông tin dự án
   const project = mockProjects.data.find(p => p.id === parseInt(projectId))
   const sector = mockSectors.data.find(s => s.id === project?.sector_id)
 
-  // Lấy danh sách cơ sở, bài đăng, và emission factors liên quan
   const facilityData = mockFacilities.data.filter(f => f.project_id === parseInt(projectId))
   const postData = mockPosts.data.filter(p => p.project_id === parseInt(projectId))
   const emissionFactorData = mockEmissionFactors.data.filter(ec => ec.project_id === parseInt(projectId))
+  const userData = mockProjectUsers.filter(u => u.project_id === parseInt(projectId))
 
-  // Dữ liệu cho EvaluationProgress
   const totalPosts = postData.length
   const verifiedPosts = postData.filter(p => p.status === 3 && p.verified_at !== "").length
   const unverifiedPosts = postData.filter(p => p.status !== 3 || p.verified_at === "")
@@ -102,6 +102,7 @@ export const ProjectDetailPage = () => {
           </TabPane>
           <TabPane tab={t('projects_page.facility_list')} key="facilities">
             <Card>
+              <Title level={2}>{t('projects_page.facility_list')}</Title>
               <FacilityList
                 facilities={facilityData}
                 emissionCategories={emissionFactorData}
@@ -112,12 +113,20 @@ export const ProjectDetailPage = () => {
           </TabPane>
           <TabPane tab={t('projects_page.post_list')} key="posts">
             <Card>
+              <Title level={2}>{t('projects_page.post_list')}</Title>
               <PostList posts={postData} />
             </Card>
           </TabPane>
           <TabPane tab={t('projects_page.emission_category_list')} key="emissionFactors">
             <Card>
+              <Title level={2}>{t('projects_page.emission_category_list')}</Title>
               <EmissionCategoryList emissionCategories={emissionFactorData} />
+            </Card>
+          </TabPane>
+          <TabPane tab={t('projects_page.user_list')} key="users">
+            <Card>
+              <Title level={2}>{t('projects_page.user_list')}</Title>
+              <UserList users={userData} />
             </Card>
           </TabPane>
         </Tabs>

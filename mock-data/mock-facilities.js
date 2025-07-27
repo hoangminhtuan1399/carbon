@@ -5,10 +5,10 @@ const generateRandomFacilities = (count = 10) => {
   const baseDate = new Date();
 
   for (let i = 1; i <= count; i++) {
-    const createdAt = new Date(baseDate.getTime() - i * 24 * 60 * 60 * 1000); // Giảm 1 ngày cho mỗi facility
-    const state = Math.floor(Math.random() * 3) - 1; // -1, 0, hoặc 1
-    const projectId = Math.floor(Math.random() * 10) + 1; // 1 đến 10
-    const createdBy = Math.floor(Math.random() * 10); // 0 đến 9
+    const createdAt = new Date(baseDate.getTime() - i * 24 * 60 * 60 * 1000);
+    const state = Math.floor(Math.random() * 3) - 1;
+    const projectId = Math.floor(Math.random() * 10) + 1;
+    const createdBy = Math.floor(Math.random() * 10);
     facilities.push({
       id: i,
       uuid: uuidv4(),
@@ -29,8 +29,8 @@ const generateRandomFacilities = (count = 10) => {
       contact_email: "contact@seavina.com",
       contact_phone: "0939223077",
       address: "Lô 16A-18, KCN Trà Nóc 1, quận Bình Thủy, thành phố Cần Thơ",
-      lat: Math.random() * (10.5 - 10.0) + 10.0, // Ngẫu nhiên trong khoảng 10.0 - 10.5
-      lng: Math.random() * (105.8 - 105.3) + 105.3, // Ngẫu nhiên trong khoảng 105.3 - 105.8
+      lat: Math.random() * (10.5 - 10.0) + 10.0,
+      lng: Math.random() * (105.8 - 105.3) + 105.3,
       capacity: 0,
       capacity_unit: "",
       operational_hours: {},

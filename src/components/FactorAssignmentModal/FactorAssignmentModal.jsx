@@ -17,7 +17,6 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
   const standardFactors = mockStandardFactors.data
   const cascaderScrollRef = useRef(null)
 
-  // Xử lý chọn yếu tố từ Cascader
   const handleCascaderChange = (value) => {
     if (cascaderScrollRef.current) {
       setTimeout(() => {
@@ -53,7 +52,6 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
     )
   }
 
-  // Cột cho bảng yếu tố đã chọn
   const selectedColumns = [
     {
       title: t('projects_page.emission_category_name'),
@@ -80,7 +78,6 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
     },
   ]
 
-  // Xử lý confirm
   const handleConfirmOk = () => {
     if (confirmReason.trim()) {
       onOk(selectedFactors)
@@ -89,7 +86,6 @@ const FactorAssignmentModal = ({ visible, onOk, onCancel, facilityId, projectId 
     }
   }
 
-  // Xử lý cancel
   const handleCancel = () => {
     setIsCancelModalVisible(true)
   }

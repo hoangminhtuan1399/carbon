@@ -12,7 +12,6 @@ const PostDetailPage = () => {
   const navigate = useNavigate()
   const { postId } = useParams()
 
-  // Lấy thông tin bài đăng
   const post = mockPosts.data.find(p => p.id === parseInt(postId))
   const project = mockProjects.data.find(p => p.id === post?.project_id)
   const facility = mockFacilities.data.find(f => f.id === post?.facility_id)

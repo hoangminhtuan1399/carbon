@@ -18,12 +18,12 @@ const generatePosts = () => {
   const locations = ["Cần Thơ", "Hà Nội", "TP.HCM", "Đà Nẵng", "Vũng Tàu"]
 
   for (let i = 1; i <= 5000; i++) {
-    const projectId = Math.floor(Math.random() * 10) + 1 // 1-10
-    const facilityId = Math.floor(Math.random() * 50) + 1 // 1-50
+    const projectId = Math.floor(Math.random() * 10) + 1
+    const facilityId = Math.floor(Math.random() * 50) + 1
     const createdAt = new Date(baseDate.getTime() - (Math.floor(Math.random() * 3) + i) * 24 * 60 * 60 * 1000)
-    const status = Math.floor(Math.random() * 4) // 0-3
+    const status = Math.floor(Math.random() * 4)
     const verifiedAt = status === 3 ? createdAt.toISOString() : ""
-    const createdBy = Math.floor(Math.random() * 10) // 0-9
+    const createdBy = Math.floor(Math.random() * 10)
 
     posts.push({
       id: i,
@@ -32,26 +32,26 @@ const generatePosts = () => {
       created_by: createdBy,
       updated_at: createdAt,
       updated_by: createdBy,
-      state: Math.floor(Math.random() * 3) - 1, // -1, 0, 1
+      state: Math.floor(Math.random() * 3) - 1,
       version: 0,
       project_id: projectId,
       facility_id: facilityId,
-      mod_emission_cat_id: Math.floor(Math.random() * 100) + 1, // 1-100
+      mod_emission_cat_id: Math.floor(Math.random() * 100) + 1,
       title: titles[i % 10],
       content: `Detailed emission data for project ${projectId} at facility ${facilityId}.`,
       emission_date: new Date(createdAt.getTime() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      reporting_period: Math.floor(Math.random() * 12) + 1, // 1-12
-      ad: parseFloat((Math.random() * 1000).toFixed(2)), // Activity data
+      reporting_period: Math.floor(Math.random() * 12) + 1,
+      ad: parseFloat((Math.random() * 1000).toFixed(2)),
       cod_input: parseFloat((Math.random() * 500).toFixed(2)),
       n_total: parseFloat((Math.random() * 200).toFixed(2)),
       treatment_ratio: parseFloat((Math.random()).toFixed(2)),
       ch4_recovered: parseFloat((Math.random() * 50).toFixed(2)),
       cod_sludge: parseFloat((Math.random() * 100).toFixed(2)),
-      lat: parseFloat((Math.random() * 180 - 90).toFixed(6)), // -90 to 90
-      lng: parseFloat((Math.random() * 360 - 180).toFixed(6)), // -180 to 180
+      lat: parseFloat((Math.random() * 180 - 90).toFixed(6)),
+      lng: parseFloat((Math.random() * 360 - 180).toFixed(6)),
       location: locations[Math.floor(Math.random() * locations.length)],
       equipment_id: `EQUIP-${i}`,
-      data_source: Math.floor(Math.random() * 3), // 0-2
+      data_source: Math.floor(Math.random() * 3),
       status: status,
       verified_at: verifiedAt,
       verified_by: status === 3 ? createdBy : 0,

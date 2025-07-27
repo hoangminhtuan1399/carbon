@@ -12,7 +12,6 @@ export const PostsPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  // Lấy tất cả bài đăng
   const postData = mockPosts.data
 
   return (

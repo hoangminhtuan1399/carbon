@@ -7,12 +7,12 @@ const generateRandomNotifications = (count = 10) => {
   const types = ['post', 'like', 'comment'];
 
   for (let i = 1; i <= count; i++) {
-    const createdAt = new Date(baseDate.getTime() - i * 12 * 60 * 60 * 1000); // Giảm 12 giờ cho mỗi notification
+    const createdAt = new Date(baseDate.getTime() - i * 12 * 60 * 60 * 1000);
     const type = types[Math.floor(Math.random() * types.length)];
-    const projectId = Math.floor(Math.random() * 10) + 1; // 1 đến 10
-    const facilityId = Math.floor(Math.random() * 50) + 1; // 1 đến 10
-    const postId = Math.floor(Math.random() * 200) + 1; // 1 đến 10
-    const createdBy = Math.floor(Math.random() * 10); // 0 đến 9
+    const projectId = Math.floor(Math.random() * 10) + 1;
+    const facilityId = Math.floor(Math.random() * 50) + 1;
+    const postId = Math.floor(Math.random() * 200) + 1;
+    const createdBy = Math.floor(Math.random() * 10);
     const post = mockPosts.data.find(p => p.id === postId);
 
     let title, content;

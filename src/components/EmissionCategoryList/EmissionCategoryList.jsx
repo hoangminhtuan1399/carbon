@@ -23,7 +23,6 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
   })
   const [deleteReason, setDeleteReason] = useState('')
 
-  // Lọc danh mục phát thải theo tìm kiếm và formulaType
   const emissionCategoryData = emissionCategories
     .map(ec => ({
       key: ec.id,
@@ -92,7 +91,6 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
       (formulaTypeFilter.length === 0 || formulaTypeFilter.includes(ec.formulaType))
     )
 
-  // Hàm render chỉ số với mũi tên
   const renderIndicator = (value, defaultValue) => {
     if (value == null) return '-'
     if (defaultValue == null) return value
@@ -104,7 +102,6 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
     )
   }
 
-  // Cột cho bảng danh mục phát thải
   const columns = [
     {
       title: t('projects_page.emission_category_name'),
@@ -225,7 +222,6 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
     },
   ]
 
-  // Xử lý chỉnh sửa
   const handleEditOk = () => {
     if (editValues.reason_en.trim() || editValues.reason_vi.trim()) {
       onUpdate({ ...selectedCategory, ...editValues })
@@ -239,7 +235,6 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
     }
   }
 
-  // Xử lý xóa
   const handleDeleteOk = () => {
     if (deleteReason.trim()) {
       onDelete({ ...selectedCategory, reason_en: deleteReason, reason_vi: deleteReason })

@@ -14,7 +14,6 @@ const PostStatistics = ({ posts, projects }) => {
   const [postDateRange, setPostDateRange] = useState(null)
   const [selectedProjects, setSelectedProjects] = useState([])
 
-  // Hàm tính toán tuần từ ngày
   const getWeekRange = (date) => {
     const startOfWeek = new Date(date)
     startOfWeek.setDate(date.getDate() - date.getDay())
@@ -29,7 +28,6 @@ const PostStatistics = ({ posts, projects }) => {
     }
   }
 
-  // Dữ liệu cho biểu đồ
   const getChartData = () => {
     const periodMap = {
       day: 'YYYY-MM-DD',
@@ -127,7 +125,6 @@ const PostStatistics = ({ posts, projects }) => {
     return postDate >= startOfLastMonth && postDate <= endOfLastMonth
   }).length
 
-  // So sánh để xác định màu và biểu tượng
   const getTrend = (current, previous) => {
     if (current > previous) {
       return { color: 'text-green-500', icon: <ArrowUpOutlined/> }

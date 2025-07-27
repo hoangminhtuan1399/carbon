@@ -11,12 +11,6 @@ import RecentPosts from "../../components/RecentPosts/RecentPosts.jsx"
 export const DashboardPage = () => {
   const { t } = useTranslation()
 
-  // Tính toán tổng quan dự án
-  const totalProjects = mockProjects.data.length
-  const ongoingProjects = mockProjects.data.filter(p => p.state === 1).length
-  const completedProjects = mockProjects.data.filter(p => p.state === 2).length
-
-  // Tính toán tiến độ đánh giá
   const totalPosts = mockPosts.data.length
   const verifiedPosts = mockPosts.data.filter(p => p.status === 3 && p.verified_at !== "").length
   const unverifiedPosts = mockPosts.data.filter(p => p.status !== 3 || p.verified_at === "")

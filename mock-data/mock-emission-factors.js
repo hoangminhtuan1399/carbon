@@ -13,26 +13,23 @@ const generateEmissionFactors = (count = 1000) => {
 
   for (let i = 1; i <= count; i++) {
     const createdAt = new Date(baseDate.getTime() - i * 24 * 60 * 60 * 1000)
-    const state = Math.floor(Math.random() * 3) - 1 // -1, 0, 1
-    const projectId = Math.floor(Math.random() * 10) + 1 // 1-10
-    const facilityId = Math.floor(Math.random() * 50) + 1 // 1-50
-    const formulaType = Math.floor(Math.random() * 4) + 1 // 1-4
-    const createdBy = Math.floor(Math.random() * 10) // 0-9
+    const state = Math.floor(Math.random() * 3) - 1
+    const projectId = Math.floor(Math.random() * 10) + 1
+    const facilityId = Math.floor(Math.random() * 50) + 1
+    const formulaType = Math.floor(Math.random() * 4) + 1
+    const createdBy = Math.floor(Math.random() * 10)
     const updatedBy = createdBy
     const project = mockProjects.data.find(p => p.id === projectId)
     const sectorId = project ? project.sector_id : 1
     const effectiveFrom = project ? project.start_date : '2023-01-01'
     const effectiveTo = project ? project.end_date : '2023-12-31'
 
-    // Chọn ngẫu nhiên một standard factor
     const standardFactor = standardFactors[Math.floor(Math.random() * standardFactors.length)]
 
-    // Chọn ngẫu nhiên ~50% chỉ số để đặt thành null
     const nullIndicators = indicators
-      .sort(() => Math.random() - 0.5) // Xáo trộn ngẫu nhiên
-      .slice(0, Math.floor(indicators.length / 2)) // Lấy ~50% chỉ số
+      .sort(() => Math.random() - 0.5)
+      .slice(0, Math.floor(indicators.length / 2))
 
-    // Tạo factor với các chỉ số
     const factor = {
       id: i,
       gid: uuidv4(),

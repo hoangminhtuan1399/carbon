@@ -7,7 +7,6 @@ const { TextArea } = Input
 const EmissionFactorEditModal = ({ visible, onOk, onCancel, selectedCategory, editValues, setEditValues }) => {
   const { t } = useTranslation()
 
-  // Danh sách chỉ số để kiểm tra và hiển thị
   const indicators = [
     { key: 'co2', label: t('projects_page.co2'), step: 0.01 },
     { key: 'ch4', label: t('projects_page.ch4'), step: 0.0001 },

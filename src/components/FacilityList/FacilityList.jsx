@@ -7,7 +7,6 @@ const FacilityList = ({ facilities, emissionCategories, posts, projectId }) => {
   const { t } = useTranslation()
   const [facilitySearchText, setFacilitySearchText] = useState('')
 
-  // Lấy danh sách cơ sở
   const facilityData = facilities
     .map(facility => ({
       key: facility.id,
@@ -19,7 +18,6 @@ const FacilityList = ({ facilities, emissionCategories, posts, projectId }) => {
     }))
     .filter(facility => facility.name.toLowerCase().includes(facilitySearchText.toLowerCase()))
 
-  // Cột cho bảng cơ sở
   const facilityColumns = [
     {
       title: t('dashboard_page.facility_name'),

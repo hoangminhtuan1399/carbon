@@ -59,13 +59,21 @@
     "full_name": "Full name",
     "email": "Email",
     "date_of_birth": "Date of birth",
-    "department": "Department"
+    "department": "Department",
+    "username": "Username",
+    "phone": "Phone",
+    "level": "Role",
+    "project_manager": "Project Manager",
+    "leader": "Leader",
+    "staff": "Staff",
+    "search_by": "Search by name or email"
   },
   "dashboard_page": {
     "notification": "Notifications",
     "analysis": "Analytics",
     "category": "Category",
     "post_count": "Evidences",
+    "total_posts": "Total posts",
     "start_date": "Start date",
     "end_date": "End date",
     "total_projects": "Total projects",
@@ -189,18 +197,19 @@
     "materiality_threshold": "Materiality Threshold",
     "contact_person": "Contact Person",
     "facility_code": "Facility Code",
-    "no_more_posts": "No More Post"
+    "filter_by_formula_type": "Filter by formula type",
+    "user_list": "Users"
   },
   "posts_page": {
     "no_image": "No image",
     "no_content": "No content",
     "no_tags": "No tags",
     "likes": "Likes",
+    "no_more_posts": "No More Post",
     "like": "Like",
     "comment": "Comment",
     "enter_comment": "Enter comment",
-    "submit": "Send",
-    "filter_by_formula_type": "Filter by formula type"
+    "submit": "Send"
   },
   "formula": {
     "fuel_combustion": "Fuel combustion",

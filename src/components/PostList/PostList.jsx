@@ -18,7 +18,6 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
   const [projectFilter, setProjectFilter] = useState([])
   const [visiblePosts, setVisiblePosts] = useState(12)
 
-  // Lọc dữ liệu bài đăng
   const postData = posts
     .map(post => ({
       key: post.id,
@@ -46,7 +45,6 @@ const PostList = ({ posts, projects = [], showStatusFilter = true }) => {
       )) &&
       (projectFilter.length === 0 || projectFilter.includes(post.projectId))
     )
-  // Tải thêm bài đăng
   const loadMorePosts = () => {
     setVisiblePosts(prev => prev + 12)
   }

@@ -1,4 +1,3 @@
-// Hàm kiểm tra xem một node có con isLeaf: true không
 const hasLeafNode = (node) => {
   if (node.isLeaf) return true
   if (node.children) {
@@ -7,7 +6,6 @@ const hasLeafNode = (node) => {
   return false
 }
 
-// Hàm thêm disabled: true cho các node không có con isLeaf: true
 const addDisabledToNonLeafBranches = (nodes) => {
   return nodes.map(node => {
     const newNode = { ...node }

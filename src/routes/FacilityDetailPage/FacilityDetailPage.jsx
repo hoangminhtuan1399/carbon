@@ -25,15 +25,12 @@ export const FacilityDetailPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedFactors, setSelectedFactors] = useState(mockEmissionFactors.data.filter(ec => ec.facility_id === parseInt(facilityId)))
 
-  // Lấy thông tin cơ sở và dự án
   const facility = mockFacilities.data.find(f => f.id === parseInt(facilityId))
   const project = mockProjects.data.find(p => p.id === parseInt(projectId))
 
-  // Lấy danh sách bài đăng và emission factors liên quan
   const postData = mockPosts.data.filter(p => p.facility_id === parseInt(facilityId))
   const emissionFactorData = selectedFactors
 
-  // Dữ liệu cho EvaluationProgress
   const totalPosts = postData.length
   const verifiedPosts = postData.filter(p => p.status === 3 && p.verified_at !== "").length
   const unverifiedPosts = postData.filter(p => p.status !== 3 || p.verified_at === "")
@@ -131,6 +128,7 @@ export const FacilityDetailPage = () => {
         </TabPane>
         <TabPane tab={t('projects_page.post_list')} key="posts">
           <Card>
+            <Title level={2}>{t('projects_page.post_list')}</Title>
             <PostList posts={postData}/>
           </Card>
         </TabPane>

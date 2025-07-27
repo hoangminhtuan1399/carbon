@@ -59,7 +59,14 @@
     "full_name": "Họ và tên",
     "email": "Email",
     "date_of_birth": "Ngày sinh",
-    "department": "Phòng ban"
+    "department": "Phòng ban",
+    "username": "Tên người dùng",
+    "phone": "Số điện thoại",
+    "level": "Vai trò",
+    "project_manager": "Quản lý",
+    "leader": "Trưởng nhóm",
+    "staff": "Nhân viên",
+    "search_by": "Tìm kiếm theo họ tên hoặc email"
   },
   "dashboard_page": {
     "notification": "Thông báo",
@@ -190,7 +197,8 @@
     "materiality_threshold": "Ngưỡng trọng yếu",
     "contact_person": "Người liên hệ",
     "facility_code": "Mã cơ sở",
-    "filter_by_formula_type": "Lọc theo loại công thức"
+    "filter_by_formula_type": "Lọc theo loại công thức",
+    "user_list": "Nhân sự"
   },
   "posts_page": {
     "no_image": "Không có hình ảnh",

@@ -13,18 +13,15 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
   const [isCommentInputVisible, setIsCommentInputVisible] = useState(false)
   const [comment, setComment] = useState('')
 
-  // Xử lý thích/bỏ thích
   const handleLike = () => {
     setIsLiked(!isLiked)
     setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
   }
 
-  // Xử lý mở/đóng input bình luận
   const handleCommentToggle = () => {
     setIsCommentInputVisible(!isCommentInputVisible)
   }
 
-  // Xử lý gửi bình luận (giả lập)
   const handleCommentSubmit = () => {
     if (comment.trim()) {
       console.log('Comment submitted:', comment)
@@ -36,7 +33,6 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
   return (
     <Card className="shadow-md">
       <Space direction="vertical" size="middle" className="w-full">
-        {/* Header: Avatar và Username */}
         <div className="flex items-center">
           <Avatar src={post.author.avatar} size={40} className="mr-2"/>
           <Space direction="vertical" size={0}>
@@ -44,7 +40,6 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
             <Text type="secondary">{new Date(post.createdAt).toLocaleDateString()}</Text>
           </Space>
         </div>
-        {/* Hình ảnh */}
         {post.images && post.images.length > 0 ? (
           <div className="p-3">
             <img
@@ -58,11 +53,9 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
             <Text>{t('posts_page.no_image')}</Text>
           </div>
         )}
-        {/* Nội dung bài đăng */}
         <div>
           <Title level={4}>{post.title}</Title>
           <Paragraph>{post.content || t('posts_page.no_content')}</Paragraph>
-          {/* Tags */}
           <div className="mb-2">
             {post.tags && post.tags.length > 0 ? (
               post.tags.map(tag => (
@@ -74,13 +67,11 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
               <Text>{t('posts_page.no_tags')}</Text>
             )}
           </div>
-          {/* Lượt thích */}
           <div className="flex items-center mb-2">
             <HeartOutlined className="mr-1"/>
             <Text>{likeCount} {t('posts_page.likes')}</Text>
           </div>
         </div>
-        {/* Thông tin bổ sung */}
         <div>
           <Text strong>{t('projects_page.project_name')}: </Text>
           <Text>{projectName || 'Unknown'}</Text>
@@ -89,7 +80,6 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
           <Text strong>{t('dashboard_page.facility_name')}: </Text>
           <Text>{facilityName || 'Unknown'}</Text>
         </div>
-        {/* Nút Thích và Bình luận */}
         <Space className="mt-2">
           <Tooltip title={t('posts_page.like')}>
             <Button
@@ -111,7 +101,6 @@ const PostDetail = ({ post, projectName, facilityName, showViewButton = true }) 
             </Link>
           )}
         </Space>
-        {/* Input bình luận */}
         {isCommentInputVisible && (
           <Row gutter={16}>
             <Col flex={'auto'}>
