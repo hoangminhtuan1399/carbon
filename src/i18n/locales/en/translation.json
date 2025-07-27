@@ -66,7 +66,12 @@
     "project_manager": "Project Manager",
     "leader": "Leader",
     "staff": "Staff",
-    "search_by": "Search by name or email"
+    "search_by": "Search by name or email",
+    "edit_emission_assignments": "Edit Emission Assignments",
+    "editing_emissions_for": "Edit emissions for {{name}}",
+    "delete_user": "Delete User",
+    "confirm_delete_user": "Confirm Delete User",
+    "delete_confirmation": "Are you sure you want to delete user {{name}}?"
   },
   "dashboard_page": {
     "notification": "Notifications",
@@ -198,7 +203,9 @@
     "contact_person": "Contact Person",
     "facility_code": "Facility Code",
     "filter_by_formula_type": "Filter by formula type",
-    "user_list": "Users"
+    "user_list": "Users",
+    "available_factors": "Available",
+    "assigned_factors": "Selected"
   },
   "posts_page": {
     "no_image": "No image",

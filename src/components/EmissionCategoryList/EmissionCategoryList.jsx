@@ -118,6 +118,7 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
       title: t('projects_page.formula_type'),
       dataIndex: 'formulaType',
       key: 'formulaType',
+      minWidth: 150,
       render: (value) => t(FORMULAS[value].title),
     },
     {
@@ -166,11 +167,12 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
       title: t('projects_page.nvc'),
       dataIndex: 'nvc',
       key: 'nvc',
-      render: (value, record) => renderIndicator(value, record.nvc_default),
+      render: (value, record) => renderIndicator(value, record.nvc_default)
     },
     {
       title: t('actions.title'),
       key: 'action',
+      minWidth: 120,
       render: (_, record) => (
         <Row justify="end" gutter={[8, 8]}>
           <Col>
@@ -300,6 +302,8 @@ const EmissionCategoryList = ({ emissionCategories, onUpdate, onDelete }) => {
         onOk={handleDeleteOk}
         onCancel={() => setDeleteModalVisible(false)}
         okButtonProps={{ disabled: !deleteReason.trim() }}
+        okText={t('actions.remove')}
+        cancelText={t('actions.cancel')}
       >
         <Text strong>{t('projects_page.enter_reason')}</Text>
         <TextArea
